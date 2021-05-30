@@ -1,0 +1,20 @@
+USER:{
+    fisrt name,
+    lastname,
+    birthday,
+    password,
+    joined_events,
+    intersted_in_events,
+    points,
+    tokens
+
+}
+
+event:{
+    date,
+    duratin (hours),
+    society,
+    price,
+    available_seets   
+}
+

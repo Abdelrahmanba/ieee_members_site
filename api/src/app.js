@@ -1,10 +1,11 @@
 const express = require("express");
 const userRouter = require("./routes/user");
-require('./db/connection/connection')
+const errorHandler = require('./middlewares/errorHandler.js');
 
 const app = express();
-app.use(express.json());
 
+app.use(express.json());
 app.use(userRouter);
+app.use(errorHandler)
 
 module.exports = app;

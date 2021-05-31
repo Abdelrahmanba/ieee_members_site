@@ -1,4 +1,5 @@
 const app = require('./app')
+require('./db/connection/connection')
 
 const PORT = process.env.PORT
 

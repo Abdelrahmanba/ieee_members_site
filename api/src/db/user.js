@@ -3,8 +3,11 @@ const validator = require("validator")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const fetch = require("node-fetch")
-const crypto = require('crypto');
-
+const crypto = require("crypto")
+const mailjet = require("node-mailjet").connect(
+  process.env.MAILJET_API,
+  process.env.MAILJET_SECRET
+)
 
 const userSchema = mongoose.Schema({
   email: {
@@ -78,7 +81,8 @@ const userSchema = mongoose.Schema({
   ],
   secretCode: {
     type: String,
-  },
+    expires:6
+  }
 })
 
 //encrypt password before saving
@@ -97,6 +101,8 @@ userSchema.methods.toJSON = function () {
 
   delete userObj.password
   delete userObj.tokens
+  delete userObj.secretCode
+
 
   return userObj
 }
@@ -130,30 +136,35 @@ userSchema.statics.findByEmailAndPassword = async function ({
 userSchema.methods.sendVerifcationEmail = async function () {
   const user = this
   const random = Math.random() * 1000000
-  user.secretCode = crypto.createHash('md5').update(random.toString()).digest('hex')
+  user.secretCode = crypto
+    .createHash("md5")
+    .update(random.toString())
+    .digest("hex")
 
-  //sendinblue api call
-  const url = "https://api.sendinblue.com/v3/smtp/email"
-  const options = {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      "api-key": process.env.SENDINBLUE_API,
-    },
-    body: JSON.stringify({
-      to: [{email: user.email, name: user.firstName + " " + user.lastName}],
-      params: { user: user._id, secretCode: user.secretCode },
-    }),
-  }
+  await user.save()
 
-  try {
-    const res = await fetch(url, options)
-    const resJson = await res.json()
+  const conf_url = `ieee-annu.com/api/verify-account/${user._id}/${user.secretCode}`
 
-  } catch (e) {
-    console.log(e)
-  }
+  //MAILJET api call
+  const result = await mailjet.post("send", { version: "v3.1" }).request({
+    Messages: [
+      {
+        TemplateID: 2927753,
+        Variables: {
+          fname: user.firstName,
+          confirmation_link: conf_url,
+        },
+        TemplateLanguage: true,
+
+        To: [
+          {
+            Email: user.email,
+            Name: user.firstName,
+          },
+        ],
+      },
+    ],
+  })
 }
 const User = mongoose.model("user", userSchema)
 

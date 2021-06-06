@@ -2,7 +2,6 @@ const mongoose = require("mongoose")
 const validator = require("validator")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const fetch = require("node-fetch")
 const crypto = require("crypto")
 const mailjet = require("node-mailjet").connect(
   process.env.MAILJET_API,
@@ -37,6 +36,9 @@ const userSchema = mongoose.Schema({
   },
   bday: {
     type: Date,
+  },
+  membershipID:{
+    type: Number
   },
   gender: {
     type: String,

@@ -1,0 +1,46 @@
+.textfield {
+  padding: 7px 15px;
+  border: 1px solid #d8d8d8;
+  border-radius: 2px;
+  width: 80%;
+  margin-bottom: 20px;
+  font-family: "Proxima Nova Rg";
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  min-height: 68px;
+
+  .textfield-label {
+    color: #4e5565;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+  }
+
+  .textfield-input {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    z-index: 2;
+    padding: 30px 15px 10px;
+    width: 100%;
+    background-color: transparent;
+    border: 0;
+    color: #0275a9;
+    letter-spacing: 1px;
+    font-size: 18px;
+    transition: all 0.3s ease-in-out;
+    border-left: 3px solid transparent;
+
+    &:active,
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      border-left: 3px solid #0275a9;
+    }
+  }
+}

@@ -17,12 +17,12 @@ const errorHandler = (err, req, res, next) => {
   } else if (err.message === "UserNotFound") {
     res.status(401).send({
       error: "UserNotFound",
-      message: "User not found.",
+      message: "Please double check your input",
     })
   } else if (err.message === "BadRequest") {
     res.status(400).send({
       error: "BadRequest",
-      message: "BadRequest",
+      message: "Bad Request",
     })
   } else if (err.message === "BadEmailFormat") {
     res.status(400).send({

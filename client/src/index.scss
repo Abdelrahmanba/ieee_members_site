@@ -19,3 +19,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+::selection {
+  background: white;
+  color: #0275a9;
+  text-shadow: 0;
+}
+::-moz-selection {
+  background: white;
+  color: #0275a9;
+}

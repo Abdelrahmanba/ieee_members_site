@@ -1,3 +1,5 @@
+@import "../../scssVariables";
+
 .hero,
 .hero:before {
   position: absolute;
@@ -145,12 +147,11 @@
   }
 }
 
-svg {
-  pointer-events: none;
-}
-
 // scroll down
 .hero {
+  svg {
+    pointer-events: none;
+  }
   a {
     &:hover {
       opacity: 0.6;

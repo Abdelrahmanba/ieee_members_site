@@ -1,9 +1,11 @@
+@import "../../scssVariables";
+
 .textfield {
   padding: 7px 15px;
   border: 1px solid #d8d8d8;
   border-radius: 2px;
-  width: 80%;
-  margin-bottom: 20px;
+  width: 90%;
+  margin-bottom: -1px;
   font-family: "Proxima Nova Rg";
   display: flex;
   position: relative;
@@ -43,4 +45,12 @@
       border-left: 3px solid #0275a9;
     }
   }
+}
+
+//override auto fill in chrome
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out, color 5000s ease-in-out;
 }

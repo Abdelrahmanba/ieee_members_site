@@ -7,19 +7,27 @@ const errorHandler = (err, req, res, next) => {
   } else if (err.name === "ValidationError") {
     res.status(400).send({
       error: "ValidationError",
-      message: err.message
+      message: err.message,
     })
-  }
-  else if (err.message === "BadCredentials") {
+  } else if (err.message === "BadCredentials") {
     res.status(401).send({
       error: "BadCredentials",
-      message: "Bad email/password combination."
+      message: "Bad email/password combination.",
     })
-  }
-  else if (err.message === "UserNotFound") {
+  } else if (err.message === "UserNotFound") {
     res.status(401).send({
       error: "UserNotFound",
-      message: "User not found."
+      message: "User not found.",
+    })
+  } else if (err.message === "BadRequest") {
+    res.status(400).send({
+      error: "BadRequest",
+      message: "BadRequest",
+    })
+  } else if (err.message === "BadEmailFormat") {
+    res.status(400).send({
+      error: "BadEmailFormat",
+      message: "Please provide a valid Email Address.",
     })
   }
 }

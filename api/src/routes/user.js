@@ -2,6 +2,7 @@ const express = require("express")
 const User = require("../db/user")
 const auth = require("../middlewares/auth")
 const limiter = require("express-rate-limit")
+const validator = require("validator")
 
 const createLimit = limiter({
   windowMs: 24 * 60 * 60 * 1000, // 24 hrs in milliseconds
@@ -37,8 +38,16 @@ router.post("/users", createLimit, async (req, res, next) => {
   }
 })
 
-router.get("/users/login", async (req, res, next) => {
+router.post("/users/login", async (req, res, next) => {
   try {
+    if (req.body.email) {
+      if (!validator.isEmail(req.body.email)) {
+        throw new Error("BadEmailFormat")
+      }
+    } else {
+      throw new Error("BadRequest")
+    }
+
     const user = await User.findByEmailAndPassword(req.body)
     const token = await user.generateAuthToken()
     res.status(202).send({ user, token })

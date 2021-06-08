@@ -1,16 +1,17 @@
+@import "../../../scssVariables";
+
 .header-menu-item {
   margin: 0.3rem 1.2rem;
   overflow: hidden;
   padding: 20px 0 8px;
   .menu-list.header-menu-link {
-    color: #4e5565;
+    color: $primary-text;
     font-size: 18px;
   }
   .menu-signup.header-menu-link {
     color: #fff;
-    border: solid 1px #0275a9;
-    background: #0275a9;
-    // border-radius: 9999px;
+    border: solid 1px $primary;
+    background: $primary;
     padding: 9px 20px;
     transition: all 0.5s ease;
     white-space: nowrap;
@@ -19,7 +20,7 @@
       height: 0;
     }
     &:hover {
-      background: #02608b;
+      background: $primary-darken;
       color: white;
     }
   }
@@ -38,7 +39,7 @@
       transition: transform 0.5s ease;
       height: 2px;
       width: 100%;
-      background: #0275a9;
+      background: $primary;
       transform: scaleY(0);
     }
     &:hover {

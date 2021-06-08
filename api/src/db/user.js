@@ -37,8 +37,8 @@ const userSchema = mongoose.Schema({
   bday: {
     type: Date,
   },
-  membershipID:{
-    type: Number
+  membershipID: {
+    type: Number,
   },
   gender: {
     type: String,
@@ -83,8 +83,8 @@ const userSchema = mongoose.Schema({
   ],
   secretCode: {
     type: String,
-    expires:6
-  }
+    expires: 6,
+  },
 })
 
 //encrypt password before saving
@@ -104,7 +104,6 @@ userSchema.methods.toJSON = function () {
   delete userObj.password
   delete userObj.tokens
   delete userObj.secretCode
-
 
   return userObj
 }

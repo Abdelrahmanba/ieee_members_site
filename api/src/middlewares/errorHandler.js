@@ -1,32 +1,32 @@
 const errorHandler = (err, req, res, next) => {
   if (err.name === "MongoError") {
     res.status(400).send({
-      error: "used-email",
+      error: "Used Email",
       message: "A user with that email address exists.",
     })
   } else if (err.name === "ValidationError") {
     res.status(400).send({
-      error: "ValidationError",
+      error: "Validation Error",
       message: err.message,
     })
   } else if (err.message === "BadCredentials") {
     res.status(401).send({
-      error: "BadCredentials",
+      error: "Bad Credentials",
       message: "Bad email/password combination.",
     })
   } else if (err.message === "UserNotFound") {
     res.status(401).send({
-      error: "UserNotFound",
+      error: "User Not Found",
       message: "Please double check your input",
     })
   } else if (err.message === "BadRequest") {
     res.status(400).send({
-      error: "BadRequest",
-      message: "Bad Request",
+      error: "Bad Request",
+      message: "Please Try agian later.",
     })
   } else if (err.message === "BadEmailFormat") {
     res.status(400).send({
-      error: "BadEmailFormat",
+      error: "Bad Email Format",
       message: "Please provide a valid Email Address.",
     })
   }

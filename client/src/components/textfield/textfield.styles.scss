@@ -35,7 +35,6 @@
     color: #0275a9;
     letter-spacing: 1px;
     font-size: 18px;
-    transition: all 0.3s ease-in-out;
     border-left: 3px solid transparent;
 
     &:active,
@@ -52,5 +51,6 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  transition: background-color 5000s ease-in-out, color 5000s ease-in-out;
+  transition: background-color 5000s ease-in-out, color 5000s ease-in-out,
+    border-left 0.3s ease-in-out;
 }

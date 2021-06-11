@@ -1,3 +1,71 @@
+@import "./_scssVariables.scss";
+
 .ant-alert-with-description {
   width: 100%;
+}
+
+.ant-modal-header {
+  .ant-modal-title {
+    color: white;
+    font-size: 18px;
+  }
+  border: none;
+  background-color: $primary;
+}
+.ant-modal-body {
+  display: flex;
+  justify-content: center;
+}
+
+.ant-modal-footer {
+  margin-right: 30px;
+  padding-bottom: 15px;
+  border: none;
+}
+
+.ant-btn-primary {
+  color: #fff;
+  border: solid 1px $primary;
+  background: $primary;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  white-space: nowrap;
+  border-radius: 0;
+  span {
+    color: white;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    background: $primary-darken;
+    color: white;
+    border-color: $primary;
+    span {
+      color: white;
+    }
+  }
+}
+.ant-btn {
+  height: 40px;
+  &:hover {
+    border: solid 1px $primary;
+    color: $primary;
+  }
+}
+
+.ant-btn-block {
+  width: 90%;
+  margin: 20px;
+}
+.ant-tooltip-placement-bottom {
+  padding-top: 18px;
+  .ant-tooltip-arrow {
+    display: none;
+  }
+}
+
+.ant-tooltip-inner {
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.65);
 }

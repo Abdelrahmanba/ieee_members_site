@@ -1,23 +1,21 @@
+import { ReactComponent as Particels } from "../../assets/paricles.svg"
 import "./signIn.styles.scss"
+
 import { useState } from "react"
-import { signIn, signOut } from "../../redux/userSlice.js"
+import { signIn } from "../../redux/userSlice.js"
 import { useDispatch } from "react-redux"
-import { LoadingOutlined } from "@ant-design/icons"
-
-import { Alert, Spin } from "antd"
-
+import { Button, Alert } from "antd"
 import Textfield from "../../components/textfield/textfield"
-import Button from "../../components/button/button"
 import Form from "../../components/form/form"
+import ResetPassword from "../../components/resetPassword/resetPassword"
 import PublicHeader from "../../components/header/publicHeader"
-
-const spinIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const SignIn = (props) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState(undefined)
   const [loading, setLoading] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -43,61 +41,72 @@ const SignIn = (props) => {
     const jsonRes = await res.json()
     if (jsonRes.token) {
       dispatch(signIn(jsonRes))
-      setEmail(undefined)
+      props.history.push("/dashboard/home")
     } else {
+      setLoading(false)
       setError(jsonRes)
     }
-    setLoading(false)
   }
 
   return (
     <>
       <PublicHeader />
+      <ResetPassword visible={modalVisible} setModalVisible={setModalVisible} />
       <section className="sign-in">
         <div className="signin-box">
-          <Spin indicator={spinIcon} spinning={loading}>
-            <Form method="POST">
-              <h1 className="signin-header">Sign In</h1>
-              <p className="sign-in=paragraph"></p>
-              <Textfield
-                onChange={handleChange}
-                type="text"
-                name="email"
-                text="Email Address"
-                value={email}
+          <div className="box-header">
+            <Particels className="Particels" />
+          </div>
+          <Form method="POST">
+            <h1 className="signin-header">Welcome Back</h1>
+            <Textfield
+              onChange={handleChange}
+              type="text"
+              name="email"
+              text="Email Address"
+              value={email}
+            />
+            <Textfield
+              onChange={handleChange}
+              type="password"
+              name="password"
+              text="Password"
+              value={password}
+            />
+            <Button block type="primary" loading={loading} onClick={submit}>
+              Sign In
+            </Button>
+
+            {error ? (
+              <Alert
+                message="Login Faild"
+                description={error.message}
+                type="error"
+                showIcon
+                className={"alert"}
               />
-              <Textfield
-                onChange={handleChange}
-                type="password"
-                name="password"
-                text="Password"
-                value={password}
+            ) : (
+              ""
+            )}
+
+            {props.location.state ? (
+              <Alert
+                message="Sign In Required"
+                description="Please Sign In to view this page."
+                type="info"
+                showIcon
+                className="alert"
               />
-              <Button onClick={submit} text="Sign In" />
-              {error ? (
-                <Alert
-                  message="Login Faild"
-                  description={error.message}
-                  type="error"
-                  showIcon
-                  className={"alert"}
-                />
-              ) : (
-                ""
-              )}
-              {props.location.state ? (
-                <Alert
-                  message="Sign In Required"
-                  description="Please Sign In to view this page."
-                  type="info"
-                  showIcon
-                  className="alert"
-                />
-              ) : (
-                ""
-              )}
-            </Form>
-          </Spin>
+            ) : (
+              ""
+            )}
+            <p
+              className="forgot-password"
+              onClick={() => setModalVisible(true)}
+            >
+              Forgot your password?
+            </p>
+          </Form>
         </div>
       </section>
     </>

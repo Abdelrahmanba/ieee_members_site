@@ -1,0 +1,50 @@
+@import "../../scssVariables";
+
+.profile {
+  width: 60%;
+  border: 1px solid #d8d8d8;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: #fff;
+  min-height: 80vh;
+  margin: 0 auto 20px;
+  position: relative;
+  top: 150px;
+}
+
+.profile__picture {
+  border-radius: 50%;
+  border: 1px solid #d8d8d8;
+  background-color: #fff;
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.profile__name {
+  margin-top: 100px;
+  color: $primary-text;
+  text-transform: capitalize;
+}
+.profile__container {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 15px;
+}
+.profile__info {
+  width: 100%;
+  max-width: 100%;
+  height: 200px;
+  background-color: #f7f9fb;
+  border-radius: 20px;
+  border: 1px solid #d8d8d8;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}

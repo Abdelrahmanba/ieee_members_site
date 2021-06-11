@@ -83,7 +83,9 @@ const userSchema = mongoose.Schema({
   ],
   secretCode: {
     type: String,
-    expires: 6,
+  },
+  passwordReset: {
+    type: String,
   },
 })
 
@@ -104,6 +106,7 @@ userSchema.methods.toJSON = function () {
   delete userObj.password
   delete userObj.tokens
   delete userObj.secretCode
+  delete userObj.passwordReset
 
   return userObj
 }
@@ -151,6 +154,41 @@ userSchema.methods.sendVerifcationEmail = async function () {
     Messages: [
       {
         TemplateID: 2927753,
+        Variables: {
+          fname: user.firstName,
+          confirmation_link: conf_url,
+        },
+        TemplateLanguage: true,
+
+        To: [
+          {
+            Email: user.email,
+            Name: user.firstName,
+          },
+        ],
+      },
+    ],
+  })
+}
+
+//send password Reset email
+userSchema.methods.sendRestPassword = async function () {
+  const user = this
+  const random = Math.random() * 1000000
+  user.passwordReset = crypto
+    .createHash("md5")
+    .update(random.toString())
+    .digest("hex")
+
+  await user.save()
+
+  const conf_url = `ieee-annu.com/api/reset-password/${user._id}/${user.passwordReset}`
+
+  //MAILJET api call
+  const result = await mailjet.post("send", { version: "v3.1" }).request({
+    Messages: [
+      {
+        TemplateID: 2949248,
         Variables: {
           fname: user.firstName,
           confirmation_link: conf_url,

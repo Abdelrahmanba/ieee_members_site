@@ -11,6 +11,9 @@ import PublicHeader from "./components/header/publicHeader"
 import NotFound from "./pages/NotFound/notFound"
 
 import ProtectedRoute from "./protectedRoute"
+import UserHome from "./pages/userHome/userHome"
+import SignOut from "./pages/signOut/signOut"
+import Profile from "./pages/profile/profile"
 
 let persistor = persistStore(store)
 
@@ -24,12 +27,33 @@ function App() {
               <PublicHeader />
               <HomePage />
             </Route>
-            <ProtectedRoute exact path="/dashboard" component={HomePage} />
+            <ProtectedRoute exact path="/dashboard" component={UserHome} />
+            <ProtectedRoute exact path="/dashboard/Home" component={UserHome} />
+            <ProtectedRoute
+              exact
+              path="/dashboard/events"
+              component={UserHome}
+            />
+            <ProtectedRoute
+              exact
+              path="/dashboard/members"
+              component={UserHome}
+            />
+            <ProtectedRoute
+              exact
+              path="/dashboard/settings"
+              component={UserHome}
+            />
+            <ProtectedRoute
+              exact
+              path="/dashboard/profile"
+              component={Profile}
+            />
             <Route path="/user" component={HomePage} />
             <Route path="/admin" component={HomePage} />
-            <Route path={"/signin"} component={SignIn} />
+            <Route path="/signin" component={SignIn} />
+            <Route path="/signout" component={SignOut} />
             <Route path="*">
-              <PublicHeader />
               <NotFound />
             </Route>
           </Switch>

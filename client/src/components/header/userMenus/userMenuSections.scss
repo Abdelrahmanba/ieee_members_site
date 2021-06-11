@@ -1,0 +1,36 @@
+.header {
+  .header__user__menu {
+    max-width: 82px;
+    min-width: 82px;
+    .ant-space {
+      flex-wrap: wrap;
+    }
+    .ant-space-item {
+      margin: -15px 0;
+    }
+  }
+  .header__user__menu.header__menu--user {
+    left: -1px;
+    top: 370px;
+    margin: 10px 0;
+    border-top: 0;
+  }
+}
+
+@media (min-width: 1160px) {
+  .header {
+    .header__user__menu {
+      max-width: 100%;
+      min-width: 82px;
+      .ant-space {
+        margin: 0;
+      }
+      .ant-space-item {
+        margin: 0;
+      }
+    }
+    .header__user__menu.header__menu--user {
+      margin: 0;
+    }
+  }
+}

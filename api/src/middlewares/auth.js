@@ -9,26 +9,24 @@ const auth = async (req, res, next) => {
     if (!user) {
       throw new Error("Unauthorized")
     }
-    if(user.active === false){
+    if (user.active === false) {
       throw new Error("NotActivated")
     }
     req.user = user
     req.token = token
     next()
   } catch (e) {
-    if(e.message == 'Unauthorized'){
+    if (e.message == "Unauthorized") {
       res.status(401).send({
         error: "Unauthorized",
         message: "You don't have accsess to this page.",
       })
-    }
-    else{
+    } else {
       res.status(400).send({
         error: "NotActivated",
         message: "You don't have accsess to this page.",
       })
     }
-   
   }
 }
 module.exports = auth

@@ -9,7 +9,7 @@ import HomePage from "./pages/homePage/home"
 import SignIn from "./pages/signIn/signIn"
 import PublicHeader from "./components/header/publicHeader"
 import NotFound from "./pages/NotFound/notFound"
-
+import Settings from "./pages/settings/settings"
 import ProtectedRoute from "./protectedRoute"
 import UserHome from "./pages/userHome/userHome"
 import SignOut from "./pages/signOut/signOut"
@@ -42,7 +42,7 @@ function App() {
             <ProtectedRoute
               exact
               path="/dashboard/settings"
-              component={UserHome}
+              component={Settings}
             />
             <ProtectedRoute
               exact

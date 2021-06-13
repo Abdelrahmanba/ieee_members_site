@@ -79,7 +79,7 @@ const SignIn = (props) => {
 
             {error ? (
               <Alert
-                message="Login Faild"
+                message="Login Failed"
                 description={error.message}
                 type="error"
                 showIcon

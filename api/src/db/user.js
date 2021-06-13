@@ -3,6 +3,7 @@ const validator = require("validator")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const crypto = require("crypto")
+
 const mailjet = require("node-mailjet").connect(
   process.env.MAILJET_API,
   process.env.MAILJET_SECRET
@@ -44,6 +45,9 @@ const userSchema = mongoose.Schema({
     type: String,
     maxLength: 1,
   },
+  imageData: {
+    type: Buffer,
+  },
   role: {
     type: String,
   },
@@ -61,17 +65,10 @@ const userSchema = mongoose.Schema({
       },
     },
   ],
-  events: [
-    {
-      event: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+  events: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
   points: {
     type: Number,
-    defualt: 0,
+    default: 0,
   },
   pointsHistory: [
     {
@@ -86,6 +83,10 @@ const userSchema = mongoose.Schema({
   },
   passwordReset: {
     type: String,
+  },
+  position: {
+    type: String,
+    default: "Member",
   },
 })
 
@@ -136,6 +137,7 @@ userSchema.statics.findByEmailAndPassword = async function ({
   }
   return user
 }
+
 //send validation email
 userSchema.methods.sendVerifcationEmail = async function () {
   const user = this
@@ -205,6 +207,6 @@ userSchema.methods.sendRestPassword = async function () {
     ],
   })
 }
-const User = mongoose.model("user", userSchema)
+const User = mongoose.model("User", userSchema)
 
 module.exports = User

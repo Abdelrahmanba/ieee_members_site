@@ -1,19 +1,19 @@
 @import "../../scssVariables";
 
-.profile {
+.body {
   width: 60%;
   border: 1px solid #d8d8d8;
   border-radius: 10px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
   align-items: center;
-
   background-color: #fff;
   min-height: 80vh;
   margin: 0 auto 20px;
   position: relative;
   top: 150px;
+  padding: 15px;
 }
 
 .profile__picture {
@@ -37,14 +37,49 @@
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  padding: 15px;
+  flex-wrap: wrap;
 }
-.profile__info {
+.profile__box {
   width: 100%;
-  max-width: 100%;
-  height: 200px;
+  padding: 20px;
+  height: fit-content;
   background-color: #f7f9fb;
   border-radius: 20px;
   border: 1px solid #d8d8d8;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  margin: 15px 2%;
+  h2 {
+    color: $primary-darken;
+  }
+}
+
+
+.profile__info {
+  width: 100%;
+  h2 {
+    color: $primary-darken;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .profile {
+    width: 90%;
+  }
+  .profile__info {
+    height: fit-content;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .profile {
+    width: 80%;
+  }
+
+  .profile__info {
+    height: fit-content;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .profile {
+    width: 90%;
+  }
 }

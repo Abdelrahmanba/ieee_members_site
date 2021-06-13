@@ -17,7 +17,7 @@ const createLimit = limiter({
 })
 
 const resendLimit = limiter({
-  windowMs: 6 * 60 * 60 * 1000, // 24 hrs in milliseconds
+  windowMs: 6 * 60 * 60 * 1000, // 6 hrs in milliseconds
   max: 5,
   message: {
     error: "Too Many Requests..",
@@ -29,18 +29,45 @@ const resendLimit = limiter({
 
 const router = express.Router()
 
+//create Account
 router.post("/users", createLimit, async (req, res, next) => {
   const user = new User(req.body)
   try {
     await user.save()
     const token = await user.generateAuthToken()
     await user.sendVerifcationEmail()
-    res.status(201).send({ user, token })
+    const userInfo = await user.personalInfo()
+    res.status(201).send({ user: userInfo, token })
   } catch (e) {
     next(e)
   }
 })
 
+//get user's events in which he particpated
+router.get("/users/events", auth, async (req, res, next) => {
+  try {
+    const user = req.user
+    user.events
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
+
+//upload user avater
+router.post("/users/uploadAvatar", auth, async (req, res, next) => {
+  try {
+    const bindata = new Buffer(req.body.image.split(",")[1], "base64")
+    req.user.imageData = bindata
+    await req.user.save()
+    res.status(200).send()
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
+
+//reset password
 router.get(
   "/users/reset_password/:email",
   resendLimit,
@@ -59,6 +86,7 @@ router.get(
   }
 )
 
+//login
 router.post("/users/login", async (req, res, next) => {
   try {
     if (req.body.email) {
@@ -71,12 +99,13 @@ router.post("/users/login", async (req, res, next) => {
 
     const user = await User.findByEmailAndPassword(req.body)
     const token = await user.generateAuthToken()
-    res.status(202).send({ user, token })
+    res.status(202).send({ user: user.personalInfo(), token })
   } catch (e) {
     next(e)
   }
 })
 
+//send verifection email
 router.get(
   "/users/resend_verification/:userId",
   resendLimit,
@@ -94,6 +123,7 @@ router.get(
   }
 )
 
+//perosnal info
 router.get("/users/me", auth, async ({ token }, res, next) => {
   try {
     const userId = jwt.verify(token, process.env.JSON_SECRET)
@@ -107,6 +137,7 @@ router.get("/users/me", auth, async ({ token }, res, next) => {
   }
 })
 
+//link to verify account
 router.get(
   "/api/verify-account/:userId/:secretCode",
   async (req, res, next) => {

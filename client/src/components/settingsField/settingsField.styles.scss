@@ -1,0 +1,31 @@
+@import "../../scssVariables";
+
+.body__section__outline {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.01);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
+  margin: 15px;
+  min-height: 40px;
+  .btn_box {
+    display: flex;
+  }
+  span.data {
+    color: $primary-text;
+    text-transform: capitalize;
+    margin-right: auto;
+    margin-left: 5px;
+    font-weight: bold;
+  }
+  h3 {
+    margin: 0;
+    font-weight: bold;
+    color: $primary-darken;
+    width: fit-content;
+    white-space: nowrap;
+    margin-right: 5px;
+  }
+}

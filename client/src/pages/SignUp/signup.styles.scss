@@ -1,18 +1,11 @@
 @import "../../scssVariables";
-.bg_signin {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-.sign-in {
+.sign-up {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
 
-  .signin-box {
+  .signup-box {
     overflow: hidden;
     .box-header {
       display: flex;
@@ -20,7 +13,7 @@
       align-items: center;
       position: relative;
       left: -25px;
-      height: 460px;
+      height: 560px;
       width: 300px;
       background-color: $primary;
 
@@ -35,7 +28,7 @@
 
     width: 100%;
     max-width: 700px;
-    height: 460px;
+    height: 560px;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
       rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
     background-color: #fff;
@@ -43,7 +36,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    .signin-header {
+    .signup-header {
       font-family: "Proxima Nova Rg";
       font-size: 32px;
       color: $primary;
@@ -63,14 +56,23 @@
   }
 }
 @media only screen and (max-width: 600px) {
-  .sign-in {
-    .signin-box {
+  .sign-up {
+    .signup-box {
       padding: 0;
       width: 90%;
+      height: 580px;
 
       .box-header {
         display: none;
       }
+    }
+    .signup-header {
+      font-family: "Proxima Nova Rg";
+      font-size: 24px;
+      text-align: center;
+      color: $primary;
+      position: relative;
+      padding-top: 15px;
     }
     .ant-spin-nested-loading {
       width: 90%;

@@ -40,6 +40,7 @@ const userSchema = mongoose.Schema({
   },
   membershipID: {
     type: Number,
+    unique: [true, "A user with that ID exists."],
   },
   gender: {
     type: String,
@@ -50,9 +51,14 @@ const userSchema = mongoose.Schema({
   },
   role: {
     type: String,
+    default: "user",
   },
 
-  active: {
+  activeEmail: {
+    type: Boolean,
+    default: false,
+  },
+  activeCommttiee: {
     type: Boolean,
     default: false,
   },
@@ -65,7 +71,10 @@ const userSchema = mongoose.Schema({
       },
     },
   ],
-  events: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
+  eventsParticipatedIn: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Event" },
+  ],
+  eventsVolunteeredIn: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
   points: {
     type: Number,
     default: 0,
@@ -74,7 +83,13 @@ const userSchema = mongoose.Schema({
     {
       historyItem: {
         type: String,
-        required: true,
+      },
+    },
+  ],
+  notifications: [
+    {
+      notification: {
+        type: String,
       },
     },
   ],
@@ -108,6 +123,11 @@ userSchema.methods.toJSON = function () {
   delete userObj.tokens
   delete userObj.secretCode
   delete userObj.passwordReset
+  delete userObj.eventsParticipatedIn
+  delete userObj.eventsVolunteeredIn
+  delete userObj.pointsHistory
+  delete userObj.role
+  delete userObj.imageData
 
   return userObj
 }

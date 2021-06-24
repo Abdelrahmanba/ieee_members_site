@@ -29,6 +29,11 @@ const errorHandler = (err, req, res, next) => {
       error: "Bad Email Format",
       message: "Please provide a valid Email Address.",
     })
+  } else {
+    res.status(400).send({
+      error: "Somthing Went Wrong",
+      message: "Please Try agian later.",
+    })
   }
 }
 

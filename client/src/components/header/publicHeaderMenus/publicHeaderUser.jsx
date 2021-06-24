@@ -14,7 +14,7 @@ const PublicHeaderUser = ({ visible }) => {
     >
       {user.firstName ? (
         <HeaderItem
-          location={"/dashboard/home"}
+          location={"/Member/home"}
           text={name}
           extraClass={"menu-signin"}
         />

@@ -31,29 +31,41 @@ const router = express.Router()
 
 //create Account
 router.post("/users", createLimit, async (req, res, next) => {
-  const user = new User(req.body)
+  const { firstName, lastName, email, password } = req.body
+  const user = new User({ firstName, lastName, email, password })
   try {
     await user.save()
     const token = await user.generateAuthToken()
     await user.sendVerifcationEmail()
-    const userInfo = await user.personalInfo()
-    res.status(201).send({ user: userInfo, token })
-  } catch (e) {
-    next(e)
-  }
-})
-
-//get user's events in which he particpated
-router.get("/users/events", auth, async (req, res, next) => {
-  try {
-    const user = req.user
-    user.events
+    res.status(201).send({ user, token })
   } catch (e) {
     console.log(e)
     next(e)
   }
 })
 
+//get user's events in which he particpated
+router.get("/users/eventsParticipated/:id?", auth, async (req, res, next) => {
+  try {
+    const user = req.user
+    const events = await user.populate("eventsParticipatedIn")
+      .eventsParticipatedIn
+    res.status(200).send(events)
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
+
+//get user's points history
+router.get("/users/pointsHistory/:id?", auth, async (req, res, next) => {
+  try {
+    res.status(200).send(req.user.pointsHistory)
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
 //upload user avater
 router.post("/users/uploadAvatar", auth, async (req, res, next) => {
   try {
@@ -99,7 +111,29 @@ router.post("/users/login", async (req, res, next) => {
 
     const user = await User.findByEmailAndPassword(req.body)
     const token = await user.generateAuthToken()
-    res.status(202).send({ user: user.personalInfo(), token })
+    res.status(202).send({ user, token })
+  } catch (e) {
+    next(e)
+  }
+})
+
+router.post("/users/update", auth, async (req, res, next) => {
+  try {
+    if (req.body.firstName) {
+      req.user.firstName = req.body.firstName
+    }
+    if (req.body.lastName) {
+      req.user.lastName = req.body.lastName
+    }
+    if (req.body.bday) {
+      req.user.bday = req.body.bday
+    }
+    if (req.body.gender) {
+      req.user.gender = req.body.gender
+    }
+    const user = await req.user.save()
+
+    res.status(200).send(user)
   } catch (e) {
     next(e)
   }
@@ -118,25 +152,91 @@ router.get(
       await user.sendVerifcationEmail()
       res.status(200).send({ message: `Email was sent to ${user.email}` })
     } catch (e) {
+      console.log(e)
       next(e)
     }
   }
 )
 
 //perosnal info
-router.get("/users/me", auth, async ({ token }, res, next) => {
+router.get("/user/me", auth, async (req, res, next) => {
   try {
-    const userId = jwt.verify(token, process.env.JSON_SECRET)
-    const user = await User.findById(userId._id)
-    if (!user) {
-      throw new Error("UserNotFound")
-    }
-    res.status(200).send({ user })
+    const user = req.user.toObject()
+    delete user.tokens
+    delete user.eventsParticipatedIn
+    delete user.eventsVolunteeredIn
+    delete user.password
+    delete user.secretCode
+    delete user.active
+    res.status(200).send(user)
   } catch (e) {
     next(e)
   }
 })
-
+router.get("/user/:id", async (req, res, next) => {
+  try {
+    const userData = await User.findById(req.params.id)
+    if (!userData) {
+      throw new Error("UserNotFound")
+    }
+    const user = userData.toObject()
+    delete user.tokens
+    delete user.pointsHistory
+    delete user.eventsParticipatedIn
+    delete user.eventsVolunteeredIn
+    delete user.password
+    delete user.secretCode
+    delete user.active
+    res.status(200).send(user)
+  } catch (e) {
+    next(e)
+  }
+})
+router.get("/users/all/committee", auth, async (req, res, next) => {
+  try {
+    const users = await User.find({
+      position: { $ne: "Member" },
+      activeEmail: true,
+      activeCommttiee: true,
+    })
+    const usersData = users.map((user) => ({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      position: user.position,
+      points: user.points,
+      imageData: user.imageData
+        ? Buffer.from(user.imageData).toString("base64")
+        : undefined,
+    }))
+    res.status(200).send(usersData)
+  } catch (e) {
+    next(e)
+  }
+})
+router.get("/users/all/members", auth, async (req, res, next) => {
+  try {
+    const users = await User.find({
+      position: "Member",
+      activeEmail: true,
+      activeCommttiee: true,
+    })
+    const usersData = users.map((user) => ({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      position: user.position,
+      points: user.points,
+      imageData: user.imageData
+        ? Buffer.from(user.imageData).toString("base64")
+        : undefined,
+    }))
+    res.status(200).send(usersData)
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
 //link to verify account
 router.get(
   "/api/verify-account/:userId/:secretCode",
@@ -149,12 +249,14 @@ router.get(
         throw new Error("UserNotFound")
       }
       if (secretCode == user.secretCode) {
-        if (user.active == true) {
+        if (user.activeEmail == true) {
           res.status(400).send({ message: "Invalid Link" })
         }
-        user.active = true
+        user.activeEmail = true
         await user.save()
-        res.status(202).send({ message: "Sucsessfully Verifuied" })
+        res
+          .status(202)
+          .send({ message: "Your Email Was Successfully Verified." })
       }
       res.status(400).send({ message: "Invalid link" })
     } catch (e) {
@@ -174,10 +276,10 @@ router.get(
         throw new Error("UserNotFound")
       }
       if (secretCode == user.secretCode) {
-        if (user.active == true) {
+        if (user.activeEmail == true) {
           res.status(400).send({ message: "Invalid Link" })
         }
-        user.active = true
+        user.activeEmail = true
         await user.save()
         res.status(202).send({ message: "Sucsessfully Verifuied" })
       }

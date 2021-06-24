@@ -21,7 +21,7 @@ const UserHeaderSections = ({ visible }) => {
       >
         <Space size={35}>
           <HeaderItem
-            location={"/dashboard/home"}
+            location={"/Member/Home"}
             text={
               <Tooltip placement="bottom" title={"Home"}>
                 <HomeOutlined style={{ fontSize: "24px" }} />
@@ -30,7 +30,7 @@ const UserHeaderSections = ({ visible }) => {
             extraClass={"menu-list user-list"}
           />
           <HeaderItem
-            location={"/dashboard/events"}
+            location={"/Member/Events"}
             text={
               <Tooltip placement="bottom" title={"Events"}>
                 <CalendarOutlined style={{ fontSize: "24px" }} />
@@ -39,7 +39,7 @@ const UserHeaderSections = ({ visible }) => {
             extraClass={"menu-list user-list"}
           />
           <HeaderItem
-            location={"/dashboard/members"}
+            location={"/Member/Members"}
             text={
               <Tooltip placement="bottom" title={"Members"}>
                 <TeamOutlined style={{ fontSize: "24px" }} />
@@ -48,7 +48,7 @@ const UserHeaderSections = ({ visible }) => {
             extraClass={"menu-list user-list"}
           />
           <HeaderItem
-            location={"/dashboard/points"}
+            location={"/Member/Points"}
             text={
               <Tooltip placement="bottom" title={"Points"}>
                 <TrophyOutlined style={{ fontSize: "24px" }} />
@@ -61,7 +61,7 @@ const UserHeaderSections = ({ visible }) => {
       <ul className="header__menu header__user__menu header__menu--user">
         <Space size={20}>
           <HeaderItem
-            location={"/dashboard/profile"}
+            location={"/Member/profile"}
             text={
               <Tooltip placement="bottom" title={"Profile"}>
                 <UserOutlined style={{ fontSize: "24px" }} />
@@ -70,7 +70,7 @@ const UserHeaderSections = ({ visible }) => {
             extraClass={"menu-list user-list"}
           />
           <HeaderItem
-            location={"/dashboard/settings"}
+            location={"/Member/settings"}
             text={
               <Tooltip placement="bottom" title={"Settings"}>
                 <SettingOutlined style={{ fontSize: "24px" }} />

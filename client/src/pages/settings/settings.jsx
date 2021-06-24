@@ -1,13 +1,15 @@
 import Header from "../../components/header/emptyHeader"
 import UserHeaderSections from "../../components/header/userMenus/userMenuSections"
-import { Image, Spin, message, Avatar, Button } from "antd"
-import { LoadingOutlined ,CloudUploadOutlined} from "@ant-design/icons"
+import { Spin, Button, message } from "antd"
+import { LoadingOutlined, CloudUploadOutlined } from "@ant-design/icons"
 
 import ProfilePicture from "@dsalvagni/react-profile-picture"
 import "@dsalvagni/react-profile-picture/dist/ProfilePicture.css"
 
 import "./settings.styles.scss"
 import React from "react"
+import SettingsSection from "../../components/settingsSection/settingsSection"
+import SettingsField from "../../components/settingsField/settingsField"
 import { connect } from "react-redux"
 
 const spinner = <LoadingOutlined style={{ fontSize: 45 }} spin />
@@ -22,6 +24,9 @@ class Settings extends React.Component {
   handleUpload = async () => {
     const PP = this.profilePictureRef.current
     const imageAsDataURL = PP.getImageAsDataUrl()
+    const key = "upadateAvater"
+
+    message.loading({ content: "Uploading...", key })
 
     const res = await fetch("http://localhost:3000/users/uploadAvatar", {
       method: "POST",
@@ -31,10 +36,15 @@ class Settings extends React.Component {
       }),
       body: JSON.stringify({ image: imageAsDataURL }),
     })
-    const resJson = await res.json()
+    if (!res.ok) {
+      message.error({ content: "Somthing went worng :(", key, duration: 4 })
+    } else {
+      message.success({ content: "Avater Was Updated!", key, duration: 4 })
+    }
   }
 
   render() {
+    const { user } = this.props
     return (
       <>
         <Header>
@@ -42,30 +52,62 @@ class Settings extends React.Component {
         </Header>
         <Spin spinning={this.state.loading} indicator={spinner}>
           <div className="body">
-            <div className="body__section">
-              <h2>Avatar</h2>
-              <ProfilePicture
-                ref={this.profilePictureRef}
-                frameFormat="circle"
-                onImageLoaded={() =>
-                  this.setState(() => ({ imageLoaded: true }))
-                }
-                onImageRemoved={() =>
-                  this.setState(() => ({ imageLoaded: false }))
-                }
-                messages={{
-                  DEFAULT: <CloudUploadOutlined style={{fontSize: "40px",color:"#0275a9"}} />,
-                }}
+            <SettingsSection title="Avatar">
+              <div>
+                <ProfilePicture
+                  ref={this.profilePictureRef}
+                  frameFormat="circle"
+                  onImageLoaded={() =>
+                    this.setState(() => ({ imageLoaded: true }))
+                  }
+                  onImageRemoved={() =>
+                    this.setState(() => ({ imageLoaded: false }))
+                  }
+                  messages={{
+                    DEFAULT: (
+                      <CloudUploadOutlined
+                        style={{ fontSize: "40px", color: "#0275a9" }}
+                      />
+                    ),
+                  }}
+                />
+                <Button
+                  type={"primary"}
+                  onClick={this.handleUpload}
+                  disabled={!this.state.imageLoaded}
+                  style={{ marginTop: 20 }}
+                >
+                  Update Profile Picture
+                </Button>
+              </div>
+            </SettingsSection>
+            <div className="seperator" />
+            <SettingsSection title="Personal Info">
+              <SettingsField
+                title="First Name: "
+                data={user.firstName}
+                name="firstName"
+                type="text"
               />
-              <Button
-                type={"primary"}
-                onClick={this.handleUpload}
-                disabled={!this.state.imageLoaded}
-              >
-                Update Profile Picture
-              </Button>
-            </div>
-            <div className="seperator"></div>
+              <SettingsField
+                title="Last Name: "
+                data={user.lastName}
+                name="lastName"
+                type="text"
+              />
+              <SettingsField
+                title="Birthday: "
+                data={new Date(user.bday).toLocaleDateString()}
+                type="date"
+                name="bday"
+              />
+              <SettingsField
+                title="Gender: "
+                data={user.gender}
+                name="gender"
+                type="radio"
+              />
+            </SettingsSection>
           </div>
         </Spin>
       </>
@@ -74,5 +116,6 @@ class Settings extends React.Component {
 }
 const mapStateToProps = (state) => ({
   token: state.user.token,
+  user: state.user.user,
 })
 export default connect(mapStateToProps)(Settings)

@@ -1,0 +1,165 @@
+@import "../../scssVariables";
+.event-card {
+  min-height: 370px;
+  width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 20px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  .event-card-info,
+  .card-info-bg,
+  .card-info-bg::before {
+    position: absolute;
+    top: 0;
+    width: 300px;
+    min-height: 390px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
+    transition: all ease-in 0.2s;
+    cursor: default;
+  }
+  .event-card-info {
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 20px;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    .back-arrow {
+      color: white;
+      font-size: 24px;
+      position: absolute;
+      top: 30px;
+      left: 20px;
+      transition: color 0.3s ease-in-out;
+      cursor: pointer;
+    }
+    .back-arrow:hover {
+      color: rgb(20, 20, 20);
+    }
+    .table {
+      width: 80%;
+    }
+    .event-card-table {
+      display: flex;
+      border-top: 2px solid rgba($color: white, $alpha: 0.3);
+      margin-top: -2px;
+      color: white;
+      .event-card-table-icon {
+        padding: 10px 10px;
+        border-right: 2px solid rgba($color: white, $alpha: 0.3);
+      }
+
+      .event-card-table-data {
+        padding: 15px 10px;
+        text-align: center;
+        width: 100%;
+      }
+    }
+    .event-card-table:last-child {
+      border-bottom: 2px solid rgba($color: white, $alpha: 0.3);
+    }
+    .event-card-label-info {
+      color: white;
+      font-size: 20px;
+      margin-top: -15px;
+    }
+    .link {
+      color: white;
+      z-index: 5;
+      background-color: rgba($color: $primary-darken, $alpha: 0.9);
+      height: 50px;
+      width: 80%;
+      border-radius: 3px;
+      text-align: center;
+      line-height: 50px;
+      font-size: 16px;
+      transition: background-color 0.3s ease-in-out;
+      cursor: pointer;
+    }
+    .link:hover {
+      background-color: darken($color: $primary-darken, $amount: 5%);
+    }
+  }
+  .card-info-bg {
+    background-image: url("https://scontent.fjrs17-1.fna.fbcdn.net/v/t1.6435-9/202617117_4117400191638894_1064536414185301697_n.png?_nc_cat=104&ccb=1-3&_nc_sid=730e14&_nc_ohc=S_93qm7SwJYAX811ao9&_nc_ht=scontent.fjrs17-1.fna&oh=a7843f26da44653d2b9030fd706c1d88&oe=60D68EDF");
+  }
+  .card-info-bg::before {
+    content: " ";
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
+    background-color: rgba($color: $primary, $alpha: 0.9);
+    z-index: 3;
+  }
+  .event-card-info.visible,
+  .event-card-info.visible::before {
+    opacity: 1;
+    z-index: 2;
+  }
+
+  .event-card-date {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    background-color: $primary;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    .day {
+      padding-top: 5px;
+      font-size: 22px;
+    }
+    .month {
+      position: relative;
+      top: -10px;
+      font-size: 14px;
+    }
+  }
+  .event-card-cover {
+    position: relative;
+    z-index: -1;
+    background-image: url("https://scontent.fjrs17-1.fna.fbcdn.net/v/t1.6435-9/202617117_4117400191638894_1064536414185301697_n.png?_nc_cat=104&ccb=1-3&_nc_sid=730e14&_nc_ohc=S_93qm7SwJYAX811ao9&_nc_ht=scontent.fjrs17-1.fna&oh=a7843f26da44653d2b9030fd706c1d88&oe=60D68EDF");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 270px;
+    width: 100%;
+    .event-card-label,
+    .event-card-label::before {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+  .event-card-label {
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+    color: white;
+  }
+  .event-card-label::before {
+    content: " ";
+    height: 45px;
+    background-color: rgba(46, 45, 45, 0.6);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    z-index: -1;
+  }
+  .event-card-descripton {
+    padding: 20px;
+    font-size: 16px;
+    margin: 0;
+  }
+}

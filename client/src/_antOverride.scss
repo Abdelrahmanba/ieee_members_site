@@ -48,7 +48,7 @@
 }
 .ant-btn {
   height: 40px;
-  &:hover {
+  &.ant-btn-primary:hover {
     border: solid 1px $primary;
     color: $primary;
   }
@@ -68,4 +68,70 @@
 .ant-tooltip-inner {
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.65);
+}
+.ant-input {
+  border-radius: 0;
+  margin-right: 5px;
+}
+.ant-input {
+  letter-spacing: 1px;
+  font-size: 16px;
+  color: #0275a9;
+
+  &:hover,
+  &:active {
+    border-color: #0275a9;
+  }
+  &:focus-visible,
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: #0275a9;
+  }
+}
+.ant-input-search {
+  height: 40px;
+}
+
+.ant-input-group-wrapper {
+  .ant-input-group {
+    &:focus-visible,
+    &:focus {
+      outline: none;
+    }
+  }
+  &:focus-visible,
+  &:focus {
+    outline: none;
+  }
+}
+.ant-radio-button-wrapper {
+  &:hover {
+    color: #0275a9;
+  }
+}
+.ant-btn-primary[disabled] {
+  background: #dad8d8;
+}
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  z-index: 1;
+  color: #0275a9;
+  background: #fff;
+  border-color: #0275a9;
+  &:hover,
+  &:active,
+  &:focus,
+  &:focus-visible {
+    border-color: #0275a9;
+    color: #0275a9;
+  }
+  &:focus-visible,
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: #0275a9;
+  }
+}
+.ant-result-info .ant-result-icon > .anticon {
+  color: #0275a9;
 }

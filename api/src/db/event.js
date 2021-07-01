@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 const eventSchema = mongoose.Schema({
-  name: {
+  title: {
     type: String,
     required: true,
     trim: true,
@@ -12,6 +12,10 @@ const eventSchema = mongoose.Schema({
     trim: true,
   },
   startDate: {
+    type: Date,
+    required: true,
+  },
+  endDate: {
     type: Date,
     required: true,
   },
@@ -27,6 +31,14 @@ const eventSchema = mongoose.Schema({
       },
     },
   ],
+  availableTickets: {
+    type: Number,
+    required: true,
+  },
+  intrested: {
+    Type: Number,
+    default: 0,
+  },
 })
 
 const Event = mongoose.model("Event", eventSchema)

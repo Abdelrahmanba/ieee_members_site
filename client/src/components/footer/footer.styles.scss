@@ -1,0 +1,72 @@
+@import "../../scssVariables";
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+
+  background-color: $secondary;
+  justify-content: center;
+  .footer-row {
+    width: 40%;
+    margin: 20px 0;
+  }
+  .title {
+    color: #ddd;
+    font-size: 20px;
+  }
+  .contact {
+    color: #b3b3b3;
+    list-style: none;
+    text-align: left;
+    margin-left: 80px;
+  }
+  .contact-icon {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  .footer-credit {
+    width: 100%;
+    flex-grow: 1;
+    color: #b3b3b3;
+    flex: 1 0 100%;
+    text-align: center;
+  }
+  .footer-credit:nth-child(3) {
+    padding-top: 20px;
+    border-top: 1px solid #7a7a7a;
+  }
+  .footer-credit:nth-child(4) {
+    padding-bottom: 20px;
+  }
+  .icons {
+    margin: 20px;
+    font-size: 32px;
+    transition: color 0.3s ease-in-out;
+    cursor: pointer;
+    color: #b3b3b3;
+
+    &:hover {
+      color: #ddd;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .footer {
+    .footer-row {
+      width: 100%;
+      margin: 20px 0;
+    }
+    .contact {
+      color: #b3b3b3;
+      list-style: none;
+      text-align: left;
+      margin-left: 0px;
+    }
+    .icons {
+      margin: 0 20px;
+    }
+  }
+}

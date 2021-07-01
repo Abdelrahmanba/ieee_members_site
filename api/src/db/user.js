@@ -63,14 +63,10 @@ const userSchema = mongoose.Schema({
     default: false,
   },
 
-  tokens: [
-    {
-      token: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+  token: {
+    type: String,
+  },
+
   eventsParticipatedIn: [
     { type: mongoose.Schema.Types.ObjectId, ref: "Event" },
   ],
@@ -137,7 +133,7 @@ userSchema.methods.toJSON = function () {
 userSchema.methods.generateAuthToken = async function () {
   const user = this
   const token = jwt.sign({ _id: user._id.toString() }, process.env.JSON_SECRET)
-  user.tokens = user.tokens.concat({ token })
+  user.token = token
   await user.save()
   return token
 }

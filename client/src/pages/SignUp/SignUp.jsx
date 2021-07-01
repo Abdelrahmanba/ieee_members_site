@@ -62,7 +62,7 @@ const SignUp = (props) => {
           </div>
           <Form method="POST">
             <h1 className="signup-header">Create Your Account</h1>
-            <p>It Only Takes Few Seconds..</p>
+            <p>It takes less than a minute..</p>
             <Textfield
               onChange={handleChange}
               type="text"

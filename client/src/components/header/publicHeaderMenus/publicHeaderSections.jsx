@@ -4,6 +4,7 @@ import "./publicHeaderMenus.scss"
 const PublicHeaderSections = ({ visible }) => {
   return (
     <ul className={`header__menu ${visible ? "header__menu--visible" : ""}`}>
+      <HeaderItem location={"about"} text={"About"} extraClass={"menu-list"} />
       <HeaderItem
         location={"events"}
         text={"Events"}

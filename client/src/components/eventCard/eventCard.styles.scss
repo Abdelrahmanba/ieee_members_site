@@ -10,6 +10,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  transition: box-shadow 0.3s ease-in-out;
   cursor: pointer;
   .event-card-info,
   .card-info-bg,
@@ -162,4 +163,8 @@
     font-size: 16px;
     margin: 0;
   }
+}
+
+.event-card:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px;
 }

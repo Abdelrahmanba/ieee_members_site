@@ -37,7 +37,9 @@ const CompleteProfile = () => {
       const resJson = await res.json()
       if (res.ok) {
         dispatch(setUser(resJson))
-        setCurrentStep(2)
+        if (resJson.activeEmail === true) {
+          setCurrentStep(2)
+        }
         setloadingRefresh(false)
       }
       if (user.user.activeEmail === true) {
@@ -48,7 +50,7 @@ const CompleteProfile = () => {
       }
     }
     load()
-  }, [user, dispatch, history])
+  }, [])
 
   const refresh = async () => {
     setloadingRefresh(true)

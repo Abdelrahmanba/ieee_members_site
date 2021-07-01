@@ -18,10 +18,16 @@ import Profile from "./pages/profile/profile"
 import Members from "./pages/members/members"
 import CompleteProfile from "./pages/CompleteProfile/CompleteProfile"
 import EmailVerify from "./pages/emailVerify/emailVerify"
-
+import AOS from "aos"
+import { useEffect } from "react"
+import "aos/dist/aos.css"
+import Event from "./pages/event/event"
 let persistor = persistStore(store)
 
 function App() {
+  useEffect(() => {
+    AOS.init()
+  }, [])
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -61,6 +67,7 @@ function App() {
             <Route path="/signin" component={SignIn} />
             <Route path="/signup" component={SignUp} />
             <Route path="/signout" component={SignOut} />
+            <Route path="/Event/:id?" component={Event} />
 
             <Route path="*" component={NotFound} />
           </Switch>

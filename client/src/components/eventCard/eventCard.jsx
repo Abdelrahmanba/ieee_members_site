@@ -17,12 +17,13 @@ const EventCard = ({
   price,
   description,
   image,
+  ...props
 }) => {
   const [infoVis, setInfoVis] = useState(false)
   const history = useHistory()
 
   return (
-    <div className="event-card">
+    <div className="event-card" {...props}>
       <div className={`event-card-info ${infoVis ? "visible" : ""}`}>
         <div
           className="card-info-bg"
@@ -59,7 +60,7 @@ const EventCard = ({
             <div className="event-card-table-data"> {price}</div>
           </div>
         </div>
-        <Link className="link" onClick={() => history.push("/event/" + id)}>
+        <Link className="link" to={"/event/" + id}>
           Learn More
         </Link>
       </div>

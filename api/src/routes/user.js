@@ -3,7 +3,6 @@ const User = require("../db/user")
 const auth = require("../middlewares/auth")
 const limiter = require("express-rate-limit")
 const validator = require("validator")
-const jwt = require("jsonwebtoken")
 
 const createLimit = limiter({
   windowMs: 24 * 60 * 60 * 1000, // 24 hrs in milliseconds

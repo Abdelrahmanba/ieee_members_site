@@ -1,15 +1,17 @@
-import "./textfield.styles.scss"
+import './textfield.styles.scss'
 
-const Textfield = ({ name, text, type, onChange, autocomplete }) => (
-  <div className="textfield">
-    <label className="textfield-label">{text}</label>
+const Textfield = ({ name, text, type, onChange, autocomplete, children }) => (
+  <div className='textfield'>
+    <label className='textfield-label'>{text}</label>
     <input
       autoComplete={autocomplete}
       onChange={onChange}
       type={type}
-      className="textfield-input"
+      className='textfield-input'
       name={name}
-    ></input>
+    >
+      {children}
+    </input>
   </div>
 )
 

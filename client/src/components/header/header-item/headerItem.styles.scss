@@ -1,4 +1,4 @@
-@import "../../../scssVariables";
+@import '../../../scssVariables';
 
 .header-menu-item {
   margin: 0.3rem 1.2rem;
@@ -48,7 +48,7 @@
   .header-menu-link {
     position: relative;
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       bottom: -4px;
@@ -60,18 +60,25 @@
     }
     &:hover {
       color: black;
+      cursor: pointer;
     }
     &:hover::before {
       transform: scaleY(1);
     }
     color: black;
   }
+  .header-menu-link.selected-section {
+    color: black;
+    &::before {
+      transform: scaleY(1);
+    }
+  }
   .user-list.header-menu-link {
     &::before {
       height: 0;
     }
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       height: 60px;
       width: 90px;

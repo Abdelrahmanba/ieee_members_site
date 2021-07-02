@@ -1,10 +1,10 @@
-import PublicHeaderSections from "./publicHeaderMenus/publicHeaderSections"
-import PublicHeaderUser from "./publicHeaderMenus/publicHeaderUser"
-import Header from "./emptyHeader"
-const PublicHeader = () => {
+import PublicHeaderSections from './publicHeaderMenus/publicHeaderSections'
+import PublicHeaderUser from './publicHeaderMenus/publicHeaderUser'
+import Header from './emptyHeader'
+const PublicHeader = ({ links }) => {
   return (
     <Header>
-      <PublicHeaderSections />
+      <PublicHeaderSections links={links} />
       <PublicHeaderUser />
     </Header>
   )

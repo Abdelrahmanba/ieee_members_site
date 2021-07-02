@@ -1,4 +1,4 @@
-@import "../../scssVariables";
+@import '../../scssVariables';
 
 .home-events {
   display: flex;
@@ -12,9 +12,12 @@
     margin: 60px 0 30px;
     span {
       color: $primary;
-      font-family: "Proxima Nova Bold" serif;
+      font-family: 'Proxima Nova Bold' serif;
       font-weight: bold;
     }
+  }
+  p {
+    text-align: center;
   }
 }
 

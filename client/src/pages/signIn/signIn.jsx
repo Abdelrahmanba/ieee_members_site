@@ -1,20 +1,20 @@
-import { ReactComponent as Particels } from "../../assets/paricles.svg"
+import { ReactComponent as Particels } from '../../assets/paricles.svg'
 
-import "./signIn.styles.scss"
+import './signIn.styles.scss'
 
-import { useState } from "react"
-import { signIn } from "../../redux/userSlice.js"
-import { useDispatch } from "react-redux"
-import { Button, Alert } from "antd"
-import Textfield from "../../components/textfield/textfield"
-import Form from "../../components/form/form"
-import ResetPassword from "../../components/resetPassword/resetPassword"
-import PublicHeader from "../../components/header/publicHeader"
-import Particle from "../../components/Particles/particles"
+import { useState } from 'react'
+import { signIn } from '../../redux/userSlice.js'
+import { useDispatch } from 'react-redux'
+import { Button, Alert } from 'antd'
+import Textfield from '../../components/textfield/textfield'
+import Form from '../../components/form/form'
+import ResetPassword from '../../components/resetPassword/resetPassword'
+import PublicHeader from '../../components/header/publicHeader'
+import Particle from '../../components/Particles/particles'
 
 const SignIn = (props) => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [error, setError] = useState(undefined)
   const [loading, setLoading] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
@@ -22,7 +22,7 @@ const SignIn = (props) => {
   const dispatch = useDispatch()
 
   const handleChange = (e) => {
-    if (e.target.name === "email") {
+    if (e.target.name === 'email') {
       setEmail(e.target.value)
     } else {
       setPassword(e.target.value)
@@ -33,10 +33,10 @@ const SignIn = (props) => {
     e.preventDefault()
     props.location.state = undefined
     setLoading(true)
-    const res = await fetch(process.env.REACT_APP_API_URL + "/users/login", {
-      method: "POST",
+    const res = await fetch(process.env.REACT_APP_API_URL + '/users/login', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ email, password }),
     })
@@ -44,13 +44,10 @@ const SignIn = (props) => {
     if (jsonRes.token) {
       console.log(jsonRes)
       dispatch(signIn(jsonRes))
-      if (
-        jsonRes.user.activeEmail === false ||
-        jsonRes.user.activeCommttiee === false
-      ) {
-        props.history.push("/Member/CompleteProfile")
+      if (jsonRes.user.activeEmail === false || jsonRes.user.activeCommttiee === false) {
+        props.history.push('/Member/CompleteProfile')
       } else {
-        props.history.push("/Member/Home")
+        props.history.push('/Member/Home')
       }
     } else {
       setLoading(false)
@@ -60,63 +57,60 @@ const SignIn = (props) => {
 
   return (
     <>
-      <PublicHeader />
+      <PublicHeader links={true} />
       <ResetPassword visible={modalVisible} setModalVisible={setModalVisible} />
       <Particle />
-      <section className="sign-in">
-        <div className="signin-box">
-          <div className="box-header">
-            <Particels className="Particels" />
+      <section className='sign-in'>
+        <div className='signin-box'>
+          <div className='box-header'>
+            <Particels className='Particels' />
           </div>
-          <Form method="POST">
-            <h1 className="signin-header">Welcome Back</h1>
+          <Form method='POST'>
+            <h1 className='signin-header'>Welcome Back</h1>
             <Textfield
               onChange={handleChange}
-              type="text"
-              name="email"
-              text="Email Address"
+              type='text'
+              name='email'
+              text='Email Address'
               value={email}
-              autocomplete="email"
+              autocomplete='email'
             />
             <Textfield
               onChange={handleChange}
-              type="password"
-              name="password"
-              text="Password"
+              type='password'
+              name='password'
+              text='Password'
               value={password}
-              autocomplete="current-password"
+              autocomplete='current-password'
             />
-            <Button block type="primary" loading={loading} onClick={submit}>
+            <Button block type='primary' loading={loading} onClick={submit}>
               Sign In
             </Button>
 
             {error ? (
               <Alert
-                message="Login Failed"
+                message='Login Failed'
                 description={error.message}
-                type="error"
+                type='error'
                 showIcon
-                className={"alert"}
+                className={'alert'}
               />
             ) : (
-              ""
+              ''
             )}
 
             {props.location.state ? (
               <Alert
-                message="Sign In Required"
-                description="Please Sign In to view this page."
-                type="info"
+                message='Sign In Required'
+                description='Please Sign In to view this page.'
+                type='info'
                 showIcon
-                className="alert"
+                className='alert'
               />
             ) : (
-              ""
+              ''
             )}
-            <p
-              className="forgot-password"
-              onClick={() => setModalVisible(true)}
-            >
+            <p className='forgot-password' onClick={() => setModalVisible(true)}>
               Forgot your password?
             </p>
           </Form>

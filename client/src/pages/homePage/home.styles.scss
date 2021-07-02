@@ -12,6 +12,18 @@
   text-align: center;
   //   margin-right: auto;
 }
+@media screen and (max-width: 600px) {
+  .main-text {
+    width: 90%;
+  }
+  .image-1 {
+    position: relative;
+    min-width: 300px;
+    width: 40%;
+    opacity: 0.9;
+    bottom: -50px;
+  }
+}
 
 .main-text-full {
   width: 100%;

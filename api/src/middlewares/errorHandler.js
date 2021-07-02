@@ -34,6 +34,11 @@ const errorHandler = (err, req, res, next) => {
       error: 'Bad Email Format',
       message: 'Please provide a valid Email Address.',
     })
+  } else if (err.message === 'EmptyFields') {
+    res.status(400).send({
+      error: 'Empty Fields',
+      message: 'Please make sure to fill all fields.',
+    })
   } else {
     res.status(400).send({
       error: 'Somthing Went Wrong',

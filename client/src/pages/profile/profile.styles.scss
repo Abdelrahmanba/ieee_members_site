@@ -1,4 +1,4 @@
-@import "../../scssVariables";
+@import '../../scssVariables';
 
 .profile__picture {
   border-radius: 50%;
@@ -48,29 +48,5 @@
   width: 100%;
   h2 {
     color: $primary-darken;
-  }
-}
-@media only screen and (max-width: 1000px) {
-  .profile {
-    width: 90%;
-  }
-  .profile__info {
-    height: fit-content;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .profile {
-    width: 80%;
-  }
-
-  .profile__info {
-    height: fit-content;
-  }
-}
-
-@media only screen and (max-width: 400px) {
-  .profile {
-    width: 90%;
   }
 }

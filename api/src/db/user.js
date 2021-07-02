@@ -1,13 +1,10 @@
-const mongoose = require("mongoose")
-const validator = require("validator")
-const bcrypt = require("bcrypt")
-const jwt = require("jsonwebtoken")
-const crypto = require("crypto")
+const mongoose = require('mongoose')
+const validator = require('validator')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const crypto = require('crypto')
 
-const mailjet = require("node-mailjet").connect(
-  process.env.MAILJET_API,
-  process.env.MAILJET_SECRET
-)
+const mailjet = require('node-mailjet').connect(process.env.MAILJET_API, process.env.MAILJET_SECRET)
 
 const userSchema = mongoose.Schema({
   email: {
@@ -16,8 +13,8 @@ const userSchema = mongoose.Schema({
     trim: true,
     lowercase: true,
     index: true,
-    unique: [true, "A user with that email address exists."],
-    validate: [validator.isEmail, "Invalid email format."],
+    unique: [true, 'A user with that email address exists.'],
+    validate: [validator.isEmail, 'Invalid email format.'],
   },
   password: {
     type: String,
@@ -28,19 +25,18 @@ const userSchema = mongoose.Schema({
   firstName: {
     type: String,
     required: true,
-    validate: [validator.isAlpha, "First name must contain letters only."],
+    validate: [validator.isAlpha, 'First name must contain letters only.'],
   },
   lastName: {
     type: String,
     required: true,
-    validate: [validator.isAlpha, "Last name must contain letters only"],
+    validate: [validator.isAlpha, 'Last name must contain letters only'],
   },
   bday: {
     type: Date,
   },
   membershipID: {
     type: Number,
-    unique: [true, "A user with that ID exists."],
   },
   gender: {
     type: String,
@@ -51,7 +47,7 @@ const userSchema = mongoose.Schema({
   },
   role: {
     type: String,
-    default: "user",
+    default: 'user',
   },
 
   activeEmail: {
@@ -62,15 +58,15 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  phoneNo: {
+    type: String,
+  },
 
   token: {
     type: String,
   },
 
-  eventsParticipatedIn: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "Event" },
-  ],
-  eventsVolunteeredIn: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
+  eventsParticipatedIn: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }],
   points: {
     type: Number,
     default: 0,
@@ -97,14 +93,14 @@ const userSchema = mongoose.Schema({
   },
   position: {
     type: String,
-    default: "Member",
+    default: 'Member',
   },
 })
 
 //encrypt password before saving
-userSchema.pre("save", async function (next) {
+userSchema.pre('save', async function (next) {
   const user = this
-  if (user.isModified("password")) {
+  if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 8)
   }
   next()
@@ -139,17 +135,14 @@ userSchema.methods.generateAuthToken = async function () {
 }
 
 //find user by email/password
-userSchema.statics.findByEmailAndPassword = async function ({
-  email,
-  password,
-}) {
+userSchema.statics.findByEmailAndPassword = async function ({ email, password }) {
   const user = await User.findOne({ email })
   if (!user) {
-    throw new Error("UserNotFound")
+    throw new Error('UserNotFound')
   }
   const isMatch = await bcrypt.compare(password, user.password)
   if (!isMatch) {
-    throw new Error("BadCredentials")
+    throw new Error('BadCredentials')
   }
   return user
 }
@@ -158,17 +151,14 @@ userSchema.statics.findByEmailAndPassword = async function ({
 userSchema.methods.sendVerifcationEmail = async function () {
   const user = this
   const random = Math.random() * 1000000
-  user.secretCode = crypto
-    .createHash("md5")
-    .update(random.toString())
-    .digest("hex")
+  user.secretCode = crypto.createHash('md5').update(random.toString()).digest('hex')
 
   await user.save()
 
   const conf_url = `ieee-annu.com/api/verify-account/${user._id}/${user.secretCode}`
 
   //MAILJET api call
-  const result = await mailjet.post("send", { version: "v3.1" }).request({
+  const result = await mailjet.post('send', { version: 'v3.1' }).request({
     Messages: [
       {
         TemplateID: 2927753,
@@ -193,17 +183,14 @@ userSchema.methods.sendVerifcationEmail = async function () {
 userSchema.methods.sendRestPassword = async function () {
   const user = this
   const random = Math.random() * 1000000
-  user.passwordReset = crypto
-    .createHash("md5")
-    .update(random.toString())
-    .digest("hex")
+  user.passwordReset = crypto.createHash('md5').update(random.toString()).digest('hex')
 
   await user.save()
 
   const conf_url = `ieee-annu.com/api/reset-password/${user._id}/${user.passwordReset}`
 
   //MAILJET api call
-  const result = await mailjet.post("send", { version: "v3.1" }).request({
+  const result = await mailjet.post('send', { version: 'v3.1' }).request({
     Messages: [
       {
         TemplateID: 2949248,
@@ -223,6 +210,6 @@ userSchema.methods.sendRestPassword = async function () {
     ],
   })
 }
-const User = mongoose.model("User", userSchema)
+const User = mongoose.model('User', userSchema)
 
 module.exports = User

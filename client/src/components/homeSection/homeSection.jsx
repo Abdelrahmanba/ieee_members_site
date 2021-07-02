@@ -1,14 +1,15 @@
-import "./homeSection.styles.scss"
+import './homeSection.styles.scss'
+import { Section } from 'react-scroll-section'
 
-const HomeSection = ({ children, titlePr, titleSc, inverted, desc }) => {
+const HomeSection = ({ children, titlePr, titleSc, inverted, desc, id }) => {
   return (
-    <section className={`${inverted ? "inverted" : ""} home-events`}>
-      <h1 className="title">
+    <Section className={`${inverted ? 'inverted' : ''} home-events`} id={id}>
+      <h1 className='title'>
         {titlePr} <span>{titleSc}</span>
       </h1>
       <p>{desc}</p>
       {children}
-    </section>
+    </Section>
   )
 }
 

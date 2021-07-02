@@ -1,19 +1,27 @@
-import { Empty, List, Avatar, Spin } from "antd"
-import { useEffect, useState } from "react"
-import { LoadingOutlined } from "@ant-design/icons"
-import "./profileBox.scss"
+import { Empty, List, Avatar, Spin } from 'antd'
+import { useEffect, useState } from 'react'
+import { LoadingOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
+
+import computer from '../../../assets/socities/computer.jpg'
+import pes from '../../../assets/socities/pes.png'
+import wie from '../../../assets/socities/wie.png'
+import ras from '../../../assets/socities/ras.jpg'
+
+import './profileBox.scss'
 
 const spinner = <LoadingOutlined style={{ fontSize: 30 }} spin />
 
 const ProfileEventsBox = ({ token, url, title }) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
+  const society = { wie: wie, pes: pes, ras: ras, computer: computer }
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(process.env.REACT_APP_API_URL + url, {
         headers: new Headers({
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         }),
       })
       const resJson = await res.json()
@@ -24,20 +32,18 @@ const ProfileEventsBox = ({ token, url, title }) => {
   }, [token, url])
 
   return (
-    <div className="profile__events profile__box">
+    <div className='profile__events profile__box'>
       <Spin indicator={spinner} spinning={loading}>
         <h2>{title}</h2>
         {!loading && data.length > 0 ? (
           <List
-            itemLayout="horizontal"
+            itemLayout='horizontal'
             dataSource={data}
             renderItem={(item) => (
               <List.Item>
                 <List.Item.Meta
-                  avatar={
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                  }
-                  title={<a href="https://ant.design">{item.title}</a>}
+                  avatar={<Avatar src={society[item.society]} />}
+                  title={<Link to={'/Event/' + item._id}>{item.title}</Link>}
                   description={item.description}
                 />
               </List.Item>

@@ -112,13 +112,12 @@ userSchema.methods.toJSON = function () {
   const userObj = user.toObject()
 
   delete userObj.password
-  delete userObj.tokens
+  delete userObj.token
   delete userObj.secretCode
   delete userObj.passwordReset
   delete userObj.eventsParticipatedIn
   delete userObj.eventsVolunteeredIn
   delete userObj.pointsHistory
-  delete userObj.role
   delete userObj.imageData
 
   return userObj

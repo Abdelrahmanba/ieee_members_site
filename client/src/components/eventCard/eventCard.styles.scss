@@ -1,6 +1,6 @@
 @import '../../scssVariables';
 .event-card {
-  min-height: 370px;
+  max-height: 370px;
   width: 300px;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -134,7 +134,6 @@
   .event-card-cover {
     position: relative;
     z-index: -1;
-    background-image: url('https://scontent.fjrs17-1.fna.fbcdn.net/v/t1.6435-9/202617117_4117400191638894_1064536414185301697_n.png?_nc_cat=104&ccb=1-3&_nc_sid=730e14&_nc_ohc=S_93qm7SwJYAX811ao9&_nc_ht=scontent.fjrs17-1.fna&oh=a7843f26da44653d2b9030fd706c1d88&oe=60D68EDF');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -166,6 +165,8 @@
     padding: 20px;
     font-size: 16px;
     margin: 0;
+    overflow: hidden;
+    height: 100px;
   }
 }
 

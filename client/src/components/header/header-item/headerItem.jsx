@@ -4,7 +4,7 @@ import './headerItem.styles.scss'
 const HeaderItem = ({ text, location, extraClass, selected, links, ...props }) => {
   if (selected === undefined || links === true) {
     return (
-      <li {...props} className={`header-menu-item`}>
+      <li {...props} className={`header-menu-item ${extraClass}`}>
         <NavLink
           to={location}
           className={`header-menu-link ${extraClass}`}

@@ -37,9 +37,9 @@ class Settings extends React.Component {
       body: JSON.stringify({ image: imageAsDataURL }),
     })
     if (!res.ok) {
-      message.error({ content: 'Somthing went worng :(', key, duration: 4 })
+      message.error({ content: 'Somthing went worng :(', key })
     } else {
-      message.success({ content: 'Avater Was Updated!', key, duration: 4 })
+      message.success({ content: 'Avater Was Updated!', key })
     }
   }
 
@@ -86,8 +86,11 @@ class Settings extends React.Component {
                 title='Phone Number: '
                 data={user.phoneNo ? user.phoneNo : 'Not Provided'}
                 name='phoneNo'
-                type='text'
+                type='number'
               />
+              <SettingsField title='Email: ' data={user.email} name='email' type='text' />
+              <SettingsField title='Password: ' data='********' name='password' type='password' />
+
               <SettingsField
                 title='Birthday: '
                 data={user.bday ? new Date(user.bday).toLocaleDateString() : 'Not Provided'}

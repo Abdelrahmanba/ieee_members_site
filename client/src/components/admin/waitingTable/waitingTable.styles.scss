@@ -1,0 +1,23 @@
+@import '../../../scssVariables';
+.admin-title {
+  color: $primary;
+  width: 100%;
+}
+.modal-text {
+  flex-basis: 100%;
+}
+.admin-section {
+  width: 100%;
+  padding: 20px;
+}
+.table {
+  width: 100%;
+
+  .ant-table-thead > tr > th {
+    color: $primary;
+    font-size: 16px;
+  }
+  .ant-table-thead > tr > td {
+    font-size: 16px;
+  }
+}

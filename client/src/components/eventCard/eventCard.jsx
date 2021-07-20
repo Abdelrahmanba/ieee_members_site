@@ -9,12 +9,15 @@ import {
   LeftOutlined,
 } from '@ant-design/icons'
 
-const EventCard = ({ id, title, date, location, price, description, image, ...props }) => {
+const EventCard = ({ id, title, date, location, price, description, featured, ...props }) => {
   const [infoVis, setInfoVis] = useState(false)
   return (
     <div className='event-card' {...props}>
       <div className={`event-card-info ${infoVis ? 'visible' : ''}`}>
-        <div className='card-info-bg' style={{ backgroundImage: `url(${image})` }} />
+        <div
+          className='card-info-bg'
+          style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/uploads/${featured})` }}
+        />
         <LeftOutlined onClick={() => setInfoVis(false)} className='back-arrow' />
         <div className='event-card-label-info'>{title}</div>
         <div className='table'>
@@ -57,7 +60,10 @@ const EventCard = ({ id, title, date, location, price, description, image, ...pr
             {new Date(date).toLocaleString('default', { month: 'short' })}
           </span>
         </div>
-        <div className='event-card-cover' style={{ backgroundImage: `url(${image})` }}>
+        <div
+          className='event-card-cover'
+          style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/uploads/${featured})` }}
+        >
           <div className='event-card-label'>{title}</div>
         </div>
         <p className='event-card-descripton'>{description}</p>

@@ -1,12 +1,22 @@
 const auth = require('../middlewares/auth')
 const adminAuth = require('../middlewares/adminAuth')
 const committeeAuth = require('../middlewares/committeeAuth')
-
+const multer = require('multer')
 const Event = require('../db/event')
-
 const express = require('express')
+const sharp = require('sharp')
+const path = require('path')
+const fs = require('fs')
+
+const tempPath = path.join('uploads', 'temp')
 
 const router = express.Router()
+
+const uploadImgs = multer({
+  limits: {
+    fileSize: 10000000,
+  },
+})
 
 router.get('/event/:id', async (req, res, next) => {
   try {
@@ -41,6 +51,12 @@ router.get('/event/', async (req, res, next) => {
 
 router.post('/event/', auth, committeeAuth, async (req, res, next) => {
   try {
+    if (req.body.images) {
+      req.body.images = req.body.images.map((img) => img + '.jpeg')
+    }
+    if (req.body.featured) {
+      req.body.featured = req.body.featured + '.jpeg'
+    }
     const eventInfo = (({
       body: {
         title,
@@ -54,6 +70,9 @@ router.post('/event/', auth, committeeAuth, async (req, res, next) => {
         society,
         link,
         orginizers,
+        images,
+        featured,
+        allowNonMembers,
       },
     }) => ({
       title,
@@ -67,10 +86,32 @@ router.post('/event/', auth, committeeAuth, async (req, res, next) => {
       society,
       link,
       orginizers,
+      images,
+      featured,
+      allowNonMembers,
     }))(req)
 
     const event = new Event(eventInfo)
+
     await event.save()
+    if (!req.body.images) {
+      req.body.images = []
+    }
+
+    fs.readdir(tempPath, (err, files) => {
+      files.forEach(async (file) => {
+        const currentPath = path.join('uploads', 'temp', file)
+        const destinationPath = path.join('uploads', file)
+        if (req.body.images.includes(file) || file === req.body.featured) {
+          fs.rename(currentPath, destinationPath, function (err) {
+            if (err) {
+              throw err
+            }
+          })
+        }
+      })
+    })
+
     res.status(200).send(event)
   } catch (e) {
     console.log(e)
@@ -137,5 +178,52 @@ router.get('/event/remove_participants/:eventId/', auth, async (req, res, next) 
     next(e)
   }
 })
+
+router.post('/event/deleteEvents', auth, committeeAuth, async (req, res, next) => {
+  try {
+    const events = req.body
+    await Event.deleteMany({
+      _id: { $in: events },
+    })
+    res.send()
+  } catch (e) {
+    next(e)
+  }
+})
+
+router.post(
+  '/event/uploadeImages',
+  auth,
+  committeeAuth,
+  uploadImgs.single('upload'),
+  async (req, res, next) => {
+    try {
+      await sharp(req.file.buffer)
+        .jpeg()
+        .toFile(path.join('uploads', 'temp', req.body.uid + '.jpeg'))
+      res.send()
+    } catch (e) {
+      console.log(e)
+      next(e)
+    }
+  }
+)
+router.get(
+  '/event/deleteImage/:name',
+  auth,
+  committeeAuth,
+  uploadImgs.single('upload'),
+  async (req, res, next) => {
+    try {
+      const name = req.params.name + '.jpeg'
+      fs.unlinkSync(path.join(tempPath, name))
+      res.send()
+    } catch (e) {
+      next(e)
+    }
+  }
+)
+
+router.use('/uploads', express.static('./uploads'))
 
 module.exports = router

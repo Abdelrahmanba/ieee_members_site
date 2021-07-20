@@ -10,8 +10,14 @@
   .image {
     width: 47%;
     border: 2px solid $primary;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
-
+  .typo {
+    font-size: 18px;
+    color: $primary-text;
+  }
   .event-title {
     color: $primary-darken;
     font-size: 22px;

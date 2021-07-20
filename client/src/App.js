@@ -23,6 +23,10 @@ import { useEffect } from 'react'
 import 'aos/dist/aos.css'
 import Event from './pages/event/event'
 import Points from './pages/points/points'
+import ResetPassword from './pages/passwordReset/resetPassword'
+import AdminHome from './pages/adminHome/adminHome'
+import AdminEvents from './pages/adminEvents/AdminEvents'
+import EventAdmin from './pages/eventAdmin/eventAdmin'
 let persistor = persistStore(store)
 
 function App() {
@@ -43,10 +47,14 @@ function App() {
             <ProtectedRoute exact path='/Member/profile/:id?' component={Profile} />
             <ProtectedRoute exact path='/Member/CompleteProfile' component={CompleteProfile} />
             <ProtectedRoute exact path='/Member/Points' component={Points} />
-            <Route path='/api/verify-account/:id/:secret' component={EmailVerify} />
 
-            <Route path='/user' component={HomePage} />
-            <Route path='/admin' component={HomePage} />
+            <ProtectedRoute exact path={['/Admin/Home', '/Admin']} component={AdminHome} />
+            <ProtectedRoute exact path={'/Admin/Events'} component={AdminEvents} />
+            <ProtectedRoute exact path={'/Admin/Event/:id'} component={EventAdmin} />
+
+            <Route path='/api/verify-account/:id/:secret' component={EmailVerify} />
+            <Route path='/api/reset-password/:id/:secret' component={ResetPassword} />
+
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />
             <Route path='/signout' component={SignOut} />

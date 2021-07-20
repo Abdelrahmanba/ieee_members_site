@@ -3,11 +3,10 @@ import './event.styles.scss'
 import PublicHeader from '../../components/header/publicHeader'
 import Header from '../../components/header/emptyHeader'
 import UserHeaderSections from '../../components/header/userMenus/userMenuSections'
-import { Button, Image } from 'antd'
+import { Button, Image, message } from 'antd'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import UserCard from '../../components/userCard/userCard'
 import NonMembersModel from '../../components/nonmembersEventModal/NonMembersModal'
 
 import {
@@ -41,6 +40,10 @@ const Event = () => {
   }, [])
 
   const joinHandle = async () => {
+    if (!user.user.phoneNo) {
+      message.error('Please Add a Phone Number In Profile Settings to be able to join events.')
+      return
+    }
     setConfirmLoading(true)
     const res = await fetch(
       process.env.REACT_APP_API_URL + '/event/add_participants/' + event._id,
@@ -109,11 +112,14 @@ const Event = () => {
               <span className='highlight highlight-1 noselect'>{event && event.title}</span>
             </span>
           </h1>
-          <img
-            alt=''
-            src='https://branch.ieee-annu.com/wp-content/uploads/2021/04/174199218_3947661548612760_4824108478649130793_n.jpg'
-            className='image'
-          />
+          {event && event.featured && (
+            <div
+              style={{
+                backgroundImage: `url(${process.env.REACT_APP_API_URL}/uploads/${event.featured})`,
+              }}
+              className='image'
+            />
+          )}
           <div className='event__box'>
             <div className='event-box-body'>
               <h2 className='event-title'>Event Details</h2>
@@ -165,30 +171,20 @@ const Event = () => {
                     <LinkOutlined style={{ color: '#0275a9', paddingRight: 10 }} />
                     Link
                   </div>
-                  {<a href={'http://' + event.link}>Click Here</a>}
+                  {<a href={event.link}>Click Here</a>}
                 </div>
               )}
             </div>
           </div>
         </div>
-        {event.orginizers && event.orginizers.length > 0 && (
+        {event && event.description && (
           <div className='orgnizers'>
             <h2 className='header-text'>
               <span className='highlight-container sub'>
-                <span className='highlight highlight-2 noselect'>Organizers </span>
+                <span className='highlight highlight-2 noselect'>Description </span>
               </span>
             </h2>
-
-            {event.orginizers.map((user, index) => (
-              <UserCard
-                key={index}
-                name={user.firstName + ' ' + user.lastName}
-                position={user.position}
-                points={user.points}
-                avatar={user.imageData}
-                id={user._id}
-              />
-            ))}
+            <p className='typo'>{event.description}</p>
           </div>
         )}
         {event && event.images && event.images.length > 0 && (
@@ -200,7 +196,11 @@ const Event = () => {
             </h2>
             <Image.PreviewGroup style={{ width: '100%' }}>
               {event.images.map((src, index) => (
-                <Image key={index} width={200} src={src} />
+                <Image
+                  key={index}
+                  width={200}
+                  src={`${process.env.REACT_APP_API_URL}/uploads/${src}`}
+                />
               ))}
             </Image.PreviewGroup>
           </div>
@@ -233,13 +233,12 @@ const Event = () => {
                   onClick={joinHandle}
                   className='join-btn'
                   loading={confirmLoading}
-                  disabled={!seats}
+                  disabled={!seats || !user.token}
                 >
                   Join This Event!
                 </Button>
               </>
             )}
-
             {event.allowNonMembers === true ? (
               <p>
                 Non-Members are Welcomed!{' '}

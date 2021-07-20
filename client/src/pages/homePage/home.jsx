@@ -65,7 +65,7 @@ const HomePage = () => {
           id='event'
         >
           <Container>
-            {events.map(({ title, startDate, _id, location, price, description }) => (
+            {events.map(({ title, startDate, _id, location, price, description, featured }) => (
               <EventCard
                 data-aos='fade-up'
                 key={_id}
@@ -75,6 +75,7 @@ const HomePage = () => {
                 id={_id}
                 price={price}
                 description={description}
+                featured={featured}
               />
             ))}
           </Container>

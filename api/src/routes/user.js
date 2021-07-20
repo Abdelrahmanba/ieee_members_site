@@ -3,6 +3,8 @@ const User = require('../db/user')
 const auth = require('../middlewares/auth')
 const limiter = require('express-rate-limit')
 const validator = require('validator')
+const bcrypt = require('bcrypt')
+const committeeAuth = require('../middlewares/committeeAuth')
 
 const createLimit = limiter({
   windowMs: 24 * 60 * 60 * 1000, // 24 hrs in milliseconds
@@ -140,10 +142,25 @@ router.post('/users/update', auth, async (req, res, next) => {
     if (req.body.phoneNo) {
       req.user.phoneNo = req.body.phoneNo
     }
+    if (req.body.email) {
+      if (validator.isEmail(req.body.email)) {
+        req.user.email = req.body.email
+      } else {
+        throw new Error('BadEmailFormat')
+      }
+    }
+    if (req.body.password) {
+      const isMatch = await bcrypt.compare(req.body.currentPassword, req.user.password)
+      if (!isMatch) {
+        throw new Error('BadCredentials')
+      } else {
+        req.user.password = req.body.password
+      }
+    }
     const user = await req.user.save()
-
     res.status(200).send(user)
   } catch (e) {
+    console.log(e)
     next(e)
   }
 })
@@ -240,7 +257,7 @@ router.get('/users/all/members', auth, async (req, res, next) => {
 })
 router.get('/users/top3', async (req, res, next) => {
   try {
-    const users = await User.find({}).sort({ points: -1 })
+    const users = await User.find({}).sort({ points: -1 }).limit(3)
     const usersData = users.map((user) => ({
       _id: user._id,
       firstName: user.firstName,
@@ -277,7 +294,7 @@ router.get('/api/verify-account/:userId/:secretCode', async (req, res, next) => 
   }
 })
 
-router.get('/api/reset-password/:userId/:secretCode', async (req, res, next) => {
+router.post('/api/reset-password/:userId/:secretCode', async (req, res, next) => {
   const { userId, secretCode } = req.params
 
   try {
@@ -285,15 +302,45 @@ router.get('/api/reset-password/:userId/:secretCode', async (req, res, next) => 
     if (!user) {
       throw new Error('UserNotFound')
     }
-    if (secretCode == user.secretCode) {
-      if (user.activeEmail == true) {
-        res.status(400).send({ message: 'Invalid Link' })
-      }
-      user.activeEmail = true
+    if (secretCode == user.passwordReset) {
+      user.password = req.body.password
       await user.save()
-      res.status(202).send({ message: 'Sucsessfully Verifuied' })
+      res.status(200).send({ user, token: user.token })
     }
-    res.status(400).send({ message: 'Invalid link' })
+    res.status(400).send({ message: 'Invalid Link' })
+  } catch (e) {
+    next(e)
+  }
+})
+
+router.get('/users/count', auth, committeeAuth, async (req, res, next) => {
+  try {
+    const count = await User.countDocuments({})
+    res.status(200).send({ count: count })
+  } catch (e) {
+    next(e)
+  }
+})
+
+router.get('/users/committeeAuth', auth, committeeAuth, async (req, res, next) => {
+  try {
+    const users = await User.find({ activeEmail: true, activeCommttiee: false })
+    res.status(200).send(users)
+  } catch (e) {
+    next(e)
+  }
+})
+
+router.get('/users/committeeAuth/:id/:memID', auth, committeeAuth, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user) {
+      throw new Error('UserNotFound')
+    }
+    user.activeCommttiee = true
+    user.membershipID = req.params.memID
+    await user.save()
+    res.status(200).send()
   } catch (e) {
     next(e)
   }

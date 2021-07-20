@@ -42,12 +42,13 @@ const SignIn = (props) => {
     })
     const jsonRes = await res.json()
     if (jsonRes.token) {
-      console.log(jsonRes)
       dispatch(signIn(jsonRes))
       if (jsonRes.user.activeEmail === false || jsonRes.user.activeCommttiee === false) {
         props.history.push('/Member/CompleteProfile')
-      } else {
+      } else if (jsonRes.user.role === 'user') {
         props.history.push('/Member/Home')
+      } else if (jsonRes.user.role === 'committee' || jsonRes.user.role === 'admin') {
+        props.history.push('/Admin/Home')
       }
     } else {
       setLoading(false)

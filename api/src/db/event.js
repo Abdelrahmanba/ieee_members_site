@@ -25,15 +25,8 @@ const eventSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
-    orginizers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     description: String,
-    images: [
-      {
-        image: {
-          url: String,
-        },
-      },
-    ],
+    images: [{ type: String }],
     availableTickets: {
       type: Number,
       required: true,
@@ -48,6 +41,7 @@ const eventSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    featured: String,
     nonMembers: [
       {
         name: String,

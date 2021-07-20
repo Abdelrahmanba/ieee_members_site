@@ -1,4 +1,4 @@
-@import "../../scssVariables";
+@import '../../scssVariables';
 
 .notfound {
   background-color: $primary;
@@ -55,7 +55,7 @@
   }
 
   .four-oh-four {
-    max-width: 150px;
+    width: 150px;
     height: 120px;
     text-indent: -9999px;
     margin: auto;

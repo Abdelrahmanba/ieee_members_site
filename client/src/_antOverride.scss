@@ -153,3 +153,18 @@
     }
   }
 }
+.ant-input.text-area {
+  transition: none;
+  &::placeholder {
+    color: #4e5565;
+    font-size: 14px;
+  }
+
+  &:hover {
+    border: 1px solid #d8d8d8;
+  }
+  &:focus,
+  &:active {
+    border-left: #0275a9 3px solid;
+  }
+}

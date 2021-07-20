@@ -27,6 +27,7 @@ import ResetPassword from './pages/passwordReset/resetPassword'
 import AdminHome from './pages/adminHome/adminHome'
 import AdminEvents from './pages/adminEvents/AdminEvents'
 import EventAdmin from './pages/eventAdmin/eventAdmin'
+import EditEvent from './pages/EditEvent/Editevent'
 let persistor = persistStore(store)
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
             <ProtectedRoute exact path={['/Admin/Home', '/Admin']} component={AdminHome} />
             <ProtectedRoute exact path={'/Admin/Events'} component={AdminEvents} />
             <ProtectedRoute exact path={'/Admin/Event/:id'} component={EventAdmin} />
+            <ProtectedRoute exact path={'/Admin/EditEvent/:id'} component={EditEvent} />
 
             <Route path='/api/verify-account/:id/:secret' component={EmailVerify} />
             <Route path='/api/reset-password/:id/:secret' component={ResetPassword} />

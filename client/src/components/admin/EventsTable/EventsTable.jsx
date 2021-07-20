@@ -6,7 +6,6 @@ import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import AddEvent from '../addEvent/addevent'
-import EditEvent from '../EditEvent/Editevent'
 
 const EventsTable = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
@@ -110,16 +109,17 @@ const EventsTable = () => {
 
   const onSelectChange = (selectedRowKeys) => {
     setSelectedRowKeys(selectedRowKeys)
+    console.log(selectedRowKeys)
   }
   const rowSelection = {
     selectedRowKeys,
+
     onChange: onSelectChange,
   }
 
   return (
     <>
       <AddEvent visible={visible} setVisible={setVisible} />
-      <EditEvent visible={visible} setVisible={setVisible} />
 
       <div className='btn-grp'>
         <Button type='primary' onClick={addEvent} loading={loading} icon={<PlusOutlined />}>
@@ -144,7 +144,7 @@ const EventsTable = () => {
           </Button>
         </Popconfirm>
         <Button
-          onClick={EditEvent}
+          onClick={() => history.push('/Admin/EditEvent/' + selectedRowKeys[0])}
           loading={loading}
           icon={<EditOutlined />}
           disabled={selectedRowKeys.length > 1 || selectedRowKeys.length === 0}

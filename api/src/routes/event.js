@@ -7,6 +7,7 @@ const express = require('express')
 const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
+var mongoXlsx = require('mongo-xlsx')
 
 const tempPath = path.join('uploads', 'temp')
 
@@ -225,5 +226,27 @@ router.get(
 )
 
 router.use('/uploads', express.static('./uploads'))
+
+router.get('/event/xlsx/:id', auth, committeeAuth, adminAuth, async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const event = await Event.findById(id).populate('participants')
+    if (!event) {
+      throw new Error('EventNotFound')
+    }
+
+    const model = [
+      { displayName: 'firstName', access: 'firstName', type: 'string' },
+      { displayName: 'lastName', access: 'lastName', type: 'string' },
+      { displayName: 'phoneNo', access: 'phoneNo', type: 'string' },
+    ]
+    console.log(event.participants)
+    mongoXlsx.mongoData2Xlsx(event.participants, model, function (err, data) {})
+    res.send()
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
 
 module.exports = router

@@ -11,8 +11,8 @@ import {
   message,
 } from 'antd'
 import { useEffect, useState } from 'react'
-import Textfield from '../../textfield/textfield'
-import Form from '../../form/form'
+import Textfield from '../../components/textfield/textfield'
+import Form from '../../components/form/form'
 import { UploadOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 const { TextArea } = Input

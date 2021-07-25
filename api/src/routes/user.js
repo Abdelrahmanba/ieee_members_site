@@ -427,5 +427,26 @@ router.post('/users/update-by-admin/:id/', auth, committeeAuth, async (req, res,
     next(e)
   }
 })
+router.post('/users/addPoints/multi/', auth, committeeAuth, (req, res, next) => {
+  try {
+    const { selected, amount, title } = req.body
+    if (!/^-?\d+$/.test(amount)) {
+      throw new Error('ValidationError')
+    }
+    selected.forEach(async (v) => {
+      const user = await User.findById(v.id)
+      if (!user) {
+        throw new Error('UserNotFound')
+      }
+      user.pointsHistory = user.pointsHistory.concat({ amount: parseInt(amount), title })
+      user.points = user.points + parseInt(amount)
+
+      await user.save()
+    })
+    res.status(200).send()
+  } catch (e) {
+    next(e)
+  }
+})
 
 module.exports = router

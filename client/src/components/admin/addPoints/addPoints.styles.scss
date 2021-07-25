@@ -1,0 +1,11 @@
+.mentions {
+  display: flex;
+  width: 90%;
+  padding: 20px 0;
+  flex-wrap: wrap;
+  overflow: scroll;
+  max-height: 300px;
+  .tag {
+    margin: 5px;
+  }
+}

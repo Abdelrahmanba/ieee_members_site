@@ -1,31 +1,20 @@
 import './adminPoints.styles.scss'
+
 import React, { useState } from 'react'
-import { AutoComplete } from 'antd'
-import Textfield from '../../components/textfield/textfield'
+
 import PointsTable from '../../components/pointsTable/pointsTable'
 
+import AddPoints from '../../components/admin/addPoints/addPoints'
+
 const AdminPoints = () => {
-  const [amount, setAmount] = useState('')
-  const [title, setTitle] = useState('')
+  const [reload, setReload] = useState(false)
 
   return (
     <div className='body'>
       <h1 className='title'>Credit Members</h1>
-      <Textfield
-        text='Title'
-        placeholder='Ex:10 points for participating in ...'
-        name='title'
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <Textfield
-        text='Amount'
-        name='amount'
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-      />
+      <AddPoints reload={reload} setReload={setReload} />
       <h1 className='title'>Points Table</h1>
-      <PointsTable />
+      <PointsTable reload={reload} setReload={setReload} />
     </div>
   )
 }

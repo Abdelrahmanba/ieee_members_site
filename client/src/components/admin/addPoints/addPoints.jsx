@@ -1,0 +1,135 @@
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import Textfield from '../../textfield/textfield'
+import { Mentions, Button, Tag, message } from 'antd'
+import './addPoints.styles.scss'
+const { Option } = Mentions
+
+const AddPoints = ({ reload, setReload }) => {
+  const [users, setUsers] = useState([])
+  const [selected, setSelected] = useState([])
+  const [mentionValue, setMentionValue] = useState('')
+  const [amount, setAmount] = useState('')
+  const [title, setTitle] = useState('')
+  const [prefix, setPrefix] = useState('')
+  const [loading, setloading] = useState(false)
+
+  const token = useSelector((state) => state.user.token)
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(process.env.REACT_APP_API_URL + '/users/all/', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      const resJosn = await res.json()
+      if (res.ok) {
+        setUsers(
+          resJosn.map(({ _id, firstName, lastName, email, membershipID }) => ({
+            _id: _id,
+            name: firstName + ' ' + lastName,
+            email,
+            membershipID,
+          }))
+        )
+      }
+    }
+    fetchData()
+  }, [])
+
+  const creditMembers = async () => {
+    setloading(true)
+    const res = await fetch(process.env.REACT_APP_API_URL + '/users/addPoints/multi', {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selected, amount, title }),
+    })
+    if (res.ok) {
+      message.success('Added Successfuly')
+      setReload((reload) => !reload)
+    } else {
+      message.error('Something Went Wrong!')
+    }
+    setloading(false)
+  }
+  return (
+    <>
+      <Textfield
+        text='Title'
+        placeholder='Ex:10 points for participating in ...'
+        name='title'
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      <Textfield
+        text='Amount'
+        name='amount'
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+      />
+      <Mentions
+        autoSize
+        style={{ width: '90%' }}
+        onSearch={(_, prefix) => setPrefix(prefix)}
+        prefix={['@', '#']}
+        value={mentionValue}
+        filterOption={(t, e) => {
+          return (
+            e.children.toLowerCase().includes(t.toLowerCase()) &&
+            !selected.find((v) => v.id === e.value)
+          )
+        }}
+        onChange={(e) => setMentionValue(e)}
+        placeholder='input @ to mention By Email, # to mention By Name'
+        onSelect={(option) => {
+          setMentionValue('')
+          setSelected((selected) => selected.concat({ id: option.value, name: option.children }))
+        }}
+      >
+        {prefix === '@'
+          ? users.map((user, index) => (
+              <Option value={user._id} key={index}>
+                {user.email}
+              </Option>
+            ))
+          : users.map((user, index) => (
+              <Option value={user._id} key={index}>
+                {user.name}
+              </Option>
+            ))}
+      </Mentions>
+      <div className='mentions'>
+        {selected.map((v, index) => (
+          <Tag
+            className='tag'
+            closable
+            color='blue'
+            key={index}
+            value={v.id}
+            onClose={(e) => {
+              const value = e.currentTarget.parentNode.getAttribute('value')
+              e.preventDefault()
+              setSelected((selected) => selected.filter((v) => v.id != value))
+            }}
+          >
+            {v.name}
+          </Tag>
+        ))}
+      </div>
+
+      <Button
+        type='primary'
+        loading={loading}
+        onClick={() => creditMembers()}
+        style={{ width: '90%', marginBottom: 20 }}
+      >
+        Add Points
+      </Button>
+    </>
+  )
+}
+
+export default AddPoints

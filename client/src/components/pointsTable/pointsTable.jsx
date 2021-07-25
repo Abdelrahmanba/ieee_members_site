@@ -8,12 +8,9 @@ import { editModal, viewModal } from './adminPointsModals/adminPointsModal'
 import React from 'react'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
-const PointsTable = () => {
+const PointsTable = ({ reload, setReload }) => {
   const [users, setUsers] = useState([])
-  const [reload, setReload] = useState(false)
-
   const [loading, setLoading] = useState(false)
-
   const [recordView, setRecordView] = useState(undefined)
   const [recordEdit, setRecordEdit] = useState(undefined)
 

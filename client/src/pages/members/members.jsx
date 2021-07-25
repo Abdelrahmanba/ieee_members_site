@@ -1,5 +1,3 @@
-import Header from '../../components/header/emptyHeader'
-import UserHeaderSections from '../../components/header/userMenus/userMenuSections'
 import UserCard from '../../components/userCard/userCard'
 import './members.scss'
 import { useEffect, useState } from 'react'
@@ -42,9 +40,6 @@ const Members = () => {
 
   return (
     <>
-      <Header>
-        <UserHeaderSections />
-      </Header>
       <div className='users__body'>
         <h1 className='user__title'>Our Enthusiastic Team</h1>
         {committee.map((user, index) => (

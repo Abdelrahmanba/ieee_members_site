@@ -1,25 +1,15 @@
-import {
-  Modal,
-  Slider,
-  InputNumber,
-  DatePicker,
-  Button,
-  Input,
-  Select,
-  Upload,
-  Switch,
-  message,
-} from 'antd'
-import { useEffect, useState } from 'react'
-import Textfield from '../../components/textfield/textfield'
-import Form from '../../components/form/form'
-import { UploadOutlined } from '@ant-design/icons'
+import { InputNumber, message, Slider, Spin, DatePicker, Switch, Button, Breadcrumb } from 'antd'
+import TextArea from 'antd/lib/input/TextArea'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-const { TextArea } = Input
-const { Option } = Select
+import { useHistory, useParams } from 'react-router'
+import Textfield from '../../components/textfield/textfield'
+import moment from 'moment'
+import { Link } from 'react-router-dom'
 const { RangePicker } = DatePicker
 
-const EditEvent = ({ visible, setVisible, id }) => {
+const EditEvent = () => {
+  const history = useHistory()
   const token = useSelector((state) => state.user.token)
   const [title, setTitle] = useState('')
   const [duration, setDuration] = useState('')
@@ -27,16 +17,36 @@ const EditEvent = ({ visible, setVisible, id }) => {
   const [location, setLocation] = useState('')
   const [link, setLink] = useState('')
   const [description, setDescription] = useState('')
-  const [featured, setFeatured] = useState('')
   const [availableTickets, setAvailableTickets] = useState(50)
   const [date, setDate] = useState(null)
-  const [society, setSociety] = useState('wie')
   const [nonMembers, setNonMembers] = useState(true)
-  const [imageList, setImageList] = useState([])
-
+  const [loading, setLoading] = useState(true)
+  const { id } = useParams()
   const [confirmLoading, setConfirmLoading] = useState(false)
 
-  const handleAdd = async () => {
+  useEffect(() => {
+    const fetchEventData = async () => {
+      const eventData = await fetch(process.env.REACT_APP_API_URL + '/event/' + id)
+      if (eventData.ok) {
+        const event = await eventData.json()
+        setTitle(event.title)
+        setDuration(event.duration)
+        setPrice(event.price)
+        setLocation(event.location)
+        setLink(event.link)
+        setDescription(event.description)
+        setAvailableTickets(event.availableTickets)
+        setDate([new moment(event.startDate), new moment(event.endDate)])
+        setNonMembers(event.allowNonMembers)
+      } else {
+        message.error('Something Went Worng')
+      }
+      setLoading(false)
+    }
+    fetchEventData()
+  }, [])
+
+  const HandleUpdate = async () => {
     if (title === 'null') {
       message.error('Please Provide Title.')
       return
@@ -48,7 +58,7 @@ const EditEvent = ({ visible, setVisible, id }) => {
 
     setConfirmLoading(true)
 
-    const res = await fetch(process.env.REACT_APP_API_URL + '/event/', {
+    const res = await fetch(process.env.REACT_APP_API_URL + '/event/' + id, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -61,17 +71,14 @@ const EditEvent = ({ visible, setVisible, id }) => {
         location,
         link,
         description,
-        featured,
         availableTickets,
-        society,
         allowNonMembers: nonMembers,
-        images: imageList,
         startDate: date[0].toDate(),
         endDate: date[1].toDate(),
       }),
     })
     if (res.ok) {
-      setVisible(false)
+      history.push('/Admin/Events')
     } else {
       message.error('Something went wrong.')
     }
@@ -79,80 +86,46 @@ const EditEvent = ({ visible, setVisible, id }) => {
     setConfirmLoading(false)
   }
 
-  const onFeaturedRemove = async (file) => {
-    const url = process.env.REACT_APP_API_URL + '/event/deleteImage/Featured' + file.uid
-    const res = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    })
-    if (res.ok) {
-      setFeatured('')
-    }
-  }
-
-  const onRemove = async (file) => {
-    const res = await fetch(process.env.REACT_APP_API_URL + '/event/deleteImage/' + file.uid, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    })
-    if (res.ok) {
-      setImageList((list) => list.filter((img) => img !== file.uid))
-    }
-  }
-
   return (
     <>
-      <Modal
-        title='Add Event'
-        visible={visible}
-        confirmLoading={confirmLoading}
-        className='add-event'
-        width='80vw'
-        footer={null}
-        onCancel={() => setVisible(false)}
-      >
-        <Form type='POST'>
+      <Spin spinning={loading}>
+        <div className='body'>
+          <h1 className='title'>Edit Event</h1>
           <Textfield
+            name='title'
             type='text'
             text='Title'
-            name='title'
-            value={title}
             onChange={(e) => setTitle(e.target.value)}
+            value={title}
           />
           <Textfield
+            name='duration'
             type='text'
             text='Duration'
-            name='duration'
-            value={duration}
             onChange={(e) => setDuration(e.target.value)}
+            value={duration}
           />
           <Textfield
+            name='price'
             type='text'
             text='Price'
-            name='price'
-            value={price}
             onChange={(e) => setPrice(e.target.value)}
+            value={price}
           />
           <Textfield
+            name='location'
             type='text'
             text='Location'
-            name='location'
-            value={location}
             onChange={(e) => setLocation(e.target.value)}
+            value={location}
           />
           <Textfield
+            name='link'
             type='text'
             text='Link'
-            name='link'
-            placeholder='Optional'
-            value={link}
             onChange={(e) => setLink(e.target.value)}
+            value={link}
           />
-
           <TextArea
             rows={4}
             className='text-area'
@@ -160,31 +133,6 @@ const EditEvent = ({ visible, setVisible, id }) => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          <div className='form-row'>
-            <label>Featured Image</label>
-            <Upload
-              action={process.env.REACT_APP_API_URL + '/event/uploadeImages'}
-              listType='picture'
-              className='upload-list-inline'
-              maxCount='1'
-              name='upload'
-              accept='image/*'
-              headers={{
-                Authorization: 'Bearer ' + token,
-              }}
-              data={(file) => {
-                setFeatured((list) => list.concat('Featured' + file.uid))
-                return {
-                  uid: 'Featured' + file.uid,
-                }
-              }}
-              onRemove={onFeaturedRemove}
-            >
-              <Button className='upload' icon={<UploadOutlined />}>
-                Upload
-              </Button>
-            </Upload>
-          </div>
           <div className='form-row'>
             <label>Available Tickets</label>
             <Slider
@@ -217,54 +165,19 @@ const EditEvent = ({ visible, setVisible, id }) => {
             />
           </div>
           <div className='form-row'>
-            <label>Society</label>
-            <Select defaultValue={society} className='select' onChange={(e) => setSociety(e)}>
-              <Option value='wie'>Wie</Option>
-              <Option value='computer'>Computer</Option>
-              <Option value='pes'>PES</Option>
-              <Option value='ras'>RAS</Option>
-            </Select>
-          </div>
-          <div className='form-row'>
             <label>Allow Non Members to Register</label>
             <Switch
-              defaultChecked
               onChange={(e) => {
                 setNonMembers(e)
               }}
+              checked={nonMembers}
             />
           </div>
-          <div className='form-row'>
-            <label className='optional'>Images Gallery</label>
-            <Upload
-              action={process.env.REACT_APP_API_URL + '/event/uploadeImages'}
-              listType='picture'
-              className='upload-list-inline'
-              maxCount='5'
-              name='upload'
-              accept='image/*'
-              headers={{
-                Authorization: 'Bearer ' + token,
-              }}
-              data={(file) => {
-                setImageList((list) => list.concat(file.uid))
-                return {
-                  uid: file.uid,
-                }
-              }}
-              onRemove={onRemove}
-            >
-              <Button className='upload' icon={<UploadOutlined />}>
-                Upload
-              </Button>
-            </Upload>
-          </div>
-
-          <Button block type='primary' onClick={handleAdd}>
-            Add Event
+          <Button block type='primary' onClick={HandleUpdate} loading={confirmLoading}>
+            Save Changes
           </Button>
-        </Form>
-      </Modal>
+        </div>
+      </Spin>
     </>
   )
 }

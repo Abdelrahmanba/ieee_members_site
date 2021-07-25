@@ -35,7 +35,7 @@ const AdminMenuSections = ({ visible }) => {
             extraClass={'menu-list user-list'}
           />
           <HeaderItem
-            location={'/Member/Members'}
+            location={'/Admin/Users'}
             text={
               <Tooltip placement='bottom' title={'Members'}>
                 <TeamOutlined style={{ fontSize: '24px' }} />
@@ -44,7 +44,7 @@ const AdminMenuSections = ({ visible }) => {
             extraClass={'menu-list user-list'}
           />
           <HeaderItem
-            location={'/Member/Points'}
+            location={'/Admin/Points'}
             text={
               <Tooltip placement='bottom' title={'Points'}>
                 <TrophyOutlined style={{ fontSize: '24px' }} />
@@ -57,19 +57,10 @@ const AdminMenuSections = ({ visible }) => {
       <ul className='header__menu header__user__menu header__menu--user'>
         <Space size={20}>
           <HeaderItem
-            location={'/Member/profile'}
+            location={'/Member/Home'}
             text={
               <Tooltip placement='bottom' title={'Switch To User Panel'}>
                 <UserSwitchOutlined style={{ fontSize: '24px' }} />
-              </Tooltip>
-            }
-            extraClass={'menu-list user-list'}
-          />
-          <HeaderItem
-            location={'/Member/settings'}
-            text={
-              <Tooltip placement='bottom' title={'Settings'}>
-                <SettingOutlined style={{ fontSize: '24px' }} />
               </Tooltip>
             }
             extraClass={'menu-list user-list'}

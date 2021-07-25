@@ -71,15 +71,23 @@ const EventsTable = () => {
       render: function (text, record) {
         return (
           <div>
-            <Button onClick={() => history.push('/admin/event/' + text.key)}>
-              View Statistics
+            <Button type='text' onClick={() => history.push('/admin/event/Statistics/' + text.key)}>
+              Statistics
             </Button>
-            <Button onClick={() => {}}>Edit Event</Button>
-            <Button onClick={() => history.push('/event/' + text.key)}>View Event</Button>
+            <Button
+              type='text'
+              icon={<EditOutlined />}
+              onClick={() => history.push('/Admin/EditEvent/' + text.key)}
+            >
+              Edit
+            </Button>
+            <Button type='text' onClick={() => history.push('/event/' + text.key)}>
+              View
+            </Button>
           </div>
         )
       },
-      width: '30%',
+      width: '35%',
     },
   ]
 
@@ -109,7 +117,6 @@ const EventsTable = () => {
 
   const onSelectChange = (selectedRowKeys) => {
     setSelectedRowKeys(selectedRowKeys)
-    console.log(selectedRowKeys)
   }
   const rowSelection = {
     selectedRowKeys,
@@ -120,12 +127,10 @@ const EventsTable = () => {
   return (
     <>
       <AddEvent visible={visible} setVisible={setVisible} />
-
       <div className='btn-grp'>
         <Button type='primary' onClick={addEvent} loading={loading} icon={<PlusOutlined />}>
           Add Event
         </Button>
-
         <Popconfirm
           title='Are you sure to delete the Selected Events?'
           onConfirm={deleteEvent}
@@ -143,14 +148,6 @@ const EventsTable = () => {
             Remove Selected
           </Button>
         </Popconfirm>
-        <Button
-          onClick={() => history.push('/Admin/EditEvent/' + selectedRowKeys[0])}
-          loading={loading}
-          icon={<EditOutlined />}
-          disabled={selectedRowKeys.length > 1 || selectedRowKeys.length === 0}
-        >
-          Edit Event
-        </Button>
         <span style={{ marginLeft: 8 }}>
           {selectedRowKeys.length > 0 ? `Selected ${selectedRowKeys.length} items` : ''}
         </span>

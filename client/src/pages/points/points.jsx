@@ -1,6 +1,4 @@
 import './points.styles.scss'
-import Header from '../../components/header/emptyHeader'
-import UserHeaderSections from '../../components/header/userMenus/userMenuSections'
 import { List } from 'antd'
 import UserCard from '../../components/userCard/userCard'
 import { ReactComponent as Trophy } from '../../assets/trophy.svg'
@@ -28,9 +26,6 @@ const Points = () => {
   ]
   return (
     <>
-      <Header>
-        <UserHeaderSections />
-      </Header>
       <div className='body'>
         <h1 className='header-text'>
           <span className='highlight-container'>

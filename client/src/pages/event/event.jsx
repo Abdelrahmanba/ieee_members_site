@@ -211,7 +211,7 @@ const Event = () => {
           <>
             <p className='text'>{seats} seats left.</p>
             {event.participants &&
-            event.participants.filter((part) => part === user.user._id).length > 0 ? (
+            event.participants.filter((part) => part.user === user.user._id).length > 0 ? (
               <Button
                 type='danger'
                 onClick={removeHandle}

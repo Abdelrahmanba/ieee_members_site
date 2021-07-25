@@ -1,10 +1,11 @@
 const express = require('express')
 const User = require('../db/user')
-const auth = require('../middlewares/auth')
 const limiter = require('express-rate-limit')
 const validator = require('validator')
 const bcrypt = require('bcrypt')
+const auth = require('../middlewares/auth')
 const committeeAuth = require('../middlewares/committeeAuth')
+const adminAuth = require('../middlewares/adminAuth')
 
 const createLimit = limiter({
   windowMs: 24 * 60 * 60 * 1000, // 24 hrs in milliseconds
@@ -38,6 +39,8 @@ router.post('/users', createLimit, async (req, res, next) => {
     await user.sendVerifcationEmail()
     res.status(201).send({ user, token })
   } catch (e) {
+    console.log(e)
+
     next(e)
   }
 })
@@ -160,7 +163,6 @@ router.post('/users/update', auth, async (req, res, next) => {
     const user = await req.user.save()
     res.status(200).send(user)
   } catch (e) {
-    console.log(e)
     next(e)
   }
 })
@@ -210,6 +212,43 @@ router.get('/user/:id', async (req, res, next) => {
     delete user.secretCode
     delete user.active
     res.status(200).send(user)
+  } catch (e) {
+    next(e)
+  }
+})
+router.get('/users/all/points', auth, committeeAuth, async (req, res, next) => {
+  try {
+    const users = await User.find({})
+    const usersData = users.map((user) => ({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      membershipID: user.membershipID,
+      points: user.points,
+      pointsHistory: user.pointsHistory,
+    }))
+    res.status(200).send(usersData)
+  } catch (e) {
+    next(e)
+  }
+})
+router.get('/users/all/', auth, committeeAuth, adminAuth, async (req, res, next) => {
+  try {
+    const users = await User.find({})
+    const usersData = users.map((user) => ({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      membershipID: user.membershipID,
+      position: user.position,
+      points: user.points,
+      activeEmail: user.activeEmail,
+      activeCommttiee: user.activeCommttiee,
+      role: user.role,
+    }))
+    res.status(200).send(usersData)
   } catch (e) {
     next(e)
   }
@@ -315,8 +354,11 @@ router.post('/api/reset-password/:userId/:secretCode', async (req, res, next) =>
 
 router.get('/users/count', auth, committeeAuth, async (req, res, next) => {
   try {
-    const count = await User.countDocuments({})
-    res.status(200).send({ count: count })
+    const countActive = await User.countDocuments({ activeCommttiee: true })
+    const countAll = await User.countDocuments({})
+    const countWaiting = await User.countDocuments({ activeEmail: true, activeCommttiee: false })
+
+    res.status(200).send({ countAll, countActive, countWaiting })
   } catch (e) {
     next(e)
   }
@@ -340,6 +382,46 @@ router.get('/users/committeeAuth/:id/:memID', auth, committeeAuth, async (req, r
     user.activeCommttiee = true
     user.membershipID = req.params.memID
     await user.save()
+    res.status(200).send()
+  } catch (e) {
+    next(e)
+  }
+})
+
+router.post('/users/update-by-admin/:id/', auth, committeeAuth, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user) {
+      throw new Error('UserNotFound')
+    }
+    if (req.body.active != undefined) {
+      user.activeCommttiee = req.body.active
+    }
+    if (req.body.position) {
+      user.position = req.body.position
+    }
+    if (req.body.membershipID) {
+      user.membershipID = req.body.membershipID
+    }
+    if (req.body.role) {
+      user.role = req.body.role
+    }
+    if (req.body.pointsHistory) {
+      user.pointsHistory = user.pointsHistory.concat(req.body.pointsHistory)
+      user.points = user.points + parseInt(req.body.pointsHistory.amount)
+      await user.save()
+      res.status(200).send(user.pointsHistory)
+    }
+    if (req.body.removeHistory) {
+      user.pointsHistory = user.pointsHistory.filter(
+        (v) => v._id.toString() !== req.body.removeHistory._id
+      )
+      user.points = user.points - parseInt(req.body.removeHistory.amount)
+      await user.save()
+      res.status(200).send(user.pointsHistory)
+    }
+    await user.save()
+
     res.status(200).send()
   } catch (e) {
     next(e)

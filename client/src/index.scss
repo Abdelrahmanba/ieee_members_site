@@ -1,3 +1,4 @@
+@import './scssVariables';
 @font-face {
   font-family: 'Proxima Nova Rg';
   src: local('Proxima Nova Rg'), url(./assets/ProximaNova-Regular.otf) format('truetype');
@@ -36,9 +37,7 @@ supported by Chrome, Edge, Opera and Firefox */
   align-items: center;
   background-color: #fff;
   // min-height: 80vh;
-  margin: 0 auto 20px;
-  position: relative;
-  top: 150px;
+  margin: 20px auto 20px;
   padding: 20px;
 }
 @media only screen and (max-width: 400px) {
@@ -140,4 +139,10 @@ supported by Chrome, Edge, Opera and Firefox */
     margin: 20px 0;
     font-size: 32px;
   }
+}
+
+.sub-title {
+  color: $primary-text;
+  font-size: 20px;
+  padding-bottom: 20px;
 }

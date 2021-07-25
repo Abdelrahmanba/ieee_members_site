@@ -1,6 +1,4 @@
 import { Image, Avatar, Spin } from 'antd'
-import Header from '../../components/header/emptyHeader'
-import UserHeaderSections from '../../components/header/userMenus/userMenuSections'
 import './profile.styles.scss'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -34,10 +32,6 @@ const Profile = () => {
 
   return (
     <>
-      <Header>
-        <UserHeaderSections />
-      </Header>
-
       <Spin spinning={loading} indicator={spinner}>
         <div className='body profile'>
           {user.imageData ? (

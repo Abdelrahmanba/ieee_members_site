@@ -39,7 +39,6 @@ const HomePage = () => {
   return (
     <>
       <ScrollingProvider offset={-30}>
-        <PublicHeader />
         <Hero />
         <HomeSection titlePr='About' inverted titleSc='Us' id='about'>
           <Container>

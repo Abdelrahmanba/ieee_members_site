@@ -1,12 +1,12 @@
 .header {
   z-index: 999;
   display: flex;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
   justify-content: space-between;
-  font-family: "Proxima Nova Rg", sans-serif;
+  font-family: 'Proxima Nova Rg', sans-serif;
   font-size: 20px;
   align-items: center;
   padding: 7px 15px;
@@ -23,7 +23,7 @@
 
 @media (min-width: 1160px) {
   .header {
-    position: fixed;
+    position: sticky;
     -webkit-box-shadow: none;
     box-shadow: none;
     padding: 0px 4%;

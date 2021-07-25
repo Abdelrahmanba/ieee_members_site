@@ -1,5 +1,3 @@
-import Header from '../../components/header/emptyHeader'
-import UserHeaderSections from '../../components/header/userMenus/userMenuSections'
 import { Spin, Button, message } from 'antd'
 import { LoadingOutlined, CloudUploadOutlined } from '@ant-design/icons'
 
@@ -47,9 +45,6 @@ class Settings extends React.Component {
     const { user } = this.props
     return (
       <>
-        <Header>
-          <UserHeaderSections />
-        </Header>
         <Spin spinning={this.state.loading} indicator={spinner}>
           <div className='body'>
             <SettingsSection title='Avatar'>

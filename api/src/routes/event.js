@@ -8,6 +8,7 @@ const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
 var mongoXlsx = require('mongo-xlsx')
+const { findById } = require('../db/event')
 
 const tempPath = path.join('uploads', 'temp')
 
@@ -21,7 +22,7 @@ const uploadImgs = multer({
 
 router.get('/event/:id', async (req, res, next) => {
   try {
-    const event = await Event.findById(req.params.id).populate('orginizers')
+    const event = await Event.findById(req.params.id)
     if (!event) {
       throw new Error('EventNotFound')
     }
@@ -119,6 +120,43 @@ router.post('/event/', auth, committeeAuth, async (req, res, next) => {
     next(e)
   }
 })
+
+router.post('/event/:id', auth, committeeAuth, async (req, res, next) => {
+  try {
+    const eventInfo = (({
+      body: {
+        title,
+        duration,
+        startDate,
+        endDate,
+        availableTickets,
+        location,
+        price,
+        description,
+        link,
+        allowNonMembers,
+      },
+    }) => ({
+      title,
+      duration,
+      startDate,
+      endDate,
+      availableTickets,
+      location,
+      price,
+      description,
+      link,
+      allowNonMembers,
+    }))(req)
+
+    await Event.findByIdAndUpdate(req.params.id, eventInfo)
+
+    res.status(200).send()
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
 router.post('/event/add_nonMembers/:id', async (req, res, next) => {
   try {
     const info = (({ body: { name, phone, year, email } }) => ({
@@ -135,6 +173,7 @@ router.post('/event/add_nonMembers/:id', async (req, res, next) => {
     if (!event) {
       throw new Error('EventNotFound')
     }
+    info.date = Date.now()
     event.nonMembers = event.nonMembers.concat(info)
     await event.save()
     res.status(200).send({ title: 'Thank You', message: 'Your request has been registered.' })
@@ -150,7 +189,7 @@ router.get('/event/add_participants/:eventId/', auth, async (req, res, next) => 
     if (!event) {
       throw new Error('EventNotFound')
     }
-    event.participants = event.participants.concat(user._id)
+    event.participants = event.participants.concat({ user: user._id, date: Date.now() })
     user.eventsParticipatedIn = user.eventsParticipatedIn.concat(event._id)
     await user.save()
     await event.save()
@@ -168,7 +207,7 @@ router.get('/event/remove_participants/:eventId/', auth, async (req, res, next) 
       throw new Error('EventNotFound')
     }
 
-    event.participants = event.participants.filter((id) => id != user._id.toString())
+    event.participants = event.participants.filter((v) => v.user != user._id.toString())
     user.eventsParticipatedIn = user.eventsParticipatedIn.filter((id) => id != event._id.toString())
 
     await user.save()
@@ -209,6 +248,17 @@ router.post(
     }
   }
 )
+router.get('/event/data/:id', auth, committeeAuth, async (req, res, next) => {
+  try {
+    const { participants, nonMembers, availableTickets, title } = await Event.findById(
+      req.params.id
+    ).populate(['participants.user', 'nonMembers'])
+    res.send({ participants, nonMembers, availableTickets, title })
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
 router.get(
   '/event/deleteImage/:name',
   auth,
@@ -230,7 +280,7 @@ router.use('/uploads', express.static('./uploads'))
 router.get('/event/xlsx/:id', auth, committeeAuth, adminAuth, async (req, res, next) => {
   try {
     const { id } = req.params
-    const event = await Event.findById(id).populate('participants')
+    const event = await Event.findById(id).populate('participants.user')
     if (!event) {
       throw new Error('EventNotFound')
     }

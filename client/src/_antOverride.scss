@@ -4,6 +4,24 @@
   width: 100%;
 }
 
+.form-row {
+  margin: 20px 0;
+  display: flex;
+  width: 90%;
+  align-items: center;
+  justify-content: space-between;
+
+  label {
+    margin-right: 20px;
+  }
+  .slider {
+    width: 80%;
+  }
+}
+.ant-modal-confirm-body-wrapper {
+  width: 100%;
+}
+
 .ant-modal-header {
   .ant-modal-title {
     color: white;
@@ -22,7 +40,10 @@
   padding-bottom: 15px;
   border: none;
 }
-
+textarea.text-area.ant-input {
+  width: 90%;
+  margin: 0 -1px;
+}
 .ant-btn-primary {
   color: #fff;
   border: solid 1px $primary;

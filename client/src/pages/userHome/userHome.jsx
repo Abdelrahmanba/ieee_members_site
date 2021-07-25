@@ -1,15 +1,7 @@
-import "./userHome.styles.scss"
-import Header from "../../components/header/emptyHeader"
-import UserHeaderSections from "../../components/header/userMenus/userMenuSections"
+import './userHome.styles.scss'
 
 const UserHome = () => {
-  return (
-    <>
-      <Header>
-        <UserHeaderSections />
-      </Header>
-    </>
-  )
+  return <></>
 }
 
 export default UserHome

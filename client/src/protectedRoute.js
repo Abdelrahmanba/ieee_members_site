@@ -12,10 +12,8 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
       render={(props) => {
         if (user.token) {
           if (
-            (user.user.activeEmail === false &&
-              props.location.pathname !== '/Member/CompleteProfile') ||
-            (user.user.activeCommttiee === false &&
-              props.location.pathname !== '/Member/CompleteProfile')
+            (user.user.activeEmail === false && props.location.pathname !== '/CompleteProfile') ||
+            (user.user.activeCommttiee === false && props.location.pathname !== '/CompleteProfile')
           ) {
             return (
               <Redirect

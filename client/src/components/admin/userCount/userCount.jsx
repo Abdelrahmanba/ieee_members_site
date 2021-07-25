@@ -1,9 +1,9 @@
 import { Statistic } from 'antd'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-
+import './userCount.styles.scss'
 const UserCount = () => {
-  const [userCount, setUserCount] = useState(0)
+  const [userCount, setUserCount] = useState({ countAll: 0, countActive: 0, countWaiting: 0 })
   const token = useSelector((state) => state.user.token)
 
   useEffect(() => {
@@ -16,13 +16,19 @@ const UserCount = () => {
       })
       const resJosn = await res.json()
       if (res.ok) {
-        setUserCount(resJosn.count)
+        setUserCount(resJosn)
       }
     }
     fetchData()
   }, [])
 
-  return <Statistic title='Active Users' value={userCount} />
+  return (
+    <div className='count-admin'>
+      <Statistic title='All Members' value={userCount.countAll} />
+      <Statistic title='Active Members' value={userCount.countActive} />
+      <Statistic title='Waiting Members' value={userCount.countWaiting} />
+    </div>
+  )
 }
 
 export default UserCount

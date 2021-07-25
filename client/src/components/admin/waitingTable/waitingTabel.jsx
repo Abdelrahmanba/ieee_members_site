@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import Textfield from '../../textfield/textfield'
 import Form from '../../form/form'
+import { LoadingOutlined } from '@ant-design/icons'
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const WaitingTable = () => {
   const token = useSelector((state) => state.user.token)
@@ -106,7 +108,13 @@ const WaitingTable = () => {
           </Form>
         </Modal>
         <h1 className='admin-title'>Waiting Members</h1>
-        <Table columns={columns} dataSource={users} className='table' bordered loading={loading} />
+        <Table
+          columns={columns}
+          dataSource={users}
+          className='table'
+          bordered
+          loading={{ indicator: antIcon, spinning: loading }}
+        />
       </div>
     </>
   )

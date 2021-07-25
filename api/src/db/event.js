@@ -31,7 +31,14 @@ const eventSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    participants: [
+      {
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        date: {
+          type: Date,
+        },
+      },
+    ],
     price: {
       type: Number,
       required: true,
@@ -48,6 +55,7 @@ const eventSchema = mongoose.Schema(
         email: String,
         year: String,
         phone: String,
+        date: Date,
       },
     ],
     link: {

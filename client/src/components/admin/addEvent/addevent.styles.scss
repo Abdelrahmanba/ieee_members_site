@@ -1,18 +1,4 @@
 .add-event {
-  .form-row {
-    margin: 20px 0;
-    display: flex;
-    width: 90%;
-    align-items: center;
-    justify-content: space-between;
-
-    label {
-      margin-right: 20px;
-    }
-    .slider {
-      width: 80%;
-    }
-  }
   .optional::after {
     content: '(Optional)';
     opacity: 0.6;
@@ -33,10 +19,7 @@
   .ant-upload-list.ant-upload-list-picture {
     display: flex;
   }
-  .text-area {
-    width: 90%;
-    margin: 0 -1px;
-  }
+
   .select {
     width: 100%;
   }

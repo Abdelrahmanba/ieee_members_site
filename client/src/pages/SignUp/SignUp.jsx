@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { Button, Alert } from 'antd'
 import Textfield from '../../components/textfield/textfield'
 import Form from '../../components/form/form'
-import PublicHeader from '../../components/header/publicHeader'
 import { ReactComponent as Particels } from '../../assets/paricles.svg'
 import { useDispatch } from 'react-redux'
 import { signIn } from '../../redux/userSlice'
@@ -53,7 +52,6 @@ const SignUp = (props) => {
   }
   return (
     <>
-      <PublicHeader links={true} />
       <Particle />
       <section className='sign-up'>
         <div className='signup-box'>

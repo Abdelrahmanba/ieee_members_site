@@ -1,8 +1,8 @@
-const express = require("express")
-const userRouter = require("./routes/user")
-const eventRouter = require("./routes/event")
-const errorHandler = require("./middlewares/errorHandler.js")
-const cors = require("cors")
+const express = require('express')
+const userRouter = require('./routes/user')
+const eventRouter = require('./routes/event')
+const errorHandler = require('./middlewares/errorHandler.js')
+const cors = require('cors')
 
 const app = express()
 app.use(cors())

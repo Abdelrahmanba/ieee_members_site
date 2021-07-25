@@ -174,7 +174,7 @@ const AddEvent = ({ visible, setVisible, id }) => {
                 Authorization: 'Bearer ' + token,
               }}
               data={(file) => {
-                setFeatured((list) => list.concat('Featured' + file.uid))
+                setFeatured('Featured' + file.uid)
                 return {
                   uid: 'Featured' + file.uid,
                 }

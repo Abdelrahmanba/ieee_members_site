@@ -9,7 +9,6 @@ import { Button, Alert } from 'antd'
 import Textfield from '../../components/textfield/textfield'
 import Form from '../../components/form/form'
 import ResetPassword from '../../components/resetPassword/resetPassword'
-import PublicHeader from '../../components/header/publicHeader'
 import Particle from '../../components/Particles/particles'
 
 const SignIn = (props) => {
@@ -58,7 +57,6 @@ const SignIn = (props) => {
 
   return (
     <>
-      <PublicHeader links={true} />
       <ResetPassword visible={modalVisible} setModalVisible={setModalVisible} />
       <Particle />
       <section className='sign-in'>

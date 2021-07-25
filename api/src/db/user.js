@@ -73,9 +73,8 @@ const userSchema = mongoose.Schema({
   },
   pointsHistory: [
     {
-      historyItem: {
-        type: String,
-      },
+      title: String,
+      amount: Number,
     },
   ],
   notifications: [
@@ -119,6 +118,7 @@ userSchema.methods.toJSON = function () {
   delete userObj.eventsVolunteeredIn
   delete userObj.pointsHistory
   delete userObj.imageData
+  delete userObj.notifications
 
   return userObj
 }

@@ -18,7 +18,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
             return (
               <Redirect
                 to={{
-                  pathname: '/Member/CompleteProfile',
+                  pathname: '/CompleteProfile',
                   state: {
                     from: props.location,
                     redirected: true,

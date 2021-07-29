@@ -3,7 +3,6 @@ import './userMenuSections.scss'
 import { Space, Tooltip } from 'antd'
 import {
   HomeOutlined,
-  SettingOutlined,
   TeamOutlined,
   CalendarOutlined,
   ExportOutlined,

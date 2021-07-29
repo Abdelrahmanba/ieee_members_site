@@ -20,7 +20,7 @@ const UserCount = () => {
       }
     }
     fetchData()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className='count-admin'>

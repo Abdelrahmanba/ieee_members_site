@@ -1,13 +1,24 @@
-import { InputNumber, message, Slider, Spin, DatePicker, Switch, Button, Breadcrumb } from 'antd'
+import {
+  InputNumber,
+  message,
+  Slider,
+  Spin,
+  DatePicker,
+  Switch,
+  Button,
+  Select,
+  Upload,
+} from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router'
 import Textfield from '../../components/textfield/textfield'
 import moment from 'moment'
-import { Link } from 'react-router-dom'
+import { UploadOutlined } from '@ant-design/icons'
 const { RangePicker } = DatePicker
 
+const { Option } = Select
 const EditEvent = () => {
   const history = useHistory()
   const token = useSelector((state) => state.user.token)
@@ -17,12 +28,15 @@ const EditEvent = () => {
   const [location, setLocation] = useState('')
   const [link, setLink] = useState('')
   const [description, setDescription] = useState('')
+  const [society, setSociety] = useState('wie')
   const [availableTickets, setAvailableTickets] = useState(50)
   const [date, setDate] = useState(null)
   const [nonMembers, setNonMembers] = useState(true)
   const [loading, setLoading] = useState(true)
   const { id } = useParams()
   const [confirmLoading, setConfirmLoading] = useState(false)
+  const [featured, setFeatured] = useState(undefined)
+  const [imageList, setImageList] = useState([])
 
   useEffect(() => {
     const fetchEventData = async () => {
@@ -36,15 +50,38 @@ const EditEvent = () => {
         setLink(event.link)
         setDescription(event.description)
         setAvailableTickets(event.availableTickets)
-        setDate([new moment(event.startDate), new moment(event.endDate)])
         setNonMembers(event.allowNonMembers)
+        setSociety(event.society)
+        if (event.featured) {
+          setFeatured([
+            {
+              type: 'old',
+              uid: event.featured.substring(0, event.featured.length - 5),
+              thumbUrl: process.env.REACT_APP_API_URL + '/uploads/' + event.featured,
+            },
+          ])
+        } else {
+          setFeatured(undefined)
+        }
+        if (event.images) {
+          setImageList(
+            event.images.map((i) => ({
+              type: 'old',
+              uid: i.substring(0, i.length - 5),
+              thumbUrl: process.env.REACT_APP_API_URL + '/uploads/' + i,
+            }))
+          )
+        } else {
+          setImageList(undefined)
+        }
+        setDate([new moment(event.startDate), new moment(event.endDate)])
       } else {
         message.error('Something Went Worng')
       }
       setLoading(false)
     }
     fetchEventData()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const HandleUpdate = async () => {
     if (title === 'null') {
@@ -55,27 +92,37 @@ const EditEvent = () => {
       message.error('Please Provide Dates.')
       return
     }
-
     setConfirmLoading(true)
 
-    const res = await fetch(process.env.REACT_APP_API_URL + '/event/' + id, {
+    const eventInfo = {
+      title,
+      duration,
+      price,
+      location,
+      link,
+      description,
+      availableTickets,
+      society,
+      featured: featured,
+      images: imageList,
+      allowNonMembers: nonMembers,
+      startDate: date[0].toDate(),
+      endDate: date[1].toDate(),
+    }
+    if (featured && featured.type) {
+      delete eventInfo.featured
+    }
+    if (imageList.length && imageList[0].type) {
+      delete eventInfo.images
+    }
+
+    const res = await fetch(process.env.REACT_APP_API_URL + '/event/update/' + id, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + token,
       },
-      body: JSON.stringify({
-        title,
-        duration,
-        price,
-        location,
-        link,
-        description,
-        availableTickets,
-        allowNonMembers: nonMembers,
-        startDate: date[0].toDate(),
-        endDate: date[1].toDate(),
-      }),
+      body: JSON.stringify(eventInfo),
     })
     if (res.ok) {
       history.push('/Admin/Events')
@@ -85,7 +132,36 @@ const EditEvent = () => {
 
     setConfirmLoading(false)
   }
-
+  const onFeaturedRemove = async (file) => {
+    const url = process.env.REACT_APP_API_URL + '/event/deleteEventFeatured/' + id + '/' + file.uid
+    const res = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    if (res.ok) {
+      setFeatured(undefined)
+    } else {
+      return false
+    }
+  }
+  const onRemove = async (file) => {
+    const res = await fetch(
+      process.env.REACT_APP_API_URL + '/event/deleteEventImage/' + id + '/' + file.uid,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+    if (res.ok) {
+      setImageList((list) => list.filter((img) => img !== file.uid))
+    } else {
+      return false
+    }
+  }
   return (
     <>
       <Spin spinning={loading}>
@@ -134,6 +210,41 @@ const EditEvent = () => {
             onChange={(e) => setDescription(e.target.value)}
           />
           <div className='form-row'>
+            <label>Featured Image</label>
+            {date && (
+              <Upload
+                action={process.env.REACT_APP_API_URL + '/event/uploadeImages'}
+                listType='picture'
+                className='upload-list-inline'
+                maxCount='1'
+                name='upload'
+                accept='image/*'
+                defaultFileList={featured}
+                onRemove={onFeaturedRemove}
+                headers={{
+                  Authorization: 'Bearer ' + token,
+                }}
+                data={(file) => {
+                  setFeatured('Featured' + file.uid)
+                  return {
+                    uid: 'Featured' + file.uid,
+                  }
+                }}
+              >
+                <Button icon={<UploadOutlined />}>Upload</Button>
+              </Upload>
+            )}
+          </div>
+          <div className='form-row'>
+            <label>Society</label>
+            <Select value={society} style={{ width: '50%' }} onChange={(e) => setSociety(e)}>
+              <Option value='wie'>Wie</Option>
+              <Option value='computer'>Computer</Option>
+              <Option value='pes'>PES</Option>
+              <Option value='ras'>RAS</Option>
+            </Select>
+          </div>
+          <div className='form-row'>
             <label>Available Tickets</label>
             <Slider
               min={1}
@@ -165,6 +276,44 @@ const EditEvent = () => {
             />
           </div>
           <div className='form-row'>
+            <label className='optional'>Images Gallery</label>
+            {date && (
+              <Upload
+                action={process.env.REACT_APP_API_URL + '/event/uploadeImages'}
+                listType='picture'
+                className='upload-list-inline'
+                maxCount='5'
+                name='upload'
+                accept='image/*'
+                defaultFileList={imageList}
+                onChange={({ file, fileList, e }) => {
+                  setImageList(
+                    fileList
+                      .filter((f) => f.status === 'done')
+                      .map((f) => {
+                        return f.originFileObj.uid
+                      })
+                  )
+                }}
+                headers={{
+                  Authorization: 'Bearer ' + token,
+                }}
+                data={(file) => {
+                  setImageList((list) => list.concat(file.uid))
+                  return {
+                    uid: file.uid,
+                  }
+                }}
+                onRemove={onRemove}
+              >
+                <Button className='upload' icon={<UploadOutlined />}>
+                  Upload
+                </Button>
+              </Upload>
+            )}
+          </div>
+
+          <div className='form-row'>
             <label>Allow Non Members to Register</label>
             <Switch
               onChange={(e) => {
@@ -173,6 +322,7 @@ const EditEvent = () => {
               checked={nonMembers}
             />
           </div>
+
           <Button block type='primary' onClick={HandleUpdate} loading={confirmLoading}>
             Save Changes
           </Button>

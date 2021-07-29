@@ -1,0 +1,16 @@
+.top3 {
+  border: #d8d8d8 1px solid;
+  padding: 30px;
+  width: 100%;
+  display: flex;
+  background-color: #ffffff;
+  position: relative;
+  margin-top: 30px;
+
+  .trophy {
+    width: 80px;
+    position: absolute;
+    top: -80px;
+    right: 0;
+  }
+}

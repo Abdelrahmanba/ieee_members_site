@@ -34,16 +34,13 @@ const CompleteProfile = () => {
           setCurrentStep(2)
         }
         setloadingRefresh(false)
-      }
-      if (user.user.activeEmail === true) {
-        setCurrentStep(2)
-      }
-      if (user.user.activeCommttiee === true) {
-        history.push('/Member/Home')
+        if (resJson.activeCommttiee === true) {
+          history.push('/Member/Home')
+        }
       }
     }
     load()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const refresh = async () => {
     setloadingRefresh(true)
@@ -65,7 +62,6 @@ const CompleteProfile = () => {
     const res = await fetch(
       process.env.REACT_APP_API_URL + '/users/resend_verification/' + user.user._id
     )
-    console.log(res)
     if (!res.ok) {
       setError(true)
       setSuccses(false)

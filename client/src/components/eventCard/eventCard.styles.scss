@@ -1,11 +1,11 @@
 @import '../../scssVariables';
 .event-card {
   max-height: 370px;
-  width: 300px;
+  width: 290px;
   border: 1px solid #ddd;
   border-radius: 5px;
   overflow: hidden;
-  margin: 20px;
+  margin: 12px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   position: relative;
   display: flex;
@@ -88,19 +88,53 @@
       position: relative;
       top: -10px;
     }
+    .link.wie {
+      background-color: rgba($color: darken($color: $wie, $amount: 10%), $alpha: 0.9);
+    }
+    .link.ras {
+      background-color: rgba($color: darken($color: $ras, $amount: 10%), $alpha: 0.9);
+    }
+    .link.computer {
+      background-color: rgba($color: darken($color: $computer, $amount: 10%), $alpha: 0.9);
+    }
+    .link.pes {
+      background-color: rgba($color: darken($color: $pes, $amount: 10%), $alpha: 0.9);
+    }
     .link:hover {
       background-color: darken($color: $primary-darken, $amount: 5%);
     }
+    .link.wie:hover {
+      background-color: rgba($color: darken($color: $wie, $amount: 15%), $alpha: 0.9);
+    }
+    .link.ras:hover {
+      background-color: rgba($color: darken($color: $ras, $amount: 15%), $alpha: 0.9);
+    }
+    .link.computer:hover {
+      background-color: rgba($color: darken($color: $computer, $amount: 15%), $alpha: 0.9);
+    }
+    .link.pes:hover {
+      background-color: rgba($color: darken($color: $pes, $amount: 15%), $alpha: 0.9);
+    }
   }
-  .card-info-bg {
-    background-image: url('https://scontent.fjrs17-1.fna.fbcdn.net/v/t1.6435-9/202617117_4117400191638894_1064536414185301697_n.png?_nc_cat=104&ccb=1-3&_nc_sid=730e14&_nc_ohc=S_93qm7SwJYAX811ao9&_nc_ht=scontent.fjrs17-1.fna&oh=a7843f26da44653d2b9030fd706c1d88&oe=60D68EDF');
-  }
+
   .card-info-bg::before {
     content: ' ';
     -webkit-backdrop-filter: blur(1px);
     backdrop-filter: blur(1px);
     background-color: rgba($color: $primary, $alpha: 0.9);
     z-index: 3;
+  }
+  .card-info-bg.wie::before {
+    background-color: rgba($color: $wie, $alpha: 0.9);
+  }
+  .card-info-bg.ras::before {
+    background-color: rgba($color: $ras, $alpha: 0.9);
+  }
+  .card-info-bg.computer::before {
+    background-color: rgba($color: $computer, $alpha: 0.9);
+  }
+  .card-info-bg.pes::before {
+    background-color: rgba($color: $pes, $alpha: 0.9);
   }
   .event-card-info.visible,
   .event-card-info.visible::before {
@@ -130,6 +164,18 @@
       font-size: 16px;
       text-transform: uppercase;
     }
+  }
+  .event-card-date.computer {
+    background-color: $computer;
+  }
+  .event-card-date.wie {
+    background-color: $wie;
+  }
+  .event-card-date.pes {
+    background-color: $pes;
+  }
+  .event-card-date.ras {
+    background-color: $ras;
   }
   .event-card-cover {
     position: relative;

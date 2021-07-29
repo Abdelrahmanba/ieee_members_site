@@ -2,7 +2,6 @@ import './ExportExcel.styles.scss'
 
 import ReactExport from 'react-export-excel'
 import { Button } from 'antd'
-import Title from 'antd/lib/skeleton/Title'
 
 const ExcelFile = ReactExport.ExcelFile
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet

@@ -1,22 +1,8 @@
 import './points.styles.scss'
 import { List } from 'antd'
-import UserCard from '../../components/userCard/userCard'
-import { ReactComponent as Trophy } from '../../assets/trophy.svg'
-import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+
+import Top3Points from '../../components/top3Points/top3Points'
 const Points = () => {
-  const token = useSelector((state) => state.user.token)
-  const [top3, setTop3] = useState([])
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(process.env.REACT_APP_API_URL + '/users/top3')
-      if (res.ok) {
-        const resJosn = await res.json()
-        setTop3(resJosn)
-      }
-    }
-    fetchData()
-  }, [])
   const data = [
     'Racing car sprays burning fuel into crowd.',
     'Japanese princess to wed commoner.',
@@ -65,19 +51,7 @@ const Points = () => {
               <span className='highlight highlight-2 noselect'>Top 3 Members</span>
             </span>
           </h2>
-          <div className='top3'>
-            <Trophy className='trophy' />
-            {top3.map((user, index) => (
-              <UserCard
-                key={index}
-                name={user.firstName + ' ' + user.lastName}
-                position={user.position}
-                points={user.points}
-                avatar={user.imageData}
-                id={user._id}
-              />
-            ))}
-          </div>
+          <Top3Points />
         </section>
       </div>
     </>

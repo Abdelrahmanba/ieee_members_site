@@ -1,7 +1,7 @@
 .users__body {
-  width: 60%;
+  width: 80%;
   border: 1px solid #d8d8d8;
-  border-radius: 10px;
+  border-radius: 2px;
   display: flex;
   justify-content: space-evenly;
   flex-direction: row;
@@ -9,10 +9,8 @@
   align-items: center;
   align-content: flex-start;
   background-color: #fff;
-  min-height: 20vh;
-  margin: 0 auto 20px;
+  margin: 20px auto 20px;
   position: relative;
-  top: 100px;
   padding: 25px;
 }
 .user__title {
@@ -21,18 +19,9 @@
   text-align: center;
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 1150px) {
   .users__body {
     width: 90%;
     padding: 5px;
-    top: 100px;
-  }
-}
-
-@media only screen and (max-width: 1150px) and (min-width: 401px) {
-  .users__body {
-    width: 90%;
-    padding: 5px;
-    top: 100px;
   }
 }

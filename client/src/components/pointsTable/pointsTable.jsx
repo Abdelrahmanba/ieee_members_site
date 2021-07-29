@@ -2,10 +2,11 @@ import { Button, Table, Divider } from 'antd'
 import './pointsTable.scss'
 import { getColumnSearchProps } from '../../helpersFunctions'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { LoadingOutlined } from '@ant-design/icons'
 import { editModal, viewModal } from './adminPointsModals/adminPointsModal'
 import React from 'react'
+import { signOut } from '../../redux/userSlice'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const PointsTable = ({ reload, setReload }) => {
@@ -15,20 +16,21 @@ const PointsTable = ({ reload, setReload }) => {
   const [recordEdit, setRecordEdit] = useState(undefined)
 
   const token = useSelector((state) => state.user.token)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (!recordEdit) {
       return
     }
     editModal(recordEdit, setRecordEdit, setReload, token)
-  }, [recordEdit])
+  }, [recordEdit]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!recordView) {
       return
     }
     viewModal(recordView, setRecordView, token)
-  }, [recordView])
+  }, [recordView]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setLoading(true)
@@ -52,11 +54,13 @@ const PointsTable = ({ reload, setReload }) => {
             })
           )
         )
+      } else if (res.status === 401) {
+        dispatch(signOut)
       }
       setLoading(false)
     }
     fetchData()
-  }, [reload])
+  }, [reload]) // eslint-disable-line react-hooks/exhaustive-deps
   const columns = [
     {
       title: 'Name',

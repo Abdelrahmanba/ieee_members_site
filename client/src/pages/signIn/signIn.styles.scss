@@ -1,10 +1,11 @@
-@import "../../scssVariables";
+@import '../../scssVariables';
 .bg_signin {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: -1;
 }
 .sign-in {
   display: flex;
@@ -20,7 +21,7 @@
       align-items: center;
       position: relative;
       left: -25px;
-      height: 460px;
+      min-height: 460px;
       width: 300px;
       background-color: $primary;
 
@@ -35,16 +36,15 @@
 
     width: 100%;
     max-width: 700px;
-    height: 460px;
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
-      rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    min-height: 460px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px,
+      rgba(17, 17, 26, 0.1) 0px 16px 56px;
     background-color: #fff;
-    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     .signin-header {
-      font-family: "Proxima Nova Rg";
+      font-family: 'Proxima Nova Rg';
       font-size: 32px;
       color: $primary;
       position: relative;

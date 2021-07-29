@@ -1,14 +1,15 @@
-.image-1 {
-  position: relative;
-  min-width: 500px;
-  width: 40%;
-  opacity: 0.9;
-  bottom: -50px;
-}
+@import '../../scssVariables';
 
+.title-home {
+  width: 100%;
+  color: $primary;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+}
 .main-text {
   font-size: 18px;
-  width: 50%;
+  width: 80%;
   text-align: center;
   //   margin-right: auto;
 }
@@ -16,13 +17,10 @@
   .main-text {
     width: 90%;
   }
-  .image-1 {
-    position: relative;
-    min-width: 300px;
-    width: 40%;
-    opacity: 0.9;
-    bottom: -50px;
-  }
+}
+.divider-text span {
+  color: $primary-darken;
+  font-size: 20px;
 }
 
 .main-text-full {

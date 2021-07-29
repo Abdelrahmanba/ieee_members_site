@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Textfield from '../../textfield/textfield'
 import { Mentions, Button, Tag, message } from 'antd'
 import './addPoints.styles.scss'
+import { signOut } from '../../../redux/userSlice'
 const { Option } = Mentions
 
 const AddPoints = ({ reload, setReload }) => {
@@ -15,6 +16,7 @@ const AddPoints = ({ reload, setReload }) => {
   const [loading, setloading] = useState(false)
 
   const token = useSelector((state) => state.user.token)
+  const dispatch = useDispatch()
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(process.env.REACT_APP_API_URL + '/users/all/', {
@@ -32,10 +34,14 @@ const AddPoints = ({ reload, setReload }) => {
             membershipID,
           }))
         )
+      } else if (res.status === 401) {
+        dispatch(signOut)
+      } else {
+        message.error('Something Went Wrong')
       }
     }
     fetchData()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const creditMembers = async () => {
     setloading(true)
@@ -112,7 +118,7 @@ const AddPoints = ({ reload, setReload }) => {
             onClose={(e) => {
               const value = e.currentTarget.parentNode.getAttribute('value')
               e.preventDefault()
-              setSelected((selected) => selected.filter((v) => v.id != value))
+              setSelected((selected) => selected.filter((v) => v.id !== value))
             }}
           >
             {v.name}

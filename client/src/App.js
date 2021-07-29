@@ -27,7 +27,7 @@ import EditEvent from './pages/EditEvent/Editevent'
 //Headers
 import AdminHeader from './components/header/adminHeader'
 import UserHeader from './components/header/userHeader'
-import PublicHeader from './components/header/publicHeader'
+import PublicHeaderAlt from './components/header/publicHeaderAlt'
 // AOS
 import { useEffect } from 'react'
 import AOS from 'aos'
@@ -36,6 +36,7 @@ import PrivateFooter from './components/privateFooter/PrivateFooter'
 import EventList from './pages/EventList/EventList'
 import AdminUsers from './pages/adminUsers/AdminUsers'
 import AdminPoints from './pages/adminPoints/adminPoints'
+import Events from './pages/events/event'
 
 let persistor = persistStore(store)
 
@@ -48,14 +49,14 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <Router>
           <Switch>
-            <Route path='/' exact component={PublicHeader} />
+            <Route path={['/signin', '/signup']} exact component={PublicHeaderAlt} />
             <ProtectedRoute path='/Member' component={UserHeader} />
             <ProtectedRoute path='/Admin' component={AdminHeader} />
           </Switch>
           <Switch>
             <Route path='/' exact component={HomePage} />
             <ProtectedRoute exact path={['/Member/Home', '/Member']} component={UserHome} />
-            <ProtectedRoute exact path='/Member/events' component={UserHome} />
+            <ProtectedRoute exact path='/Member/events' component={Events} />
             <ProtectedRoute exact path='/Member/members' component={Members} />
             <ProtectedRoute exact path='/Member/settings' component={Settings} />
             <ProtectedRoute exact path='/Member/profile/:id?' component={Profile} />

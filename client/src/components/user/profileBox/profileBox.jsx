@@ -1,4 +1,4 @@
-import { Empty, List, Avatar, Spin } from 'antd'
+import { Empty, List, Avatar, Spin, Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
@@ -15,6 +15,7 @@ const spinner = <LoadingOutlined style={{ fontSize: 30 }} spin />
 const ProfileEventsBox = ({ token, url, title }) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
+  const society = { wie: wie, pes: pes, ras: ras, computer: computer }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,11 +36,32 @@ const ProfileEventsBox = ({ token, url, title }) => {
       <Spin indicator={spinner} spinning={loading}>
         <h2>{title}</h2>
         {!loading && data.length > 0 ? (
-          <List
-            itemLayout='horizontal'
-            dataSource={data.reverse()}
-            renderItem={(item) => <List.Item>{item.title}</List.Item>}
-          />
+          title === 'Points History:' ? (
+            <List
+              itemLayout='horizontal'
+              dataSource={data.reverse()}
+              renderItem={(item) => (
+                <List.Item>
+                  <Typography.Text>[{item.amount} Points ]</Typography.Text>
+                  {'  ' + item.title}
+                </List.Item>
+              )}
+            />
+          ) : (
+            <List
+              itemLayout='horizontal'
+              dataSource={data.reverse()}
+              renderItem={(item) => (
+                <List.Item>
+                  <List.Item.Meta
+                    avatar={<Avatar src={society[item.society]} />}
+                    title={<Link to={'/Event/' + item._id}>{item.title}</Link>}
+                    description={item.description}
+                  />
+                </List.Item>
+              )}
+            />
+          )
         ) : (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         )}

@@ -1,11 +1,12 @@
 import { Image, Avatar, Spin } from 'antd'
 import './profile.styles.scss'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { LoadingOutlined, UserOutlined } from '@ant-design/icons'
 import ProfileBox from '../../components/user/profileBox/profileBox'
 import ProfileInfoBox from '../../components/user/profileInfo/profileInfo'
 import { useParams } from 'react-router-dom'
+import { signOut } from '../../redux/userSlice'
 
 const spinner = <LoadingOutlined style={{ fontSize: 45 }} spin />
 
@@ -16,6 +17,8 @@ const Profile = () => {
   const token = useSelector((state) => state.user.token)
   const { id } = useParams()
 
+  const dispatch = useDispatch()
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(process.env.REACT_APP_API_URL + '/user/' + (id ? id : 'me'), {
@@ -23,12 +26,16 @@ const Profile = () => {
           Authorization: 'Bearer ' + token,
         }),
       })
-      const resJson = await res.json()
+      if (res.ok) {
+        const resJson = await res.json()
+        setUser(resJson)
+      } else if (res.status === 401) {
+        dispatch(signOut)
+      }
       setLoading(false)
-      setUser(resJson)
     }
     fetchData()
-  }, [token, id])
+  }, [token, id]) //eslint-disable-line
 
   return (
     <>

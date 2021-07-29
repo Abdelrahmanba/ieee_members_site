@@ -4,7 +4,7 @@ import { Section } from 'react-scroll-section'
 const HomeSection = ({ children, titlePr, titleSc, inverted, desc, id }) => {
   return (
     <Section className={`${inverted ? 'inverted' : ''} home-events`} id={id}>
-      <h1 className='title'>
+      <h1 className='title-main'>
         {titlePr} <span>{titleSc}</span>
       </h1>
       <p>{desc}</p>

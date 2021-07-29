@@ -11,11 +11,12 @@ import {
   Switch,
   message,
 } from 'antd'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Textfield from '../../textfield/textfield'
 import Form from '../../form/form'
 import { UploadOutlined } from '@ant-design/icons'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { signOut } from '../../../redux/userSlice'
 const { TextArea } = Input
 const { Option } = Select
 const { RangePicker } = DatePicker
@@ -28,14 +29,15 @@ const AddEvent = ({ visible, setVisible, id }) => {
   const [location, setLocation] = useState('')
   const [link, setLink] = useState('')
   const [description, setDescription] = useState('')
-  const [featured, setFeatured] = useState('')
+  const [featured, setFeatured] = useState(undefined)
   const [availableTickets, setAvailableTickets] = useState(50)
   const [date, setDate] = useState(null)
   const [society, setSociety] = useState('wie')
   const [nonMembers, setNonMembers] = useState(true)
   const [imageList, setImageList] = useState([])
-
   const [confirmLoading, setConfirmLoading] = useState(false)
+
+  const dispatch = useDispatch()
 
   const handleAdd = async () => {
     if (title === 'null') {
@@ -48,6 +50,24 @@ const AddEvent = ({ visible, setVisible, id }) => {
     }
 
     setConfirmLoading(true)
+    const eventInfo = {
+      title,
+      duration,
+      price,
+      location,
+      link,
+      description,
+      featured,
+      availableTickets,
+      society,
+      allowNonMembers: nonMembers,
+      images: imageList,
+      startDate: date[0].toDate(),
+      endDate: date[1].toDate(),
+    }
+    if (featured === undefined) {
+      delete eventInfo.featured
+    }
 
     const res = await fetch(process.env.REACT_APP_API_URL + '/event/', {
       method: 'POST',
@@ -55,24 +75,12 @@ const AddEvent = ({ visible, setVisible, id }) => {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + token,
       },
-      body: JSON.stringify({
-        title,
-        duration,
-        price,
-        location,
-        link,
-        description,
-        featured,
-        availableTickets,
-        society,
-        allowNonMembers: nonMembers,
-        images: imageList,
-        startDate: date[0].toDate(),
-        endDate: date[1].toDate(),
-      }),
+      body: JSON.stringify(eventInfo),
     })
     if (res.ok) {
       setVisible(false)
+    } else if (res.status === 401) {
+      dispatch(signOut)
     } else {
       message.error('Something went wrong.')
     }
@@ -244,6 +252,15 @@ const AddEvent = ({ visible, setVisible, id }) => {
               maxCount='5'
               name='upload'
               accept='image/*'
+              onChange={({ file, fileList, e }) => {
+                setImageList(
+                  fileList
+                    .filter((f) => f.status === 'done')
+                    .map((f) => {
+                      return f.originFileObj.uid
+                    })
+                )
+              }}
               headers={{
                 Authorization: 'Bearer ' + token,
               }}

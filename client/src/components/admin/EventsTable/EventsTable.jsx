@@ -1,11 +1,12 @@
 import './eventsTable.styles.scss'
 
-import { Table, Button, message, Popconfirm } from 'antd'
+import { Table, Button, message, Popconfirm, Divider } from 'antd'
 import { useEffect, useState } from 'react'
 import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import AddEvent from '../addEvent/addevent'
+import { signOut } from '../../../redux/userSlice'
 
 const EventsTable = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
@@ -17,7 +18,7 @@ const EventsTable = () => {
   const [rerender, setRerender] = useState(false)
 
   const token = useSelector((state) => state.user.token)
-
+  const dispatch = useDispatch()
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
@@ -41,11 +42,13 @@ const EventsTable = () => {
             })
           )
         )
+      } else if (res.status === 401) {
+        dispatch(signOut)
       }
       setLoading(false)
     }
     fetchData()
-  }, [rerender, visible])
+  }, [rerender, visible]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const columns = [
     {
@@ -58,7 +61,6 @@ const EventsTable = () => {
       sorter: (a, b) => {
         return new Date(a.date) - new Date(b.date)
       },
-      width: '20%',
     },
     {
       title: 'Seats',
@@ -70,18 +72,20 @@ const EventsTable = () => {
       key: 'action',
       render: function (text, record) {
         return (
-          <div>
-            <Button type='text' onClick={() => history.push('/admin/event/Statistics/' + text.key)}>
+          <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
+            <Button type='link' onClick={() => history.push('/admin/event/Statistics/' + text.key)}>
               Statistics
             </Button>
+            <Divider type='vertical' />
             <Button
-              type='text'
+              type='link'
               icon={<EditOutlined />}
               onClick={() => history.push('/Admin/EditEvent/' + text.key)}
             >
               Edit
             </Button>
-            <Button type='text' onClick={() => history.push('/event/' + text.key)}>
+            <Divider type='vertical' />
+            <Button type='link' onClick={() => history.push('/event/' + text.key)}>
               View
             </Button>
           </div>

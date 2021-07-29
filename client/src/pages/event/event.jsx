@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux'
 import './event.styles.scss'
-import PublicHeader from '../../components/header/publicHeader'
 import Header from '../../components/header/emptyHeader'
 import UserHeaderSections from '../../components/header/userMenus/userMenuSections'
 import { Button, Image, message } from 'antd'
@@ -18,6 +17,7 @@ import {
   TeamOutlined,
   DollarCircleOutlined,
 } from '@ant-design/icons'
+import PublicHeaderAlt from '../../components/header/publicHeaderAlt'
 
 const Event = () => {
   const user = useSelector((state) => state.user)
@@ -37,7 +37,7 @@ const Event = () => {
       }
     }
     fetchEvent()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const joinHandle = async () => {
     if (!user.user.phoneNo) {
@@ -89,7 +89,6 @@ const Event = () => {
     setSeats((seats) => seats + 1)
     setConfirmLoading(false)
   }
-
   return (
     <>
       {user.token ? (
@@ -97,7 +96,7 @@ const Event = () => {
           <UserHeaderSections />
         </Header>
       ) : (
-        <PublicHeader />
+        <PublicHeaderAlt />
       )}
       <div className='body event'>
         <NonMembersModel
@@ -113,11 +112,10 @@ const Event = () => {
             </span>
           </h1>
           {event && event.featured && (
-            <div
-              style={{
-                backgroundImage: `url(${process.env.REACT_APP_API_URL}/uploads/${event.featured})`,
-              }}
+            <img
+              src={`${process.env.REACT_APP_API_URL}/uploads/${event.featured}`}
               className='image'
+              alt='Featured'
             />
           )}
           <div className='event__box'>
@@ -241,10 +239,10 @@ const Event = () => {
             )}
             {event.allowNonMembers === true ? (
               <p>
-                Non-Members are Welcomed!{' '}
-                <a href='#' onClick={() => setVisible(true)}>
+                Non-Members are Welcomed!
+                <Button type='link' href='#' onClick={() => setVisible(true)}>
                   Click here To Join.
-                </a>
+                </Button>
               </p>
             ) : (
               ''

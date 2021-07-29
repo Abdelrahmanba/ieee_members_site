@@ -108,7 +108,7 @@ const EventList = () => {
       setLoading(false)
     }
     getData()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Spin spinning={loading}>

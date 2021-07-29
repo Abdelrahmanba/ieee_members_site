@@ -9,7 +9,7 @@ const adminAuth = require('../middlewares/adminAuth')
 
 const createLimit = limiter({
   windowMs: 24 * 60 * 60 * 1000, // 24 hrs in milliseconds
-  max: 5,
+  max: 10,
   message: {
     error: 'Too Many Requests..',
     message: 'You were temporarily suspended from using this feature try after 24 hrs',
@@ -40,7 +40,6 @@ router.post('/users', createLimit, async (req, res, next) => {
     res.status(201).send({ user, token })
   } catch (e) {
     console.log(e)
-
     next(e)
   }
 })
@@ -76,7 +75,15 @@ router.get('/users/eventsParticipated/:id?', auth, async (req, res, next) => {
 //get user's points history
 router.get('/users/pointsHistory/:id?', auth, async (req, res, next) => {
   try {
-    res.status(200).send(req.user.pointsHistory)
+    if (req.params.id) {
+      const user = await User.findById(req.params.id)
+      if (!user) {
+        throw new Error('UserNotFound')
+      }
+      res.status(200).send(user.pointsHistory)
+    } else {
+      res.status(200).send(req.user.pointsHistory)
+    }
   } catch (e) {
     next(e)
   }
@@ -191,7 +198,6 @@ router.get('/user/me', auth, async (req, res, next) => {
     delete user.eventsVolunteeredIn
     delete user.password
     delete user.secretCode
-    delete user.active
     res.status(200).send(user)
   } catch (e) {
     next(e)
@@ -354,7 +360,7 @@ router.post('/api/reset-password/:userId/:secretCode', async (req, res, next) =>
 
 router.get('/users/count', auth, committeeAuth, async (req, res, next) => {
   try {
-    const countActive = await User.countDocuments({ activeCommttiee: true })
+    const countActive = await User.countDocuments({ activeCommttiee: true, activeEmail: true })
     const countAll = await User.countDocuments({})
     const countWaiting = await User.countDocuments({ activeEmail: true, activeCommttiee: false })
 
@@ -388,45 +394,57 @@ router.get('/users/committeeAuth/:id/:memID', auth, committeeAuth, async (req, r
   }
 })
 
-router.post('/users/update-by-admin/:id/', auth, committeeAuth, async (req, res, next) => {
-  try {
-    const user = await User.findById(req.params.id)
-    if (!user) {
-      throw new Error('UserNotFound')
-    }
-    if (req.body.active != undefined) {
-      user.activeCommttiee = req.body.active
-    }
-    if (req.body.position) {
-      user.position = req.body.position
-    }
-    if (req.body.membershipID) {
-      user.membershipID = req.body.membershipID
-    }
-    if (req.body.role) {
-      user.role = req.body.role
-    }
-    if (req.body.pointsHistory) {
-      user.pointsHistory = user.pointsHistory.concat(req.body.pointsHistory)
-      user.points = user.points + parseInt(req.body.pointsHistory.amount)
+router.post(
+  '/users/update-by-admin/:id/',
+  auth,
+  committeeAuth,
+  adminAuth,
+  async (req, res, next) => {
+    try {
+      const user = await User.findById(req.params.id)
+      if (!user) {
+        throw new Error('UserNotFound')
+      }
+      if (req.body.activeCommttiee != undefined) {
+        user.activeCommttiee = req.body.activeCommttiee
+      }
+      if (req.body.activeEmail != undefined) {
+        user.activeEmail = req.body.activeEmail
+      }
+      if (req.body.position) {
+        user.position = req.body.position
+      }
+      if (req.body.email) {
+        user.email = req.body.email
+      }
+      if (req.body.membershipID) {
+        user.membershipID = req.body.membershipID
+      }
+      if (req.body.role) {
+        user.role = req.body.role
+      }
+      if (req.body.pointsHistory) {
+        user.pointsHistory = user.pointsHistory.concat(req.body.pointsHistory)
+        user.points = user.points + parseInt(req.body.pointsHistory.amount)
+        await user.save()
+        res.status(200).send(user.pointsHistory)
+      }
+      if (req.body.removeHistory) {
+        user.pointsHistory = user.pointsHistory.filter(
+          (v) => v._id.toString() !== req.body.removeHistory._id
+        )
+        user.points = user.points - parseInt(req.body.removeHistory.amount)
+        await user.save()
+        res.status(200).send(user.pointsHistory)
+      }
       await user.save()
-      res.status(200).send(user.pointsHistory)
-    }
-    if (req.body.removeHistory) {
-      user.pointsHistory = user.pointsHistory.filter(
-        (v) => v._id.toString() !== req.body.removeHistory._id
-      )
-      user.points = user.points - parseInt(req.body.removeHistory.amount)
-      await user.save()
-      res.status(200).send(user.pointsHistory)
-    }
-    await user.save()
 
-    res.status(200).send()
-  } catch (e) {
-    next(e)
+      res.status(200).send()
+    } catch (e) {
+      next(e)
+    }
   }
-})
+)
 router.post('/users/addPoints/multi/', auth, committeeAuth, (req, res, next) => {
   try {
     const { selected, amount, title } = req.body

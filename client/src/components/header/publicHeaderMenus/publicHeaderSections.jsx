@@ -1,10 +1,9 @@
 import HeaderItem from '../header-item/headerItem'
 import './publicHeaderMenus.scss'
 import { useScrollSection } from 'react-scroll-section'
-const PublicHeaderSections = ({ visible, links }) => {
+const PublicHeaderSections = ({ visible }) => {
   const eventSection = useScrollSection('event')
   const aboutSection = useScrollSection('about')
-  const achievemnetsSection = useScrollSection('achievemnets')
   const societiesSection = useScrollSection('societies')
   const teamSection = useScrollSection('team')
 
@@ -16,7 +15,6 @@ const PublicHeaderSections = ({ visible, links }) => {
         extraClass={'menu-list'}
         onClick={aboutSection.onClick}
         selected={aboutSection.selected}
-        links={links}
       />
       <HeaderItem
         location={'/#events'}
@@ -24,23 +22,14 @@ const PublicHeaderSections = ({ visible, links }) => {
         extraClass={'menu-list'}
         onClick={eventSection.onClick}
         selected={eventSection.selected}
-        links={links}
       />
-      <HeaderItem
-        location={'/#achievemnets'}
-        text={'Achievemnets'}
-        extraClass={'menu-list'}
-        onClick={achievemnetsSection.onClick}
-        selected={achievemnetsSection.selected}
-        links={links}
-      />
+
       <HeaderItem
         location={'/#societies'}
         text={'Societies'}
         extraClass={'menu-list'}
         onClick={societiesSection.onClick}
         selected={societiesSection.selected}
-        links={links}
       />
       <HeaderItem
         location={'/#team'}
@@ -48,7 +37,6 @@ const PublicHeaderSections = ({ visible, links }) => {
         extraClass={'menu-list'}
         onClick={teamSection.onClick}
         selected={teamSection.selected}
-        links={links}
       />
     </ul>
   )

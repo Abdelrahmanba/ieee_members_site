@@ -1,8 +1,10 @@
-import { NavLink } from 'react-router-dom'
+import { Button } from 'antd'
+import { NavLink, useHistory } from 'react-router-dom'
 import './headerItem.styles.scss'
 
-const HeaderItem = ({ text, location, extraClass, selected, links, ...props }) => {
-  if (selected === undefined || links === true) {
+const HeaderItem = ({ text, location, extraClass, selected, link, username, ...props }) => {
+  const history = useHistory()
+  if (selected === undefined && username === undefined) {
     return (
       <li {...props} className={`header-menu-item ${extraClass}`}>
         <NavLink
@@ -12,6 +14,18 @@ const HeaderItem = ({ text, location, extraClass, selected, links, ...props }) =
         >
           {text}
         </NavLink>
+      </li>
+    )
+  } else if (username) {
+    return (
+      <li {...props} className={`header-menu-item`}>
+        <Button
+          type='link'
+          onClick={() => history.push(location)}
+          style={{ color: 'black', fontSize: 20 }}
+        >
+          {text}
+        </Button>
       </li>
     )
   } else {

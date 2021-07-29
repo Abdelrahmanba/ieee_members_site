@@ -7,7 +7,7 @@ const errorHandler = (err, req, res, next) => {
   } else if (err.name === 'ValidationError') {
     res.status(400).send({
       error: 'Validation Error',
-      message: err.message,
+      message: 'Please Check Your input.',
     })
   } else if (err.message === 'BadCredentials') {
     res.status(401).send({

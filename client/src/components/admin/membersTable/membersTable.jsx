@@ -22,19 +22,19 @@ const MembersTable = () => {
     if (!record) {
       return
     }
-    let active,
+    let activeEmail,
+      activeCommttiee,
       membershipID,
       position,
+      email,
       role = undefined
 
-    if (record.status === 'Active') {
-      active = true
-    } else {
-      active = false
-    }
+    activeEmail = record.activeEmail
+    activeCommttiee = record.activeCommttiee
     membershipID = record.membershipID
     position = record.position
-    const modal = Modal.confirm({
+    email = record.email
+    Modal.confirm({
       title: <h1 className='sub-title'>{record.name}</h1>,
       icon: null,
       okButtonProps: { loading: loadingConfirm },
@@ -48,7 +48,14 @@ const MembersTable = () => {
               Authorization: 'Bearer ' + token,
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ membershipID, active, position, role }),
+            body: JSON.stringify({
+              membershipID,
+              activeEmail,
+              activeCommttiee,
+              position,
+              role,
+              email,
+            }),
           }
         )
         if (res.ok) {
@@ -65,6 +72,13 @@ const MembersTable = () => {
 
       content: (
         <Form>
+          <Textfield
+            type='text'
+            name='email'
+            text='Email'
+            defaultValue={email}
+            onChange={(e) => (email = e.target.value)}
+          />
           <Textfield
             type='text'
             name='membershipID'
@@ -92,13 +106,17 @@ const MembersTable = () => {
             </Select>
           </div>
           <div className='form-row'>
-            <label>Active</label>
-            <Switch defaultChecked={active} onChange={(e) => (active = e)} />
+            <label>Active (Approved)</label>
+            <Switch defaultChecked={activeCommttiee} onChange={(e) => (activeCommttiee = e)} />
+          </div>
+          <div className='form-row'>
+            <label>Active Email</label>
+            <Switch defaultChecked={activeEmail} onChange={(e) => (activeEmail = e)} />
           </div>
         </Form>
       ),
     })
-  }, [record])
+  }, [record]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setLoading(true)
@@ -129,6 +147,8 @@ const MembersTable = () => {
               membershipID,
               position,
               role,
+              activeEmail,
+              activeCommttiee,
               status:
                 activeEmail && activeCommttiee
                   ? 'Active'
@@ -142,7 +162,7 @@ const MembersTable = () => {
       setLoading(false)
     }
     fetchData()
-  }, [reload])
+  }, [reload]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const columns = [
     {

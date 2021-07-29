@@ -1,10 +1,11 @@
 import './waitingTable.styles.scss'
 import { Table, Button, Modal } from 'antd'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import Textfield from '../../textfield/textfield'
 import Form from '../../form/form'
 import { LoadingOutlined } from '@ant-design/icons'
+import { signOut } from '../../../redux/userSlice'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const WaitingTable = () => {
@@ -15,6 +16,8 @@ const WaitingTable = () => {
   const [visible, setVisible] = useState(false)
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [membershipID, setMembershipID] = useState('')
+
+  const dispatch = useDispatch()
 
   const columns = [
     {
@@ -57,7 +60,7 @@ const WaitingTable = () => {
       }
     )
     if (res.ok) {
-      setUsers((users) => users.filter((item) => item._id != user._id))
+      setUsers((users) => users.filter((item) => item._id !== user._id))
     }
     setConfirmLoading(false)
 
@@ -82,11 +85,13 @@ const WaitingTable = () => {
             _id,
           }))
         )
+      } else if (res.status === 401) {
+        dispatch(signOut)
       }
       setLoading(false)
     }
     fetchData()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       <div className='admin-section'>

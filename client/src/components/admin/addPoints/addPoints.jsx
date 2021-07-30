@@ -80,7 +80,7 @@ const AddPoints = ({ reload, setReload }) => {
         autoSize
         style={{ width: '90%' }}
         onSearch={(_, prefix) => setPrefix(prefix)}
-        prefix={['@', '#']}
+        prefix={['$', '#']}
         value={mentionValue}
         filterOption={(t, e) => {
           return (
@@ -89,13 +89,13 @@ const AddPoints = ({ reload, setReload }) => {
           )
         }}
         onChange={(e) => setMentionValue(e)}
-        placeholder='input @ to mention By Email, # to mention By Name'
+        placeholder='input $ to mention By Email, # to mention By Name'
         onSelect={(option) => {
           setMentionValue('')
           setSelected((selected) => selected.concat({ id: option.value, name: option.children }))
         }}
       >
-        {prefix === '@'
+        {prefix === '$'
           ? users.map((user, index) => (
               <Option value={user._id} key={index}>
                 {user.email}

@@ -37,6 +37,7 @@ import EventList from './pages/EventList/EventList'
 import AdminUsers from './pages/adminUsers/AdminUsers'
 import AdminPoints from './pages/adminPoints/adminPoints'
 import Events from './pages/events/event'
+import { ParallaxProvider } from 'react-scroll-parallax'
 
 let persistor = persistStore(store)
 

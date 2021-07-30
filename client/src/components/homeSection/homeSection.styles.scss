@@ -1,11 +1,12 @@
 @import '../../scssVariables';
 
-.home-events {
+.home-section {
   display: flex;
   min-height: fit-content;
   flex-direction: column;
   align-items: center;
   padding-bottom: 50px;
+
   .title-main {
     color: $secondary;
     font-size: 40px;
@@ -21,6 +22,9 @@
   }
 }
 
-.home-events.inverted {
+.home-section.inverted {
   background-color: rgb(255, 255, 255);
+}
+#societies {
+  padding-bottom: 0;
 }

@@ -22,7 +22,7 @@ const HeaderItem = ({ text, location, extraClass, selected, link, username, ...p
         <Button
           type='link'
           onClick={() => history.push(location)}
-          style={{ color: 'black', fontSize: 20 }}
+          style={{ color: 'black', fontSize: 20, height: 0 }}
         >
           {text}
         </Button>

@@ -33,6 +33,7 @@ const AdminMenuSections = ({ visible }) => {
             }
             extraClass={'menu-list user-list'}
           />
+
           <HeaderItem
             location={'/Admin/Users'}
             text={

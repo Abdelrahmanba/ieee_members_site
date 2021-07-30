@@ -24,11 +24,7 @@ const Members = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const committeeFetch = await fetch(process.env.REACT_APP_API_URL + '/users/all/committee', {
-        headers: new Headers({
-          Authorization: 'Bearer ' + token,
-        }),
-      })
+      const committeeFetch = await fetch(process.env.REACT_APP_API_URL + '/users/all/committee')
       if (committeeFetch.ok) {
         const committeeFetchJson = await committeeFetch.json()
         setCommittee(committeeFetchJson)

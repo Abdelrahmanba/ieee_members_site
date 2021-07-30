@@ -1,5 +1,5 @@
 import UserCard from '../../components/userCard/userCard'
-import { ReactComponent as Trophy } from '../../assets/trophy.svg'
+import { ReactComponent as Trophy } from '../../assets/icons/trophy.svg'
 import { useEffect, useState } from 'react'
 import './top3Points.scss'
 const Top3Points = () => {

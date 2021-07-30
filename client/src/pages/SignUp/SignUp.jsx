@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Button, Alert } from 'antd'
 import Textfield from '../../components/textfield/textfield'
 import Form from '../../components/form/form'
-import { ReactComponent as Particels } from '../../assets/paricles.svg'
+import { ReactComponent as Particels } from '../../assets/icons/paricles.svg'
 import { useDispatch } from 'react-redux'
 import { signIn } from '../../redux/userSlice'
 

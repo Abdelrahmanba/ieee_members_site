@@ -1,4 +1,4 @@
-import { ReactComponent as Particels } from '../../assets/paricles.svg'
+import { ReactComponent as Particels } from '../../assets/icons/paricles.svg'
 
 import './signIn.styles.scss'
 

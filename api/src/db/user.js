@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    minLength: [6, "Password can't be less than 8 characters."],
+    minLength: [6, "Password can't be less than 6 characters."],
   },
   firstName: {
     type: String,
@@ -77,13 +77,6 @@ const userSchema = mongoose.Schema({
       amount: Number,
     },
   ],
-  notifications: [
-    {
-      notification: {
-        type: String,
-      },
-    },
-  ],
   secretCode: {
     type: String,
   },
@@ -118,8 +111,6 @@ userSchema.methods.toJSON = function () {
   delete userObj.eventsVolunteeredIn
   delete userObj.pointsHistory
   delete userObj.imageData
-  delete userObj.notifications
-
   return userObj
 }
 

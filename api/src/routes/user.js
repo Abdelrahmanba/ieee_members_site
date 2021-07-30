@@ -259,7 +259,7 @@ router.get('/users/all/', auth, committeeAuth, adminAuth, async (req, res, next)
     next(e)
   }
 })
-router.get('/users/all/committee', auth, async (req, res, next) => {
+router.get('/users/all/committee', async (req, res, next) => {
   try {
     const users = await User.find({
       position: { $ne: 'Member' },

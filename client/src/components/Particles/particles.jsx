@@ -1,8 +1,8 @@
-import Particles from "react-particles-js"
+import Particles from 'react-particles-js'
 
 const Particle = () => (
   <Particles
-    className="bg_signin"
+    className='bg_signin'
     params={{
       particles: {
         number: {
@@ -13,13 +13,13 @@ const Particle = () => (
           },
         },
         color: {
-          value: "#0275A9",
+          value: '#0275A9',
         },
         shape: {
-          type: "circle",
+          type: 'circle',
           stroke: {
             width: 0,
-            color: "#000000",
+            color: '#000000',
           },
           polygon: {
             nb_sides: 10,
@@ -48,17 +48,17 @@ const Particle = () => (
         line_linked: {
           enable: true,
           distance: 150,
-          color: "#0275A9",
+          color: '#0275A9',
           opacity: 0.4,
           width: 1,
         },
         move: {
           enable: true,
           speed: 0.1,
-          direction: "none",
+          direction: 'none',
           random: false,
           straight: false,
-          out_mode: "out",
+          out_mode: 'out',
           bounce: false,
           attract: {
             enable: false,
@@ -68,15 +68,15 @@ const Particle = () => (
         },
       },
       interactivity: {
-        detect_on: "canvas",
+        detect_on: 'canvas',
         events: {
           onhover: {
             enable: true,
-            mode: "grab",
+            mode: 'repulse',
           },
           onclick: {
             enable: true,
-            mode: "push",
+            mode: 'push',
           },
           resize: true,
         },
@@ -88,15 +88,17 @@ const Particle = () => (
             },
           },
           bubble: {
-            distance: 400,
-            size: 40,
+            distance: 100,
+            size: 5,
             duration: 2,
             opacity: 8,
             speed: 1,
           },
           repulse: {
-            distance: 200,
-            duration: 0.4,
+            distance: 50,
+            duration: 40,
+            easing: 100,
+            speed: 0.4,
           },
           push: {
             particles_nb: 4,

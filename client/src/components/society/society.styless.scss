@@ -1,4 +1,4 @@
-@import '../../scssVariables';
+@import '../../theme/_scssVariables.scss';
 .societies {
   &.computer {
     background-color: darken($color: $computer, $amount: 14);

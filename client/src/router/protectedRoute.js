@@ -1,11 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
-import NotFound from './pages/NotFound/notFound'
+import NotFound from '../pages/NotFound/notFound'
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   const user = useSelector((state) => state.user)
-  // console.log(user)
   return (
     <Route
       {...rest}

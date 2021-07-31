@@ -10,6 +10,7 @@ import Textfield from '../../../components/textfield/textfield'
 import Form from '../../../components/form/form'
 import ResetPassword from '../../../components/resetPassword/resetPassword'
 import Particle from '../../../components/particles/particles'
+import { post } from '../../../utils/apiCall'
 
 const SignIn = (props) => {
   const [email, setEmail] = useState('')
@@ -17,28 +18,13 @@ const SignIn = (props) => {
   const [error, setError] = useState(undefined)
   const [loading, setLoading] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
-
   const dispatch = useDispatch()
-
-  const handleChange = (e) => {
-    if (e.target.name === 'email') {
-      setEmail(e.target.value)
-    } else {
-      setPassword(e.target.value)
-    }
-  }
 
   const submit = async (e) => {
     e.preventDefault()
     props.location.state = undefined
     setLoading(true)
-    const res = await fetch(process.env.REACT_APP_API_URL + '/users/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    })
+    const res = await post('/users/login', undefined, { email, password })
     const jsonRes = await res.json()
     if (jsonRes.token) {
       dispatch(signIn(jsonRes))
@@ -54,7 +40,6 @@ const SignIn = (props) => {
       setError(jsonRes)
     }
   }
-
   return (
     <>
       <ResetPassword visible={modalVisible} setModalVisible={setModalVisible} />
@@ -73,6 +58,7 @@ const SignIn = (props) => {
               text='Email Address'
               value={email}
               autocomplete='email'
+              onChange={(e) => setEmail(e.target.vale)}
             />
             <Textfield
               onChange={handleChange}
@@ -81,12 +67,12 @@ const SignIn = (props) => {
               text='Password'
               value={password}
               autocomplete='current-password'
+              onChange={(e) => setPassword(e.target.vale)}
             />
             <Button block type='primary' loading={loading} onClick={submit}>
               Sign In
             </Button>
-
-            {error ? (
+            {error && (
               <Alert
                 message='Login Failed'
                 description={error.message}
@@ -94,11 +80,8 @@ const SignIn = (props) => {
                 showIcon
                 className={'alert'}
               />
-            ) : (
-              ''
             )}
-
-            {props.location.state ? (
+            {props.location.state && (
               <Alert
                 message='Sign In Required'
                 description='Please Sign In to view this page.'
@@ -106,8 +89,6 @@ const SignIn = (props) => {
                 showIcon
                 className='alert'
               />
-            ) : (
-              ''
             )}
             <p className='forgot-password' onClick={() => setModalVisible(true)}>
               Forgot your password?
@@ -118,5 +99,4 @@ const SignIn = (props) => {
     </>
   )
 }
-
 export default SignIn

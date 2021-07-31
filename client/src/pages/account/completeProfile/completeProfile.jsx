@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../../redux/userSlice'
 import { useHistory } from 'react-router-dom'
+import { get } from '../../../utils/apiCall'
 
 const { Step } = Steps
 
@@ -22,11 +23,7 @@ const CompleteProfile = () => {
 
   useEffect(() => {
     const load = async () => {
-      const res = await fetch(process.env.REACT_APP_API_URL + '/user/me', {
-        headers: new Headers({
-          Authorization: 'Bearer ' + user.token,
-        }),
-      })
+      const res = await get('/user/me', user.token)
       const resJson = await res.json()
       if (res.ok) {
         dispatch(setUser(resJson))
@@ -44,11 +41,7 @@ const CompleteProfile = () => {
 
   const refresh = async () => {
     setloadingRefresh(true)
-    const res = await fetch(process.env.REACT_APP_API_URL + '/user/me', {
-      headers: new Headers({
-        Authorization: 'Bearer ' + user.token,
-      }),
-    })
+    const res = await get('/user/me', user.token)
     const resJson = await res.json()
     if (res.ok) {
       dispatch(setUser(resJson))
@@ -59,9 +52,7 @@ const CompleteProfile = () => {
 
   const resend = async () => {
     setLoadingResend(true)
-    const res = await fetch(
-      process.env.REACT_APP_API_URL + '/users/resend_verification/' + user.user._id
-    )
+    const res = await get('/users/resend_verification/' + user.user._id)
     if (!res.ok) {
       setError(true)
       setSuccses(false)
@@ -69,7 +60,6 @@ const CompleteProfile = () => {
       setSuccses(true)
       setError(false)
     }
-
     setLoadingResend(false)
   }
 

@@ -7,6 +7,7 @@ import Form from '../../../components/form/form'
 import { ReactComponent as Particels } from '../../../assets/icons/paricles.svg'
 import { useDispatch } from 'react-redux'
 import { signIn } from '../../../redux/userSlice'
+import { post } from '../../../utils/apiCall'
 
 const SignUp = (props) => {
   const [email, setEmail] = useState('')
@@ -33,13 +34,7 @@ const SignUp = (props) => {
   const submit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    const res = await fetch(process.env.REACT_APP_API_URL + '/users/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ firstName, lastName, email, password }),
-    })
+    const res = await post('/users/', undefined, { firstName, lastName, email, password })
     const jsonRes = await res.json()
     if (res.ok) {
       setLoading(false)
@@ -96,8 +91,7 @@ const SignUp = (props) => {
             <Button block type='primary' loading={loading} onClick={submit}>
               Sign Up!
             </Button>
-
-            {error ? (
+            {error && (
               <Alert
                 message={error.error}
                 description={error.message}
@@ -105,8 +99,6 @@ const SignUp = (props) => {
                 showIcon
                 className={'alert'}
               />
-            ) : (
-              ''
             )}
           </Form>
         </div>

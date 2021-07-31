@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { signIn } from '../../../redux/userSlice'
+import { post } from '../../../utils/apiCall'
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('')
@@ -17,20 +18,11 @@ const ResetPassword = () => {
 
   const handleOk = async () => {
     setLoading(true)
-    const res = await fetch(
-      process.env.REACT_APP_API_URL + '/api/reset-password/' + id + '/' + secret,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ password }),
-      }
-    )
-    const jsonRes = await res.json()
+    const res = await post('/api/reset-password/' + id + '/' + secret, undefined, { password })
     setLoading(false)
 
     if (res.ok) {
+      const jsonRes = await res.json()
       setAlert({
         shown: true,
         desc: 'Password Was Reset Successfully!',

@@ -1,5 +1,5 @@
 import { Result, Steps, Button, Alert, Typography } from 'antd'
-import Particle from '../../../components/Particles/particles'
+import Particle from '../../../components/particles/particles'
 import './completeProfile.styles.scss'
 import { UnlockOutlined, MailOutlined, SolutionOutlined, LoadingOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'

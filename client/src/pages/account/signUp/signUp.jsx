@@ -1,5 +1,5 @@
 import './signup.styles.scss'
-import Particle from '../../../components/Particles/particles'
+import Particle from '../../../components/particles/particles'
 import { useState } from 'react'
 import { Button, Alert } from 'antd'
 import Textfield from '../../../components/textfield/textfield'

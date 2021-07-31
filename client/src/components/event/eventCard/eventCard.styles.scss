@@ -1,0 +1,221 @@
+@import '../../../theme/_scssVariables.scss';
+.event-card {
+  max-height: 370px;
+  width: 290px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 12px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease-in-out;
+  cursor: pointer;
+  .event-card-info,
+  .card-info-bg,
+  .card-info-bg::before {
+    position: absolute;
+    top: 0;
+    width: 300px;
+    min-height: 390px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
+    transition: all ease-in 0.2s;
+    cursor: default;
+  }
+  .event-card-info {
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 20px;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    .back-arrow {
+      color: white;
+      font-size: 24px;
+      position: absolute;
+      top: 30px;
+      left: 20px;
+      transition: color 0.3s ease-in-out;
+      cursor: pointer;
+    }
+    .back-arrow:hover {
+      color: rgb(20, 20, 20);
+    }
+    .table {
+      width: 80%;
+    }
+    .event-card-table {
+      display: flex;
+      border-top: 2px solid rgba($color: white, $alpha: 0.3);
+      margin-top: -2px;
+      color: white;
+      .event-card-table-icon {
+        padding: 10px 10px;
+        border-right: 2px solid rgba($color: white, $alpha: 0.3);
+      }
+
+      .event-card-table-data {
+        padding: 10px;
+        text-align: center;
+        width: 100%;
+        font-size: 16px;
+      }
+    }
+    .event-card-table:last-child {
+      border-bottom: 2px solid rgba($color: white, $alpha: 0.3);
+    }
+    .event-card-label-info {
+      color: white;
+      font-size: 20px;
+      margin-top: -15px;
+    }
+    .link {
+      color: white;
+      z-index: 5;
+      background-color: rgba($color: $primary-darken, $alpha: 0.9);
+      height: 50px;
+      width: 80%;
+      border-radius: 3px;
+      text-align: center;
+      line-height: 50px;
+      font-size: 16px;
+      transition: background-color 0.3s ease-in-out;
+      cursor: pointer;
+      position: relative;
+      top: -10px;
+    }
+    .link.wie {
+      background-color: rgba($color: darken($color: $wie, $amount: 10%), $alpha: 0.9);
+    }
+    .link.ras {
+      background-color: rgba($color: darken($color: $ras, $amount: 10%), $alpha: 0.9);
+    }
+    .link.computer {
+      background-color: rgba($color: darken($color: $computer, $amount: 10%), $alpha: 0.9);
+    }
+    .link.pes {
+      background-color: rgba($color: darken($color: $pes, $amount: 10%), $alpha: 0.9);
+    }
+    .link:hover {
+      background-color: darken($color: $primary-darken, $amount: 5%);
+    }
+    .link.wie:hover {
+      background-color: rgba($color: darken($color: $wie, $amount: 15%), $alpha: 0.9);
+    }
+    .link.ras:hover {
+      background-color: rgba($color: darken($color: $ras, $amount: 15%), $alpha: 0.9);
+    }
+    .link.computer:hover {
+      background-color: rgba($color: darken($color: $computer, $amount: 15%), $alpha: 0.9);
+    }
+    .link.pes:hover {
+      background-color: rgba($color: darken($color: $pes, $amount: 15%), $alpha: 0.9);
+    }
+  }
+
+  .card-info-bg::before {
+    content: ' ';
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
+    background-color: rgba($color: $primary, $alpha: 0.9);
+    z-index: 3;
+  }
+  .card-info-bg.wie::before {
+    background-color: rgba($color: $wie, $alpha: 0.9);
+  }
+  .card-info-bg.ras::before {
+    background-color: rgba($color: $ras, $alpha: 0.9);
+  }
+  .card-info-bg.computer::before {
+    background-color: rgba($color: $computer, $alpha: 0.9);
+  }
+  .card-info-bg.pes::before {
+    background-color: rgba($color: $pes, $alpha: 0.9);
+  }
+  .event-card-info.visible,
+  .event-card-info.visible::before {
+    opacity: 1;
+    z-index: 2;
+  }
+
+  .event-card-date {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    background-color: $primary;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    .day {
+      padding-top: 5px;
+      font-size: 24px;
+    }
+    .month {
+      position: relative;
+      top: -10px;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+  }
+  .event-card-date.computer {
+    background-color: $computer;
+  }
+  .event-card-date.wie {
+    background-color: $wie;
+  }
+  .event-card-date.pes {
+    background-color: $pes;
+  }
+  .event-card-date.ras {
+    background-color: $ras;
+  }
+  .event-card-cover {
+    position: relative;
+    z-index: -1;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 270px;
+    width: 100%;
+    .event-card-label,
+    .event-card-label::before {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+  .event-card-label {
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+    color: white;
+  }
+  .event-card-label::before {
+    content: ' ';
+    height: 45px;
+    background-color: rgba(46, 45, 45, 0.6);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    z-index: -1;
+  }
+  .event-card-descripton {
+    padding: 20px;
+    font-size: 16px;
+    margin: 0;
+    overflow: hidden;
+    height: 100px;
+  }
+}
+
+.event-card:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px;
+}

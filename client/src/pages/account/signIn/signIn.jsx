@@ -9,7 +9,7 @@ import { Button, Alert } from 'antd'
 import Textfield from '../../../components/textfield/textfield'
 import Form from '../../../components/form/form'
 import ResetPassword from '../../../components/resetPassword/resetPassword'
-import Particle from '../../../components/Particles/particles'
+import Particle from '../../../components/particles/particles'
 
 const SignIn = (props) => {
   const [email, setEmail] = useState('')

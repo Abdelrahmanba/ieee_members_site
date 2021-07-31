@@ -1,23 +1,21 @@
-import { Modal, Alert } from "antd"
-import { useState } from "react"
-import Textfield from "../textfield/textfield"
-import "./resetPassword.scss"
+import { Modal, Alert } from 'antd'
+import { useState } from 'react'
+import Textfield from '../textfield/textfield'
+import './resetPassword.scss'
 
 const ResetPassword = ({ visible, setModalVisible }) => {
   const [status, setStatus] = useState({})
   const [confirmLoading, setConfirmLoading] = useState(false)
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState('')
 
   const handleOk = async () => {
     setConfirmLoading(true)
-    const res = await fetch(
-      `http://localhost:3000/users/reset_password/${email}`
-    )
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/users/reset_password/${email}`)
     if (res.ok) {
-      setStatus({ status: "sucsess" })
+      setStatus({ status: 'sucsess' })
     } else {
       const json = await res.json()
-      setStatus({ status: "failed", error: json })
+      setStatus({ status: 'failed', error: json })
     }
     setConfirmLoading(false)
   }
@@ -25,48 +23,47 @@ const ResetPassword = ({ visible, setModalVisible }) => {
   return (
     <Modal
       centered
-      title="Reset Password"
+      title='Reset Password'
       visible={visible}
       onCancel={() => setModalVisible(false)}
-      okText="Reset My Password"
+      okText='Reset My Password'
       onOk={handleOk}
-      okButtonProps={status.status === "sucsess" ? { disabled: true } : {}}
+      okButtonProps={status.status === 'sucsess' ? { disabled: true } : {}}
       confirmLoading={confirmLoading}
       closable={false}
     >
-      <div className="modal">
+      <div className='modal'>
         <p>
-          Please Enter Your Email below, we will send you instructions on how to
-          reset your password, if you are facing any issues feel free to contact
-          us.
+          Please Enter Your Email below, we will send you instructions on how to reset your
+          password, if you are facing any issues feel free to contact us.
         </p>
         <Textfield
-          type="text"
-          name="email"
+          type='text'
+          name='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          text="Email Address"
+          text='Email Address'
         />
-        {status.status === "sucsess" ? (
+        {status.status === 'sucsess' ? (
           <Alert
-            message="Success!"
+            message='Success!'
             description={`An Email was sent to ${email} with farther information on how to reset your password.`}
-            type="success"
+            type='success'
             showIcon
           />
         ) : (
-          ""
+          ''
         )}
-        {status.status === "failed" ? (
+        {status.status === 'failed' ? (
           <Alert
             message={status.error.error}
             description={status.error.message}
-            type="error"
+            type='error'
             showIcon
-            className={"alert"}
+            className={'alert'}
           />
         ) : (
-          ""
+          ''
         )}
       </div>
     </Modal>

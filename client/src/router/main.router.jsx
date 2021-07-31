@@ -1,7 +1,7 @@
 import { Switch, BrowserRouter, Route } from 'react-router-dom'
 import NotFound from '../pages/NotFound/notFound'
 import HomePage from '../pages/homePage/home'
-import PrivateFooter from '../components/privateFooter/PrivateFooter'
+import PrivateFooter from '../components/footer/privateFooter'
 //account
 import SignIn from '../pages/account/signIn/signIn'
 import SignUp from '../pages/account/signUp/signUp'
@@ -19,12 +19,13 @@ import EditEvent from '../pages/admin/editEvent/editevent'
 import HeaderRouting from './header.router'
 //member
 import Settings from '../pages/member/settings/settings'
-import UserHome from '../pages/member/userHome/userHome'
+import MemberHome from '../pages/member/memberHome/memberHome'
 import Profile from '../pages/member/profile/profile'
 import Members from '../pages/member/members/members'
 import Points from '../pages/member/points/points'
 import Events from '../pages/member/events/events'
 import ProtectedRoute from './protectedRoute'
+import Event from '../pages/event/event'
 
 const Router = () => {
   return (
@@ -33,7 +34,7 @@ const Router = () => {
       <Switch>
         <Route path='/' exact component={HomePage} />
 
-        <ProtectedRoute exact path={['/Member/Home', '/Member']} component={UserHome} />
+        <ProtectedRoute exact path={['/Member/Home', '/Member']} component={MemberHome} />
         <ProtectedRoute exact path='/Member/events' component={Events} />
         <ProtectedRoute exact path='/Member/members' component={Members} />
         <ProtectedRoute exact path='/Member/settings' component={Settings} />
@@ -53,7 +54,6 @@ const Router = () => {
         <Route path='/signin' component={SignIn} />
         <Route path='/signup' component={SignUp} />
         <Route path='/signout' component={SignOut} />
-
         <Route exact path='/Event/:id?' component={Event} />
         <Route path='*' component={NotFound} />
       </Switch>

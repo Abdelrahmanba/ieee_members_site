@@ -2,10 +2,9 @@ import './adminPoints.styles.scss'
 
 import React, { useState } from 'react'
 
-import PointsTable from '../../../components/pointsTable/pointsTable'
+import PointsTable from '../../../components/admin/pointsTable/pointsTable'
 
 import AddPoints from '../../../components/admin/addPoints/addPoints'
-
 const AdminPoints = () => {
   const [reload, setReload] = useState(false)
 

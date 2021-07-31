@@ -1,0 +1,230 @@
+@import '../../../theme/_scssVariables.scss';
+
+.hero,
+.hero:before {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-bg,
+.hero-bg:before {
+  display: flex;
+  position: relative;
+  z-index: -1;
+  min-height: 100vh;
+
+  width: 100%;
+  height: 100%;
+  image-rendering: -webkit-pixelated;
+  image-rendering: -moz-pixelated;
+  image-rendering: -ms-pixelated;
+  image-rendering: -o-pixelated;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+  interpolation-mode: nearest-neighbor;
+  overflow: hidden;
+  -webkit-contain: strict;
+  -moz-contain: strict;
+  -ms-contain: strict;
+  -o-contain: strict;
+  contain: strict;
+}
+
+.hero-bg {
+  background-image: url('../../../assets/hero/1.jpg');
+  background-size: cover;
+  background-position: center;
+
+  -webkit-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  background-repeat: no-repeat;
+}
+
+.hero-bg:before {
+  content: ' ';
+  width: 100%;
+  height: 100%;
+  background-color: $primary;
+  opacity: 0.3;
+  -webkit-background-size: 75rem 50rem;
+  -moz-background-size: 75rem 50rem;
+  -ms-background-size: 75rem 50rem;
+  -o-background-size: 75rem 50rem;
+  background-size: 75rem 50rem;
+}
+
+.hero {
+  .hero-body {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 60%;
+    border-radius: 3px;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Proxima Nova Bold';
+    .header-text {
+      padding: 20px 0;
+    }
+    .highlight-container,
+    .highlight {
+      position: relative;
+      cursor: default;
+      text-align: center;
+    }
+
+    .highlight-container {
+      display: inline-block;
+      &:hover:not(.sub) {
+        &::before {
+          transform: rotate(0deg);
+        }
+        &::after {
+          transform: rotate(1deg);
+        }
+      }
+      &::before,
+      &::after {
+        content: ' ';
+        display: block;
+        height: 90%;
+        width: 100%;
+        margin-left: -3px;
+        margin-right: -3px;
+        position: absolute;
+        transition: transform 0.3s ease-in-out;
+      }
+      &:before {
+        background: rgba(2, 117, 169, 0.8);
+
+        transform: rotate(1deg);
+        top: -1px;
+        left: -1px;
+      }
+      &:after {
+        background: rgba(2, 117, 169, 0.6);
+        top: 3px;
+        right: -2px;
+      }
+      .highlight {
+        color: #fff;
+        z-index: 4;
+        padding: 40px;
+      }
+      .highlight-1 {
+        margin: 20px 0;
+        font-size: 48px;
+      }
+      .highlight-2 {
+        font-family: 'Proxima Nova Rg';
+        font-size: 24px;
+      }
+    }
+  }
+
+  .sub.highlight-container {
+    &::before {
+      background: rgba(35, 31, 32, 0.9);
+    }
+    &::after {
+      background: rgba(35, 31, 32, 0.6);
+    }
+  }
+}
+
+// scroll down
+.hero {
+  @-webkit-keyframes sdb05 {
+    0% {
+      -webkit-transform: rotate(-45deg) translate(0, 0);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: rotate(-45deg) translate(-20px, 20px);
+      opacity: 0;
+    }
+  }
+  @keyframes sdb05 {
+    0% {
+      transform: rotate(-45deg) translate(0, 0);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(-45deg) translate(-20px, 20px);
+      opacity: 0;
+    }
+  }
+}
+
+@media (max-height: 691px) {
+  .hero {
+    .hero-body {
+      .header-text {
+        padding: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 1250px) {
+  .hero {
+    .header-text {
+      margin: 0 40px;
+    }
+    .hero-body {
+      .highlight-container {
+        padding: 20px;
+      }
+      .highlight.highlight-1 {
+        margin: 20px 0;
+        font-size: 32px;
+        padding: 0px;
+      }
+      .highlight.highlight-2 {
+        font-family: 'Proxima Nova Rg';
+        font-size: 20px;
+        padding: 0px;
+      }
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .hero {
+    .header-text {
+      margin: 0 40px;
+    }
+    .hero-body {
+      .highlight-container {
+        padding: 20px;
+        .highlight {
+          padding: 0;
+        }
+      }
+
+      .highlight.highlight-1 {
+        margin: 20px 0;
+        font-size: 26px;
+        padding: 0px;
+      }
+      .highlight.highlight-2 {
+        font-family: 'Proxima Nova Rg';
+        font-size: 16px;
+        padding: 0px;
+      }
+    }
+  }
+}

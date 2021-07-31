@@ -3,10 +3,11 @@ import './profile.styles.scss'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoadingOutlined, UserOutlined } from '@ant-design/icons'
-import ProfileBox from '../../../components/user/profileBox/profileBox'
-import ProfileInfoBox from '../../../components/user/profileInfo/profileInfo'
+import ProfileBox from '../../../components/member/profileBox/profileBox'
+import ProfileInfoBox from '../../../components/member/profileInfo/profileInfo'
 import { useParams } from 'react-router-dom'
 import { signOut } from '../../../redux/userSlice'
+import { get } from '../../../utils/apiCall'
 
 const spinner = <LoadingOutlined style={{ fontSize: 45 }} spin />
 
@@ -21,18 +22,14 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(process.env.REACT_APP_API_URL + '/user/' + (id ? id : 'me'), {
-        headers: new Headers({
-          Authorization: 'Bearer ' + token,
-        }),
-      })
+      const res = await get('/user/' + (id ? id : 'me'), token)
       if (res.ok) {
         const resJson = await res.json()
         setUser(resJson)
+        setLoading(false)
       } else if (res.status === 401) {
         dispatch(signOut)
       }
-      setLoading(false)
     }
     fetchData()
   }, [token, id]) //eslint-disable-line

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import Hero from '../../components/heroSection/hero'
-import HomeSection from '../../components/homeSection/homeSection'
+import React, { useState } from 'react'
+import Hero from '../../components/home/heroSection/hero'
+import HomeSection from '../../components/home/homeSection/homeSection'
 import Container from '../../components/container/container'
 import Footer from '../../components/footer/footer'
 
@@ -12,29 +12,23 @@ import wieLogo from '../../assets/socities/woman_logo.png'
 import blackHole from '../../assets/blackHole_logo.png'
 import './home.styles.scss'
 import PublicHeader from '../../components/header/publicHeader'
-import EventList from '../../components/eventList/eventList'
+import EventList from '../../components/event/eventList/eventList'
 import { Button, Divider } from 'antd'
 import Society from '../../components/society/sociey'
-import UserCard from '../../components/userCard/userCard'
 
 import contents from '../../assets/contents'
-import Achivments from '../../components/achivemnts/achivemnts'
-import AboutSection from '../../components/aboutSection/aboutSection'
+import Achivments from '../../components/home/achivemnts/achivemnts'
+import AboutSection from '../../components/home/aboutSection/aboutSection'
+import CommitteeLisiting from '../../components/member/committeeLisiting/committeeLisitng'
 
+const societies = [
+  { type: 'computer', logo: computerLogo },
+  { type: 'ras', logo: rasLogo },
+  { type: 'pes', logo: pesLogo },
+  { type: 'wie', logo: wieLogo },
+]
 const HomePage = () => {
   const [old, setOld] = useState(false)
-  const [committee, setCommittee] = useState([])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const committeeFetch = await fetch(process.env.REACT_APP_API_URL + '/users/all/committee')
-      if (committeeFetch.ok) {
-        const committeeFetchJson = await committeeFetch.json()
-        setCommittee(committeeFetchJson)
-      }
-    }
-    fetchData()
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -43,8 +37,8 @@ const HomePage = () => {
         <Hero />
         <HomeSection titlePr='About' inverted titleSc='Us' id='about'>
           <Container>
-            {contents.about.map((e) => (
-              <AboutSection title={e.title} body={e.body} />
+            {contents.about.map((e, i) => (
+              <AboutSection key={i} title={e.title} body={e.body} />
             ))}
           </Container>
           <Divider className='divider-text' data-aos='fade-up'>
@@ -54,7 +48,6 @@ const HomePage = () => {
             <Achivments />
           </Container>
         </HomeSection>
-
         <HomeSection
           titlePr={!old ? 'Upcoming' : ''}
           titleSc='Events'
@@ -70,38 +63,16 @@ const HomePage = () => {
           </Container>
         </HomeSection>
         <HomeSection titlePr='Our' titleSc='Team' id='team' inverted>
-          {committee.map((user, index) => (
-            <UserCard
-              key={index}
-              name={user.firstName + ' ' + user.lastName}
-              position={user.position}
-              points={user.points}
-              avatar={user.imageData}
-              id={user._id}
-            />
-          ))}
+          <CommitteeLisiting />
         </HomeSection>
         <HomeSection inverted id='societies'>
-          <Society type='computer' logo={computerLogo}>
-            <p>{contents.computer.p1}</p>
-            <p>{contents.computer.p2}</p>
-            <p>{contents.computer.p3}</p>
-          </Society>
-          <Society type='pes' title='PES Society' logo={pesLogo}>
-            <p>{contents.pes.p1}</p>
-            <p>{contents.pes.p2}</p>
-            <p>{contents.pes.p3}</p>
-          </Society>
-          <Society type='ras' title='RAS Society' logo={rasLogo}>
-            <p>{contents.ras.p1}</p>
-            <p>{contents.ras.p2}</p>
-            <p>{contents.ras.p3}</p>
-          </Society>
-          <Society type='wie' title='WIE Society' logo={wieLogo}>
-            <p>{contents.wie.p1}</p>
-            <p>{contents.wie.p2}</p>
-            <p>{contents.wie.p3}</p>
-          </Society>
+          {societies.map((s, i) => (
+            <Society type={s.type} logo={s.logo} key={i}>
+              <p>{contents[s.type].p1}</p>
+              <p>{contents[s.type].p2}</p>
+              <p>{contents[s.type].p3}</p>
+            </Society>
+          ))}
           <Society logo={blackHole} type='blackhole'>
             <p>{contents.blackhole}</p>
             <Button

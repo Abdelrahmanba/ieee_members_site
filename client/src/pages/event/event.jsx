@@ -5,19 +5,12 @@ import UserHeaderSections from '../../components/header/userMenus/userMenuSectio
 import { Button, Image, message } from 'antd'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import NonMembersModel from '../../components/event/nonmembersEventModal/NonMembersModal'
 
-import NonMembersModel from '../../components/nonmembersEventModal/NonMembersModal'
-
-import {
-  CalendarOutlined,
-  LinkOutlined,
-  ClockCircleOutlined,
-  ScheduleOutlined,
-  CompassOutlined,
-  TeamOutlined,
-  DollarCircleOutlined,
-} from '@ant-design/icons'
 import PublicHeaderAlt from '../../components/header/publicHeaderAlt'
+import { get } from '../../utils/apiCall'
+import EventInfo from '../../components/event/eventInfo/eventInfo'
+import React from 'react'
 
 const Event = () => {
   const user = useSelector((state) => state.user)
@@ -29,11 +22,13 @@ const Event = () => {
 
   useEffect(() => {
     const fetchEvent = async () => {
-      const event = await fetch(process.env.REACT_APP_API_URL + '/event/' + id)
+      const event = await get('/event/' + id)
       if (event.ok) {
         const resJson = await event.json()
         setEvent(resJson)
         setSeats(resJson.availableTickets - resJson.participants.length)
+      } else {
+        message.error('Sorry, Something went wrong.')
       }
     }
     fetchEvent()
@@ -45,52 +40,36 @@ const Event = () => {
       return
     }
     setConfirmLoading(true)
-    const res = await fetch(
-      process.env.REACT_APP_API_URL + '/event/add_participants/' + event._id,
-      {
-        headers: new Headers({
-          Authorization: 'Bearer ' + user.token,
-        }),
-      }
-    )
-    const resJson = await res.json()
-
-    if (!res.ok) {
-      return
-    } else {
+    const res = await get('/event/add_participants/' + id, user.token)
+    if (res.ok) {
+      const resJson = await res.json()
       setEvent((event) => ({
         ...event,
         participants: resJson,
       }))
+      setSeats((seats) => seats - 1)
+    } else {
+      message.error('Sorry, Something went wrong.')
     }
-    setSeats((seats) => seats - 1)
     setConfirmLoading(false)
   }
-  const removeHandle = async () => {
+  const handleRemove = async () => {
     setConfirmLoading(true)
-    const res = await fetch(
-      process.env.REACT_APP_API_URL + '/event/remove_participants/' + event._id,
-      {
-        headers: new Headers({
-          Authorization: 'Bearer ' + user.token,
-        }),
-      }
-    )
-    const resJson = await res.json()
-
-    if (!res.ok) {
-      return
-    } else {
+    const res = await get('/event/remove_participants/' + id, user.token)
+    if (res.ok) {
+      const resJson = await res.json()
       setEvent((event) => ({
         ...event,
         participants: resJson,
       }))
+      setSeats((seats) => seats + 1)
+    } else {
+      message.error('Sorry, Something went wrong.')
     }
-    setSeats((seats) => seats + 1)
     setConfirmLoading(false)
   }
   return (
-    <>
+    <React.Fragment>
       {user.token ? (
         <Header>
           <UserHeaderSections />
@@ -118,63 +97,8 @@ const Event = () => {
               alt='Featured'
             />
           )}
-          <div className='event__box'>
-            <div className='event-box-body'>
-              <h2 className='event-title'>Event Details</h2>
-              <div className='event-box-row'>
-                <div className='label'>
-                  <CalendarOutlined style={{ color: '#0275a9', paddingRight: 10 }} />
-                  Start Date
-                </div>
-                {event && new Date(event.startDate).toDateString()}
-              </div>
-              <div className='event-box-row'>
-                <div className='label'>
-                  <ClockCircleOutlined style={{ color: '#0275a9', paddingRight: 10 }} />
-                  Start Time
-                </div>
-                {event && new Date(event.startDate).toLocaleTimeString([], { timeStyle: 'short' })}
-              </div>
-              <div className='event-box-row'>
-                <div className='label'>
-                  <ScheduleOutlined style={{ color: '#0275a9', paddingRight: 10 }} />
-                  Duration
-                </div>
-                {event && event.duration}
-              </div>
-              <div className='event-box-row'>
-                <div className='label'>
-                  <CompassOutlined style={{ color: '#0275a9', paddingRight: 10 }} />
-                  Location
-                </div>
-                {event && event.location}
-              </div>
-              <div className='event-box-row'>
-                <div className='label'>
-                  <TeamOutlined style={{ color: '#0275a9', paddingRight: 10 }} />
-                  Attendence
-                </div>
-                {event && event.availableTickets}
-              </div>
-              <div className='event-box-row'>
-                <div className='label'>
-                  <DollarCircleOutlined style={{ color: '#0275a9', paddingRight: 10 }} />
-                  Price
-                </div>
-                {event && event.price === 0 ? 'Free' : event.price + '₪'}
-              </div>
-              {event && event.link && (
-                <div className='event-box-row'>
-                  <div className='label'>
-                    <LinkOutlined style={{ color: '#0275a9', paddingRight: 10 }} />
-                    Link
-                  </div>
-                  {<a href={event.link}>Click Here</a>}
-                </div>
-              )}
-            </div>
-          </div>
         </div>
+        <EventInfo event={event} />
         {event && event.description && (
           <div className='orgnizers'>
             <h2 className='header-text'>
@@ -206,20 +130,20 @@ const Event = () => {
         {new Date(event.startDate) < Date.now() ? (
           ''
         ) : (
-          <>
+          <React.Fragment>
             <p className='text'>{seats} seats left.</p>
             {event.participants &&
             event.participants.filter((part) => part.user === user.user._id).length > 0 ? (
               <Button
                 type='danger'
-                onClick={removeHandle}
+                onClick={handleRemove}
                 className='join-btn'
                 loading={confirmLoading}
               >
                 Sorry, I can't Attend
               </Button>
             ) : (
-              <>
+              <React.Fragment>
                 {seats === 0 && (
                   <p>
                     But you still have a chance!, please fill Non-Members form below and we will
@@ -235,7 +159,7 @@ const Event = () => {
                 >
                   Join This Event!
                 </Button>
-              </>
+              </React.Fragment>
             )}
             {event.allowNonMembers === true ? (
               <p>
@@ -247,10 +171,10 @@ const Event = () => {
             ) : (
               ''
             )}
-          </>
+          </React.Fragment>
         )}
       </div>
-    </>
+    </React.Fragment>
   )
 }
 

@@ -1,7 +1,7 @@
 import './points.styles.scss'
 import { List } from 'antd'
+import Top3Points from '../../../components/member/top3Points/top3Points'
 
-import Top3Points from '../../../components/top3Points/top3Points'
 const Points = () => {
   const data = [
     'Racing car sprays burning fuel into crowd.',

@@ -3,27 +3,27 @@ import NotFound from '../pages/NotFound/notFound'
 import HomePage from '../pages/homePage/home'
 import PrivateFooter from '../components/privateFooter/PrivateFooter'
 //account
-import SignIn from '../pages/signIn/signIn'
-import SignUp from '../pages/SignUp/SignUp'
-import SignOut from '../pages/signOut/signOut'
-import EmailVerify from '../pages/emailVerify/emailVerify'
-import ResetPassword from '../pages/passwordReset/resetPassword'
+import SignIn from '../pages/account/signIn/signIn'
+import SignUp from '../pages/account/signUp/signUp'
+import SignOut from '../pages/account/signOut/signOut'
+import EmailVerify from '../pages/account/emailVerify/emailVerify'
+import ResetPassword from '../pages/account/passwordReset/resetPassword'
+import CompleteProfile from '../pages/account/completeProfile/completeProfile'
 //admin
-import EventList from '../pages/EventList/EventList'
-import AdminUsers from '../pages/adminUsers/AdminUsers'
-import AdminPoints from '../pages/adminPoints/adminPoints'
-import AdminHome from '../pages/adminHome/adminHome'
-import AdminEvents from '../pages/adminEvents/AdminEvents'
-import EditEvent from '../pages/EditEvent/Editevent'
+import EventStatistics from '../pages/admin/eventStatistics/eventStatistics'
+import AdminUsers from '../pages/admin/adminUsers/AdminUsers'
+import AdminPoints from '../pages/admin/adminPoints/adminPoints'
+import AdminHome from '../pages/admin/adminHome/adminHome'
+import AdminEvents from '../pages/admin/adminEvents/adminEvents'
+import EditEvent from '../pages/admin/editEvent/editevent'
 import HeaderRouting from './header.router'
 //member
-import Settings from '../pages/settings/settings'
-import UserHome from '../pages/userHome/userHome'
-import Profile from '../pages/profile/profile'
-import Members from '../pages/members/members'
-import CompleteProfile from '../pages/CompleteProfile/CompleteProfile'
-import Points from '../pages/points/points'
-import Events from '../pages/events/event'
+import Settings from '../pages/member/settings/settings'
+import UserHome from '../pages/member/userHome/userHome'
+import Profile from '../pages/member/profile/profile'
+import Members from '../pages/member/members/members'
+import Points from '../pages/member/points/points'
+import Events from '../pages/member/events/events'
 import ProtectedRoute from './protectedRoute'
 
 const Router = () => {
@@ -44,7 +44,7 @@ const Router = () => {
         <ProtectedRoute exact path={['/Admin/Home', '/Admin']} component={AdminHome} />
         <ProtectedRoute exact path={'/Admin/Events'} component={AdminEvents} />
         <ProtectedRoute exact path={'/Admin/EditEvent/:id'} component={EditEvent} />
-        <ProtectedRoute exact path={'/Admin/Event/Statistics/:id'} component={EventList} />
+        <ProtectedRoute exact path={'/Admin/Event/Statistics/:id'} component={EventStatistics} />
         <ProtectedRoute exact path={'/Admin/Users'} component={AdminUsers} />
         <ProtectedRoute exact path={'/Admin/Points'} component={AdminPoints} />
 

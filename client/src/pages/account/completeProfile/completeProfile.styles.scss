@@ -1,0 +1,11 @@
+@import '../../../theme/scssVariables';
+.complete_profile.body {
+  .steps {
+    padding: 30px 40px;
+  }
+  justify-content: space-between;
+  min-height: fit-content;
+}
+.form-complete {
+  padding: 10px;
+}

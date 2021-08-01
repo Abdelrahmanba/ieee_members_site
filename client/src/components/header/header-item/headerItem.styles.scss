@@ -8,6 +8,9 @@
     color: $primary-text;
     font-size: 18px;
   }
+  &.menu-signin {
+    margin-right: 0;
+  }
   .menu-list.header-menu-link.user-list.selected {
     .anticon {
       color: $primary;
@@ -28,9 +31,10 @@
     color: #fff;
     border: solid 1px $primary;
     background: $primary;
-    padding: 9px 20px;
+    padding: 5px 20px;
     transition: all 0.5s ease;
     white-space: nowrap;
+    font-size: 18px;
 
     &::before {
       height: 0;
@@ -41,6 +45,7 @@
     }
   }
   .menu-signin.header-menu-link {
+    font-size: 18px;
     &::before {
       height: 0;
     }

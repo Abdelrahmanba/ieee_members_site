@@ -5,9 +5,7 @@ const AboutSection = ({ title, body }) => (
     <Divider className='divider-text' data-aos='fade-up'>
       {title}
     </Divider>
-    <p data-aos='fade-up' className='main-text'>
-      {body}
-    </p>
+    <p data-aos='fade-up' className='main-text' dangerouslySetInnerHTML={{ __html: body }}></p>
   </>
 )
 

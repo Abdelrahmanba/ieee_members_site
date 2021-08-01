@@ -7,6 +7,31 @@
   font-weight: bold;
   text-align: center;
 }
+.affix {
+  position: absolute;
+  right: 20px;
+  font-size: 16px;
+  .list {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid white;
+    margin-top: 10px;
+  }
+  a {
+    padding: 10px 0;
+    text-transform: capitalize;
+    padding-left: 5px;
+    color: white;
+  }
+  a.selected-society {
+    position: relative;
+    left: -2px;
+    border-left: 3px solid $primary;
+    color: $primary;
+    font-weight: bold;
+    text-shadow: 0 0 1px white;
+  }
+}
 .main-text {
   font-size: 18px;
   width: 80%;

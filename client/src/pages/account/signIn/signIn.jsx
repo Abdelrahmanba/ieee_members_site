@@ -40,6 +40,14 @@ const SignIn = (props) => {
       setError(jsonRes)
     }
   }
+
+  const onChange = (e) => {
+    if (e.target.name === 'email') {
+      setEmail(e.target.value)
+    } else {
+      setPassword(e.target.value)
+    }
+  }
   return (
     <>
       <ResetPassword visible={modalVisible} setModalVisible={setModalVisible} />
@@ -52,22 +60,20 @@ const SignIn = (props) => {
           <Form method='POST'>
             <h1 className='signin-header'>Welcome Back</h1>
             <Textfield
-              onChange={handleChange}
               type='text'
               name='email'
               text='Email Address'
               value={email}
               autocomplete='email'
-              onChange={(e) => setEmail(e.target.vale)}
+              onChange={onChange}
             />
             <Textfield
-              onChange={handleChange}
               type='password'
               name='password'
               text='Password'
               value={password}
               autocomplete='current-password'
-              onChange={(e) => setPassword(e.target.vale)}
+              onChange={onChange}
             />
             <Button block type='primary' loading={loading} onClick={submit}>
               Sign In

@@ -65,7 +65,6 @@ const CompleteProfile = () => {
 
   return (
     <>
-      <Particle />
       <div className='body complete_profile'>
         <Steps responsive current={currentStep} className='steps'>
           <Step
@@ -149,7 +148,16 @@ const CompleteProfile = () => {
             <Typography.Paragraph>Thank You for being part of our family !</Typography.Paragraph>
           </div>
         )}
+        <Button
+          type='text'
+          onClick={() => {
+            history.push('/signOut')
+          }}
+        >
+          Sign Out
+        </Button>
       </div>
+      <Particle />
     </>
   )
 }

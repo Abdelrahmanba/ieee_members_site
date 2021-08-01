@@ -1,12 +1,14 @@
 import './eventsTable.styles.scss'
 
-import { Table, Button, message, Popconfirm, Divider } from 'antd'
+import { Table, Button, message, Popconfirm } from 'antd'
 import { useEffect, useState } from 'react'
-import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import AddEvent from '../addEvent/addevent'
 import { signOut } from '../../../redux/userSlice'
+import { get, post } from '../../../utils/apiCall'
+import getColumns from '../../../utils/eventsTableColumns'
 
 const EventsTable = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
@@ -14,22 +16,17 @@ const EventsTable = () => {
   const [events, setEvents] = useState([])
   const history = useHistory()
   const [visible, setVisible] = useState(false)
-
   const [rerender, setRerender] = useState(false)
-
   const token = useSelector((state) => state.user.token)
   const dispatch = useDispatch()
+  const columns = getColumns(history)
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-      const res = await fetch(process.env.REACT_APP_API_URL + '/event/', {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
-        },
-      })
-      const resJosn = await res.json()
+      const res = await get('/event/', token)
       if (res.ok) {
+        const resJosn = await res.json()
         setEvents(
           resJosn.map(
             ({ title, startDate, _id, availableTickets, participants, nonMembers }, index) => ({
@@ -44,67 +41,17 @@ const EventsTable = () => {
         )
       } else if (res.status === 401) {
         dispatch(signOut)
+      } else {
+        message.error('Something Wrong.')
       }
       setLoading(false)
     }
     fetchData()
   }, [rerender, visible]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const columns = [
-    {
-      title: 'Title',
-      dataIndex: 'title',
-    },
-    {
-      title: 'Date',
-      dataIndex: 'date',
-      sorter: (a, b) => {
-        return new Date(a.date) - new Date(b.date)
-      },
-    },
-    {
-      title: 'Seats',
-      dataIndex: 'seats',
-      width: '20%',
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: function (text, record) {
-        return (
-          <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
-            <Button type='link' onClick={() => history.push('/admin/event/Statistics/' + text.key)}>
-              Statistics
-            </Button>
-            <Divider type='vertical' />
-            <Button
-              type='link'
-              icon={<EditOutlined />}
-              onClick={() => history.push('/Admin/EditEvent/' + text.key)}
-            >
-              Edit
-            </Button>
-            <Divider type='vertical' />
-            <Button type='link' onClick={() => history.push('/event/' + text.key)}>
-              View
-            </Button>
-          </div>
-        )
-      },
-      width: '35%',
-    },
-  ]
-
   const deleteEvent = async () => {
     setLoading(true)
-    const res = await fetch(process.env.REACT_APP_API_URL + '/event/deleteEvents', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-      body: JSON.stringify(selectedRowKeys),
-    })
+    const res = await post('/event/deleteEvents', token, selectedRowKeys)
     if (res.ok) {
       message.success(`${selectedRowKeys.length} events were deleted Successfully`)
     } else {
@@ -115,24 +62,23 @@ const EventsTable = () => {
     setRerender((rerender) => !rerender)
   }
 
-  const addEvent = () => {
-    setVisible(true)
-  }
-
-  const onSelectChange = (selectedRowKeys) => {
-    setSelectedRowKeys(selectedRowKeys)
-  }
   const rowSelection = {
     selectedRowKeys,
-
-    onChange: onSelectChange,
+    onChange: (selectedRowKeys) => {
+      setSelectedRowKeys(selectedRowKeys)
+    },
   }
 
   return (
     <>
       <AddEvent visible={visible} setVisible={setVisible} />
       <div className='btn-grp'>
-        <Button type='primary' onClick={addEvent} loading={loading} icon={<PlusOutlined />}>
+        <Button
+          type='primary'
+          onClick={() => setVisible(true)}
+          loading={loading}
+          icon={<PlusOutlined />}
+        >
           Add Event
         </Button>
         <Popconfirm

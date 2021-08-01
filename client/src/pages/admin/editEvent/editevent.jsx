@@ -16,6 +16,7 @@ import { useHistory, useParams } from 'react-router'
 import Textfield from '../../../components/textfield/textfield'
 import moment from 'moment'
 import { UploadOutlined } from '@ant-design/icons'
+import { get, post } from '../../../utils/apiCall'
 const { RangePicker } = DatePicker
 
 const { Option } = Select
@@ -116,30 +117,16 @@ const EditEvent = () => {
       delete eventInfo.images
     }
 
-    const res = await fetch(process.env.REACT_APP_API_URL + '/event/update/' + id, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-      body: JSON.stringify(eventInfo),
-    })
+    const res = await post('/event/update/' + id, token, eventInfo)
     if (res.ok) {
       history.push('/Admin/Events')
     } else {
       message.error('Something went wrong.')
     }
-
     setConfirmLoading(false)
   }
   const onFeaturedRemove = async (file) => {
-    const url = process.env.REACT_APP_API_URL + '/event/deleteEventFeatured/' + id + '/' + file.uid
-    const res = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    })
+    const res = await get('/event/deleteEventFeatured/' + id + '/' + file.uid, token)
     if (res.ok) {
       setFeatured(undefined)
     } else {
@@ -147,15 +134,7 @@ const EditEvent = () => {
     }
   }
   const onRemove = async (file) => {
-    const res = await fetch(
-      process.env.REACT_APP_API_URL + '/event/deleteEventImage/' + id + '/' + file.uid,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    )
+    const res = await get('/event/deleteEventImage/' + id + '/' + file.uid, token)
     if (res.ok) {
       setImageList((list) => list.filter((img) => img !== file.uid))
     } else {

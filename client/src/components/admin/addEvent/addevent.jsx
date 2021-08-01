@@ -15,8 +15,8 @@ import { useState } from 'react'
 import Textfield from '../../textfield/textfield'
 import Form from '../../form/form'
 import { UploadOutlined } from '@ant-design/icons'
-import { useDispatch, useSelector } from 'react-redux'
-import { signOut } from '../../../redux/userSlice'
+import { useSelector } from 'react-redux'
+import { post, get } from '../../../utils/apiCall.js'
 const { TextArea } = Input
 const { Option } = Select
 const { RangePicker } = DatePicker
@@ -37,8 +37,6 @@ const AddEvent = ({ visible, setVisible, id }) => {
   const [imageList, setImageList] = useState([])
   const [confirmLoading, setConfirmLoading] = useState(false)
 
-  const dispatch = useDispatch()
-
   const handleAdd = async () => {
     if (title === 'null') {
       message.error('Please Provide Title.')
@@ -48,7 +46,6 @@ const AddEvent = ({ visible, setVisible, id }) => {
       message.error('Please Provide Dates.')
       return
     }
-
     setConfirmLoading(true)
     const eventInfo = {
       title,
@@ -57,7 +54,7 @@ const AddEvent = ({ visible, setVisible, id }) => {
       location,
       link,
       description,
-      featured,
+      ...(featured && { featured }),
       availableTickets,
       society,
       allowNonMembers: nonMembers,
@@ -65,49 +62,25 @@ const AddEvent = ({ visible, setVisible, id }) => {
       startDate: date[0].toDate(),
       endDate: date[1].toDate(),
     }
-    if (featured === undefined) {
-      delete eventInfo.featured
-    }
 
-    const res = await fetch(process.env.REACT_APP_API_URL + '/event/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-      body: JSON.stringify(eventInfo),
-    })
+    const res = await post('/event/', token, eventInfo)
     if (res.ok) {
       setVisible(false)
-    } else if (res.status === 401) {
-      dispatch(signOut)
     } else {
       message.error('Something went wrong.')
     }
-
     setConfirmLoading(false)
   }
 
   const onFeaturedRemove = async (file) => {
-    const url = process.env.REACT_APP_API_URL + '/event/deleteImage/Featured' + file.uid
-    const res = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    })
+    const res = await get('/event/deleteImage/Featured' + file.uid, token)
     if (res.ok) {
       setFeatured('')
     }
   }
 
   const onRemove = async (file) => {
-    const res = await fetch(process.env.REACT_APP_API_URL + '/event/deleteImage/' + file.uid, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    })
+    const res = await fetch('/event/deleteImage/' + file.uid, token)
     if (res.ok) {
       setImageList((list) => list.filter((img) => img !== file.uid))
     }

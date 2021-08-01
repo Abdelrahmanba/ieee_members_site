@@ -27,6 +27,7 @@ const UserHeaderSections = ({ visible }) => {
               </Tooltip>
             }
             extraClass={'menu-list user-list'}
+            type='private'
           />
           <HeaderItem
             location={'/Member/Events'}
@@ -36,6 +37,7 @@ const UserHeaderSections = ({ visible }) => {
               </Tooltip>
             }
             extraClass={'menu-list user-list'}
+            type='private'
           />
           <HeaderItem
             location={'/Member/Members'}
@@ -45,6 +47,7 @@ const UserHeaderSections = ({ visible }) => {
               </Tooltip>
             }
             extraClass={'menu-list user-list'}
+            type='private'
           />
           <HeaderItem
             location={'/Member/Points'}
@@ -54,6 +57,7 @@ const UserHeaderSections = ({ visible }) => {
               </Tooltip>
             }
             extraClass={'menu-list user-list'}
+            type='private'
           />
         </Space>
       </ul>
@@ -67,6 +71,7 @@ const UserHeaderSections = ({ visible }) => {
               </Tooltip>
             }
             extraClass={'menu-list user-list'}
+            type='private'
           />
           <HeaderItem
             location={'/Member/settings'}
@@ -76,6 +81,7 @@ const UserHeaderSections = ({ visible }) => {
               </Tooltip>
             }
             extraClass={'menu-list user-list'}
+            type='private'
           />
           <HeaderItem
             location={'/signout'}
@@ -85,6 +91,7 @@ const UserHeaderSections = ({ visible }) => {
               </Tooltip>
             }
             extraClass={'menu-list user-list'}
+            type='private'
           />
           {role === 'admin' || role === 'committee' ? (
             <HeaderItem
@@ -95,6 +102,7 @@ const UserHeaderSections = ({ visible }) => {
                 </Tooltip>
               }
               extraClass={'menu-list user-list switch'}
+              type='private'
             />
           ) : (
             ''

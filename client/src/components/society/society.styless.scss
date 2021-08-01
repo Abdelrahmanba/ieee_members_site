@@ -97,3 +97,10 @@
     text-shadow: black 1px 1px;
   }
 }
+@media (hover: none) {
+  .societies {
+    .bannar {
+      background-attachment: initial;
+    }
+  }
+}

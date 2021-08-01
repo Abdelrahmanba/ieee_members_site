@@ -23,6 +23,7 @@ const AdminMenuSections = ({ visible }) => {
               </Tooltip>
             }
             extraClass={'menu-list user-list'}
+            type='private'
           />
           <HeaderItem
             location={'/Admin/Events'}
@@ -32,6 +33,7 @@ const AdminMenuSections = ({ visible }) => {
               </Tooltip>
             }
             extraClass={'menu-list user-list'}
+            type='private'
           />
 
           <HeaderItem
@@ -42,6 +44,7 @@ const AdminMenuSections = ({ visible }) => {
               </Tooltip>
             }
             extraClass={'menu-list user-list'}
+            type='private'
           />
           <HeaderItem
             location={'/Admin/Points'}
@@ -51,6 +54,7 @@ const AdminMenuSections = ({ visible }) => {
               </Tooltip>
             }
             extraClass={'menu-list user-list'}
+            type='private'
           />
         </Space>
       </ul>
@@ -64,6 +68,7 @@ const AdminMenuSections = ({ visible }) => {
               </Tooltip>
             }
             extraClass={'menu-list user-list'}
+            type='private'
           />
           <HeaderItem
             location={'/signout'}
@@ -73,6 +78,7 @@ const AdminMenuSections = ({ visible }) => {
               </Tooltip>
             }
             extraClass={'menu-list user-list'}
+            type='private'
           />
         </Space>
       </ul>

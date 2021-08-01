@@ -6,7 +6,7 @@ const contents = {
     },
     {
       title: 'History of IEEE',
-      body: 'IEEE’s roots go back to<b>1884</b> when electricity began to become a major influence in society. There was one major established electrical industry, the telegraph, which since the 1840s had come to connect the world with a data communications system faster than the speed of transportation. The telephone and electric power and light industries had just gotten underway.',
+      body: 'IEEE’s roots go back to <b>1884</b> when electricity began to become a major influence in society. There was one major established electrical industry, the telegraph, which since the 1840s had come to connect the world with a data communications system faster than the speed of transportation. The telephone and electric power and light industries had just gotten underway.',
     },
     {
       title: 'What we aim to at the branch',

@@ -1,7 +1,7 @@
 import './society.styless.scss'
-const Society = ({ children, type, logo }) => {
+const Society = ({ children, type, logo, id }) => {
   return (
-    <section className={`societies ${type}`}>
+    <section id={id} className={`societies ${type}`}>
       <img className='logo' src={logo} />
       {children}
       {type !== 'blackhole' && <div className='bannar' />}

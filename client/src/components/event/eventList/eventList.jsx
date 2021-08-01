@@ -1,43 +1,60 @@
 import { useEffect, useState } from 'react'
 import EventCard from '../eventCard/eventCard'
+import { get } from '../../../utils/apiCall'
+import { message, Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
+import './eventList.styles.scss'
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+
 const EventList = ({ setOld, limit, notExpired, skip, society }) => {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
 
+  const fetchOldEvents = async () => {
+    const oldevents = await get('/event?limit=' + limit)
+    if (oldevents.ok) {
+      const eventsJson = await oldevents.json()
+      setEvents(eventsJson)
+      setOld(true)
+      setLoading(false)
+    }
+  }
+
+  const fetchSociety = async () => {
+    const data = await get(`/event?limit=${limit}&society=${society}`)
+    if (data.ok) {
+      const resJson = await data.json()
+      setEvents(resJson)
+    }
+    setLoading(false)
+  }
+
   useEffect(() => {
-    let query = process.env.REACT_APP_API_URL + `/event?limit=${limit}&notExpired=${notExpired}`
-    const fetchEvents = async () => {
-      if (society !== undefined) {
-        query = process.env.REACT_APP_API_URL + `/event?limit=${limit}&society=${society}`
-        const data = await fetch(query)
-        if (data.ok) {
-          const resJson = await data.json()
+    if (society !== undefined) {
+      fetchSociety()
+      return
+    }
+    const fetchUpcoming = async () => {
+      const upComing = await get(`/event?limit=${limit}&notExpired=${notExpired}`)
+      if (upComing.ok) {
+        const resJson = await upComing.json()
+        if (resJson.length === 0) {
+          fetchOldEvents()
+        } else {
           setEvents(resJson)
-          return
-        }
-        setLoading(false)
-      } else {
-        const upevents = await fetch(query)
-        if (upevents.ok) {
-          const resJson = await upevents.json()
-          if (resJson.length === 0) {
-            const oldevents = await fetch(process.env.REACT_APP_API_URL + '/event?limit=3')
-            const eventsJson = await oldevents.json()
-            setEvents(eventsJson)
-            setOld(true)
-          } else {
-            setEvents(resJson)
-            setOld(false)
-          }
+          setOld(false)
           setLoading(false)
         }
+      } else {
+        message.error('Something Worng.')
       }
+      // }
     }
-    fetchEvents()
+    fetchUpcoming()
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <>
+    <Spin spinning={loading} indicator={antIcon} wrapperClassName='spin'>
       {events.map(({ title, startDate, _id, location, price, description, featured, society }) => (
         <EventCard
           data-aos='fade-up'
@@ -52,7 +69,7 @@ const EventList = ({ setOld, limit, notExpired, skip, society }) => {
           society={society}
         />
       ))}
-    </>
+    </Spin>
   )
 }
 

@@ -1,8 +1,7 @@
 import React from 'react'
 import './hero.styles.scss'
-import { Section } from 'react-scroll-section'
 const Hero = () => (
-  <Section className='hero'>
+  <section className='hero'>
     <div className='hero-bg'></div>
     <div className='hero-body'>
       <h1 className='header-text'>
@@ -25,7 +24,7 @@ const Hero = () => (
         </span>
       </h2>
     </div>
-  </Section>
+  </section>
 )
 
 export default Hero

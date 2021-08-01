@@ -1,10 +1,11 @@
 import { Button } from 'antd'
-import { NavLink, useHistory } from 'react-router-dom'
+import { Link as RouteLink, NavLink, useHistory } from 'react-router-dom'
+import { Link } from 'react-scroll'
 import './headerItem.styles.scss'
 
-const HeaderItem = ({ text, location, extraClass, selected, link, username, ...props }) => {
+const HeaderItem = ({ text, location, extraClass, type, ...props }) => {
   const history = useHistory()
-  if (selected === undefined && username === undefined) {
+  if (type === 'private') {
     return (
       <li {...props} className={`header-menu-item ${extraClass}`}>
         <NavLink
@@ -16,13 +17,13 @@ const HeaderItem = ({ text, location, extraClass, selected, link, username, ...p
         </NavLink>
       </li>
     )
-  } else if (username) {
+  } else if (type === 'link') {
     return (
-      <li {...props} className={`header-menu-item`}>
+      <li {...props} className={`header-menu-item ${extraClass}`}>
         <Button
           type='link'
+          className={`header-menu-link ${extraClass}`}
           onClick={() => history.push(location)}
-          style={{ color: 'black', fontSize: 20, height: 0 }}
         >
           {text}
         </Button>
@@ -31,11 +32,17 @@ const HeaderItem = ({ text, location, extraClass, selected, link, username, ...p
   } else {
     return (
       <li {...props} className={`header-menu-item`}>
-        {selected ? (
-          <span className={`header-menu-link ${extraClass} selected-section`}>{text}</span>
-        ) : (
-          <span className={`header-menu-link ${extraClass}`}>{text}</span>
-        )}
+        <Link
+          activeClass='selected-section'
+          to={location}
+          className={`header-menu-link ${extraClass}`}
+          spy={true}
+          smooth={true}
+          duration={1000}
+          offset={-65}
+        >
+          {text}
+        </Link>
       </li>
     )
   }

@@ -17,15 +17,11 @@ const Events = () => {
   return (
     <div className='body'>
       <UserSection title={old ? 'Recent Events' : 'Upcoming Events'}>
-        <Container fullWidth>
-          <EventList limit={3} notExpired={true} setOld={setOld} />
-        </Container>
+        <EventList limit={3} notExpired={true} setOld={setOld} />
       </UserSection>
       {societies.map((s, i) => (
-        <UserSection title={'Computer Society Events'} key={i}>
-          <Container fullWidth>
-            <EventList limit={3} notExpired={true} society='computer' />
-          </Container>
+        <UserSection title={s.title} key={i}>
+          <EventList limit={3} notExpired={true} society={s.name} />
         </UserSection>
       ))}
     </div>

@@ -4,6 +4,8 @@ import { Button, Input, message, DatePicker, Radio } from 'antd'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../../redux/userSlice'
+import { post } from '../../../utils/apiCall'
+import React from 'react'
 
 const SettingsField = ({ title, data, name, type }) => {
   const [fieldData, setFieldData] = useState(data)
@@ -22,25 +24,13 @@ const SettingsField = ({ title, data, name, type }) => {
     if (type === 'password') {
       updateData['currentPassword'] = currentPassword
     }
-    const res = await fetch(process.env.REACT_APP_API_URL + '/users/update', {
-      method: 'POST',
-      headers: new Headers({
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      }),
-      body: JSON.stringify(updateData),
-    })
-    const key = 'update'
+    const res = await post('/users/update', token, updateData)
     if (res.ok) {
       const jsonRes = await res.json()
       dispatch(setUser(jsonRes))
-      message.success({
-        content: `${title} was updated Sucsessfully`,
-        key,
-        duration: 4,
-      })
+      message.success(`${title.substring(0, title.length - 2)} was updated Sucsessfully`, 1)
     } else {
-      message.error({ content: 'Somthing went worng :(', key, duration: 4 })
+      message.error('Somthing went worng :(', 3)
     }
 
     setLoading(false)
@@ -73,7 +63,7 @@ const SettingsField = ({ title, data, name, type }) => {
         </Radio.Group>
       )}
       {type === 'password' && edit && (
-        <>
+        <React.Fragment>
           <p className='password-title'>Current Password</p>
           <Input
             type='password'
@@ -88,7 +78,7 @@ const SettingsField = ({ title, data, name, type }) => {
             style={{ width: '100%' }}
             onChange={(e) => setFieldData(e.target.value)}
           />
-        </>
+        </React.Fragment>
       )}
 
       {edit ? (

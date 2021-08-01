@@ -4,6 +4,7 @@ import TextField from '../../textfield/textfield'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { Modal, Alert } from 'antd'
 import { useState } from 'react'
+import { post } from '../../../utils/apiCall'
 
 const NonMembersModel = ({ title, setVisible, visible, eventId }) => {
   const [capatcha, setCapatcha] = useState(false)
@@ -28,12 +29,11 @@ const NonMembersModel = ({ title, setVisible, visible, eventId }) => {
 
       return
     }
-    const res = await fetch(process.env.REACT_APP_API_URL + '/event/add_nonMembers/' + eventId, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, email, phone, year }),
+    const res = await post('/event/add_nonMembers/' + eventId, undefined, {
+      name,
+      email,
+      phone,
+      year,
     })
     const resJson = await res.json()
 

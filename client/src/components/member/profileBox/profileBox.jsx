@@ -19,14 +19,12 @@ const ProfileEventsBox = ({ token, url, title }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(process.env.REACT_APP_API_URL + url, {
-        headers: new Headers({
-          Authorization: 'Bearer ' + token,
-        }),
-      })
-      const resJson = await res.json()
-      setData(resJson)
-      setLoading(false)
+      const res = await fetch(url, token)
+      if (res.ok) {
+        const resJson = await res.json()
+        setData(resJson)
+        setLoading(false)
+      }
     }
     fetchData()
   }, [token, url])

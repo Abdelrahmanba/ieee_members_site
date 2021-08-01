@@ -1,12 +1,14 @@
 import UserCard from '../memberCard/memberCard'
 import { ReactComponent as Trophy } from '../../../assets/icons/trophy.svg'
 import { useEffect, useState } from 'react'
+import { get } from '../../../utils/apiCall'
 import './top3Points.scss'
+
 const Top3Points = () => {
   const [top3, setTop3] = useState([])
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(process.env.REACT_APP_API_URL + '/users/top3')
+      const res = await get('/users/top3')
       if (res.ok) {
         const resJosn = await res.json()
         setTop3(resJosn)

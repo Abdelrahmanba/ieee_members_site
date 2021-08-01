@@ -3,6 +3,7 @@
 .body__section__outline {
   border: 1px solid rgba(0, 0, 0, 0.2);
   background-color: rgba(0, 0, 0, 0.01);
+  border-radius: 2px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -19,7 +20,9 @@
     -webkit-appearance: none;
     margin: 0;
   }
-
+  input {
+    border-radius: 2px;
+  }
   /* Firefox */
   input[type='number'] {
     -moz-appearance: textfield;

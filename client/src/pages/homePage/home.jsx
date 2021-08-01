@@ -61,7 +61,15 @@ const HomePage = () => {
           <EventList limit={3} notExpired={true} setOld={setOld} />
         </Container>
       </HomeSection>
-      <HomeSection titlePr='Our' titleSc='Team' name='team' inverted>
+      <HomeSection
+        titlePr='Our'
+        titleSc='Team'
+        name='team'
+        inverted
+        desc='“Alone we can do so little, together we can do so much.”
+
+      '
+      >
         <CommitteeLisiting />
       </HomeSection>
       <HomeSection inverted name='societies'>

@@ -9,7 +9,13 @@ const ExcelColumn = ReactExport.ExcelFile.ExcelColumn
 
 const ExportExcel = ({ members, membersCol, nonMembers, nonMembersCol }) => {
   return (
-    <ExcelFile element={<Button type='primary'>Download XLXS</Button>}>
+    <ExcelFile
+      element={
+        <Button type='primary' style={{ marginTop: 20 }}>
+          Download XLXS
+        </Button>
+      }
+    >
       <ExcelSheet data={members} name={'Members'}>
         {membersCol.map((c, i) => (
           <ExcelColumn label={c.title} value={c.dataIndex} key={i} />

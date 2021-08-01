@@ -2,8 +2,10 @@ import { Progress, Spin, Table } from 'antd'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
-import ExportExcel from '../../../components/admin/ExportExcel/ExportExcel'
+import React, { Suspense } from 'react'
 import './eventStatistics.style.scss'
+
+const ExportExcel = React.lazy(() => import('../../../components/admin/ExportExcel/ExportExcel'))
 
 const membersColmouns = [
   {
@@ -138,12 +140,14 @@ const EventStatistics = () => {
         {availableTickets && (
           <Table className='table' columns={nonMembersColmouns} dataSource={nonMembers} bordered />
         )}
-        <ExportExcel
-          members={participants}
-          membersCol={membersColmouns}
-          nonMembers={nonMembers}
-          nonMembersCol={nonMembersColmouns}
-        />
+        <Suspense fallback={<div>loading..</div>}>
+          <ExportExcel
+            members={participants}
+            membersCol={membersColmouns}
+            nonMembers={nonMembers}
+            nonMembersCol={nonMembersColmouns}
+          />
+        </Suspense>
       </div>
     </Spin>
   )

@@ -4,6 +4,7 @@ import Textfield from '../../textfield/textfield'
 import { Mentions, Button, Tag, message } from 'antd'
 import './addPoints.styles.scss'
 import { signOut } from '../../../redux/userSlice'
+import { get, post } from '../../../utils/apiCall'
 const { Option } = Mentions
 
 const AddPoints = ({ reload, setReload }) => {
@@ -19,11 +20,7 @@ const AddPoints = ({ reload, setReload }) => {
   const dispatch = useDispatch()
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(process.env.REACT_APP_API_URL + '/users/all/', {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      })
+      const res = await get('/users/all/', token)
       const resJosn = await res.json()
       if (res.ok) {
         setUsers(
@@ -45,14 +42,7 @@ const AddPoints = ({ reload, setReload }) => {
 
   const creditMembers = async () => {
     setloading(true)
-    const res = await fetch(process.env.REACT_APP_API_URL + '/users/addPoints/multi', {
-      method: 'POST',
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ selected, amount, title }),
-    })
+    const res = await post('/users/addPoints/multi', token, { selected, amount, title })
     if (res.ok) {
       message.success('Added Successfuly')
       setReload((reload) => !reload)
@@ -125,7 +115,6 @@ const AddPoints = ({ reload, setReload }) => {
           </Tag>
         ))}
       </div>
-
       <Button
         type='primary'
         loading={loading}

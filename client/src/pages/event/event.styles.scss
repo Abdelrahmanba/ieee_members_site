@@ -16,6 +16,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     height: auto;
+    border-radius: 5px;
   }
   .typo {
     font-size: 18px;
@@ -60,6 +61,7 @@
     max-width: 710px;
     position: relative;
     flex-direction: column;
+    border-radius: 2px;
     align-items: center;
     padding: 20px;
     background-color: #f7f9fb;

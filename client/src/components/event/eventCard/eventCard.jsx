@@ -8,6 +8,7 @@ import {
   BankOutlined,
   LeftOutlined,
 } from '@ant-design/icons'
+import { Typography } from 'antd'
 
 const EventCard = ({
   id,
@@ -76,7 +77,9 @@ const EventCard = ({
         >
           <div className='event-card-label'>{title}</div>
         </div>
-        <p className='event-card-descripton'>{description}</p>
+        <Typography.Paragraph ellipsis={{ rows: 3 }} className='event-card-descripton'>
+          {description}
+        </Typography.Paragraph>
       </div>
     </div>
   )

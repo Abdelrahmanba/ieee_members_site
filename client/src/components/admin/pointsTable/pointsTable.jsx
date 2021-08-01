@@ -1,12 +1,13 @@
-import { Button, Table, Divider } from 'antd'
+import { Table } from 'antd'
 import './pointsTable.scss'
-import { getColumnSearchProps } from '../../../helpersFunctions'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoadingOutlined } from '@ant-design/icons'
 import { editModal, viewModal } from './adminPointsModals/adminPointsModal'
 import React from 'react'
 import { signOut } from '../../../redux/userSlice'
+import { get } from '../../../utils/apiCall'
+import getColumns from '../../../utils/pointsTableColoums'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const PointsTable = ({ reload, setReload }) => {
@@ -35,11 +36,7 @@ const PointsTable = ({ reload, setReload }) => {
   useEffect(() => {
     setLoading(true)
     const fetchData = async () => {
-      const res = await fetch(process.env.REACT_APP_API_URL + '/users/all/points', {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      })
+      const res = await get('/users/all/points', token)
       const resJosn = await res.json()
       if (res.ok) {
         setUsers(
@@ -61,66 +58,7 @@ const PointsTable = ({ reload, setReload }) => {
     }
     fetchData()
   }, [reload]) // eslint-disable-line react-hooks/exhaustive-deps
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      width: '25%',
-      fixed: 'left',
-      sorter: (a, b) => {
-        return a.name > b.name
-      },
-      ...getColumnSearchProps('name'),
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      fixed: 'left',
-      width: '25%',
-      ...getColumnSearchProps('email'),
-    },
-    {
-      title: 'Member ID',
-      dataIndex: 'membershipID',
-      width: 160,
-      ...getColumnSearchProps('membershipID'),
-    },
-
-    {
-      title: 'Points',
-      dataIndex: 'points',
-    },
-
-    {
-      title: 'Action',
-      key: 'action',
-
-      render: function (text, record) {
-        return (
-          <div>
-            <Button
-              type='link'
-              onClick={() => {
-                setRecordEdit(record)
-              }}
-            >
-              Edit
-            </Button>
-            <Divider type='vertical' />
-
-            <Button
-              type='link'
-              onClick={() => {
-                setRecordView(record)
-              }}
-            >
-              View
-            </Button>
-          </div>
-        )
-      },
-    },
-  ]
+  const columns = getColumns(setRecordEdit, setRecordView)
 
   return (
     <Table

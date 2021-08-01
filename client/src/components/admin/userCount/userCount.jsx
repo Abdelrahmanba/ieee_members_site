@@ -1,6 +1,7 @@
-import { Statistic } from 'antd'
+import { message, Statistic } from 'antd'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { get } from '../../../utils/apiCall'
 import './userCount.styles.scss'
 const UserCount = () => {
   const [userCount, setUserCount] = useState({ countAll: 0, countActive: 0, countWaiting: 0 })
@@ -8,15 +9,12 @@ const UserCount = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(process.env.REACT_APP_API_URL + '/users/count', {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
-        },
-      })
+      const res = await get('/users/count', token)
       const resJosn = await res.json()
       if (res.ok) {
         setUserCount(resJosn)
+      } else {
+        message.error('Something Went Worng.')
       }
     }
     fetchData()

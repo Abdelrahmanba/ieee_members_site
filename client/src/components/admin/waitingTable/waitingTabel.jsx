@@ -6,6 +6,7 @@ import Textfield from '../../textfield/textfield'
 import Form from '../../form/form'
 import { LoadingOutlined } from '@ant-design/icons'
 import { signOut } from '../../../redux/userSlice'
+import { get } from '../../../utils/apiCall'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const WaitingTable = () => {
@@ -50,15 +51,7 @@ const WaitingTable = () => {
   }
   const handleOk = async () => {
     setConfirmLoading(true)
-    const res = await fetch(
-      process.env.REACT_APP_API_URL + '/users/committeeAuth/' + user._id + '/' + membershipID,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    )
+    const res = await fetch('/users/committeeAuth/' + user._id + '/' + membershipID, token)
     if (res.ok) {
       setUsers((users) => users.filter((item) => item._id !== user._id))
     }
@@ -69,14 +62,9 @@ const WaitingTable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(process.env.REACT_APP_API_URL + '/users/committeeAuth', {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
-        },
-      })
-      const resJosn = await res.json()
+      const res = await get('/users/committeeAuth', token)
       if (res.ok) {
+        const resJosn = await res.json()
         setUsers(
           resJosn.map(({ email, firstName, lastName, _id }, index) => ({
             key: index,

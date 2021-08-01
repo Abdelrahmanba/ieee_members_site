@@ -26,13 +26,14 @@ import Points from '../pages/member/points/points'
 import Events from '../pages/member/events/events'
 import ProtectedRoute from './protectedRoute'
 import Event from '../pages/event/event'
+import Loading from '../components/loading/loading'
 
 const Router = () => {
   return (
     <BrowserRouter>
       <HeaderRouting />
       <Switch>
-        <Route path='/' exact component={HomePage} />
+        <Route path='/' exact component={Loading} />
 
         <ProtectedRoute exact path={['/Member/Home', '/Member']} component={MemberHome} />
         <ProtectedRoute exact path='/Member/events' component={Events} />

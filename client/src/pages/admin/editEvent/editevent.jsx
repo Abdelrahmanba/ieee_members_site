@@ -110,7 +110,7 @@ const EditEvent = () => {
       startDate: date[0].toDate(),
       endDate: date[1].toDate(),
     }
-    if (featured && featured.type) {
+    if (featured.length && featured[0].type) {
       delete eventInfo.featured
     }
     if (imageList.length && imageList[0].type) {

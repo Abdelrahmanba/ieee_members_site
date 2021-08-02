@@ -6,8 +6,9 @@ import PublicHeaderAlt from '../../components/header/publicHeaderAlt'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import './allEvents.styles.scss'
-import { message, Pagination } from 'antd'
+import { Input, message, Pagination } from 'antd'
 import { get } from '../../utils/apiCall'
+const { Search } = Input
 
 const socites = {
   all: 'All',
@@ -20,13 +21,19 @@ const socites = {
 const AllEvents = () => {
   const user = useSelector((state) => state.user)
   const [old, setOld] = useState(false)
+  const [loading, setSearchLoading] = useState(false)
   const [skip, setSkip] = useState(0)
   const [totalCount, setTotalCount] = useState(0)
   const { type } = useParams()
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     const fetchCount = async () => {
-      const res = await get('/countEvents/' + type)
+      let url = '/countEvents/' + type
+      if (search !== '') {
+        url += '?search=' + search
+      }
+      const res = await get(url)
       if (res.ok) {
         const resJson = await res.json()
         setTotalCount(resJson.count)
@@ -35,10 +42,13 @@ const AllEvents = () => {
       }
     }
     fetchCount()
-  }, [])
+  }, [search])
 
   const changePage = (page, pageSize) => {
     setSkip((page - 1) * pageSize)
+  }
+  const onSearch = async (text) => {
+    setSearch(text)
   }
 
   return (
@@ -55,7 +65,24 @@ const AllEvents = () => {
           {socites[type]}
           <span> Events</span>
         </h1>
-        <EventList setOld={setOld} society={type} button={false} limit={9} skip={skip} />
+        <Search
+          placeholder='input search text'
+          enterButton='Search'
+          size='large'
+          style={{ width: '95%', margin: '40px 0' }}
+          onSearch={onSearch}
+          loading={loading}
+          allowClear
+        />
+        <EventList
+          setOld={setOld}
+          society={type}
+          button={false}
+          limit={9}
+          skip={skip}
+          search={search}
+          setSearchLoading={setSearchLoading}
+        />
         <Pagination
           style={{ width: '100%', textAlign: 'center' }}
           defaultCurrent={1}

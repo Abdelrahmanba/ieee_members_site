@@ -61,7 +61,7 @@ const Router = () => {
 
         <Route path='*' component={NotFound} />
       </Switch>
-      <Route path={['/member', '/admin', '/event', 'AllEvents']} component={PrivateFooter} />
+      <Route path={['/member', '/admin', '/event', '/AllEvents/']} component={PrivateFooter} />
     </BrowserRouter>
   )
 }

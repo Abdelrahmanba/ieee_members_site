@@ -7,7 +7,16 @@ import './eventList.styles.scss'
 import { useHistory } from 'react-router-dom'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
-const EventList = ({ setOld, limit, notExpired, skip, society, button }) => {
+const EventList = ({
+  setOld,
+  limit,
+  notExpired,
+  skip,
+  society,
+  button,
+  search,
+  setSearchLoading,
+}) => {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
   const history = useHistory()
@@ -32,6 +41,23 @@ const EventList = ({ setOld, limit, notExpired, skip, society, button }) => {
   }
 
   useEffect(() => {
+    if (search && search !== '') {
+      setSearchLoading(true)
+      const fetchSearch = async () => {
+        const res = await get('/event?search=' + search)
+        if (res.ok) {
+          const resJson = await res.json()
+          setSearchLoading(false)
+          if (resJson.length === 0) {
+            message.info('No results')
+          } else {
+            setEvents(resJson)
+          }
+        }
+      }
+      fetchSearch()
+      return
+    }
     if (society !== undefined) {
       fetchSociety()
       return
@@ -53,7 +79,7 @@ const EventList = ({ setOld, limit, notExpired, skip, society, button }) => {
       // }
     }
     fetchUpcoming()
-  }, [skip]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [skip, search]) //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Spin spinning={loading} indicator={antIcon} wrapperClassName='spin'>

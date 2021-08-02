@@ -34,6 +34,7 @@ router.get('/countEvents/:type', async (req, res, next) => {
   try {
     const options = {
       ...(req.params.type !== 'all' && { society: req.params.type }),
+      ...(req.query.search && { title: { $regex: new RegExp(req.query.search, 'i') } }),
     }
     const count = await Event.countDocuments(options)
 
@@ -46,11 +47,16 @@ router.get('/countEvents/:type', async (req, res, next) => {
 router.get('/event/', async (req, res, next) => {
   const limit = req.query.limit ? parseInt(req.query.limit) : 0
   const skip = req.query.skip ? parseInt(req.query.skip) : 0
+  const search = req.query.search ? req.query.search : ''
   const notExpired = req.query.notExpired ? true : false
   const match = {}
   req.query.society && req.query.society != 'all' ? (match.society = req.query.society) : null
   if (notExpired) {
     match.startDate = { $gte: new Date().toISOString() }
+  }
+  if (search !== '') {
+    const regex = new RegExp(search, 'i') // i for case insensitive
+    match.title = { $regex: regex }
   }
 
   try {

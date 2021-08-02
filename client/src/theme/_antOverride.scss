@@ -157,6 +157,25 @@ textarea.text-area.ant-input {
   color: #0275a9;
 }
 .ant-input-search-with-button {
+  .ant-input-affix-wrapper.ant-input-affix-wrapper-lg {
+    padding: 0px 11px;
+    &:focus-visible,
+    &:focus {
+      outline: none;
+      box-shadow: none;
+      border-color: #0275a9;
+    }
+    &:hover,
+    &:active,
+    &:focus,
+    &:focus-visible {
+      border-color: #0275a9;
+      color: #0275a9;
+    }
+    .ant-input {
+      height: 38px;
+    }
+  }
   .ant-input {
     height: 40px;
     &:hover,

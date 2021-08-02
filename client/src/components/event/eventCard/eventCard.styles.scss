@@ -29,7 +29,7 @@
   .event-card-info {
     display: flex;
     justify-content: space-evenly;
-    padding-top: 20px;
+    padding-top: 10px;
     align-items: center;
     flex-direction: column;
     opacity: 0;
@@ -147,6 +147,7 @@
     top: 0;
     left: 0;
     width: 60px;
+    border-radius: 0 0 2px 0;
     height: 60px;
     background-color: $primary;
     display: flex;

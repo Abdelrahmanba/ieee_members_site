@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react'
 import EventCard from '../eventCard/eventCard'
 import { get } from '../../../utils/apiCall'
-import { message, Spin } from 'antd'
+import { Button, message, Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import './eventList.styles.scss'
+import { useHistory } from 'react-router-dom'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
-const EventList = ({ setOld, limit, notExpired, skip, society }) => {
+const EventList = ({ setOld, limit, notExpired, skip, society, button }) => {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
+  const history = useHistory()
 
   const fetchOldEvents = async () => {
-    const oldevents = await get('/event?limit=' + limit)
+    const oldevents = await get(`/event?limit=${limit}&skip=${skip}`)
     if (oldevents.ok) {
       const eventsJson = await oldevents.json()
       setEvents(eventsJson)
@@ -21,7 +23,7 @@ const EventList = ({ setOld, limit, notExpired, skip, society }) => {
   }
 
   const fetchSociety = async () => {
-    const data = await get(`/event?limit=${limit}&society=${society}`)
+    const data = await get(`/event?limit=${limit}&society=${society}&skip=${skip}`)
     if (data.ok) {
       const resJson = await data.json()
       setEvents(resJson)
@@ -35,7 +37,7 @@ const EventList = ({ setOld, limit, notExpired, skip, society }) => {
       return
     }
     const fetchUpcoming = async () => {
-      const upComing = await get(`/event?limit=${limit}&notExpired=${notExpired}`)
+      const upComing = await get(`/event?limit=${limit}&notExpired=${notExpired}&skip=${skip}`)
       if (upComing.ok) {
         const resJson = await upComing.json()
         if (resJson.length === 0) {
@@ -51,24 +53,40 @@ const EventList = ({ setOld, limit, notExpired, skip, society }) => {
       // }
     }
     fetchUpcoming()
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [skip]) //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Spin spinning={loading} indicator={antIcon} wrapperClassName='spin'>
-      {events.map(({ title, startDate, _id, location, price, description, featured, society }) => (
-        <EventCard
-          data-aos='fade-up'
-          key={_id}
-          title={title}
-          date={new Date(startDate).toISOString()}
-          location={location}
-          id={_id}
-          price={price}
-          description={description}
-          featured={featured}
-          society={society}
-        />
-      ))}
+      <div className='event-section'>
+        <section>
+          {events.map(
+            ({ title, startDate, _id, location, price, description, featured, society }) => (
+              <EventCard
+                data-aos='fade-up'
+                key={_id}
+                title={title}
+                date={new Date(startDate).toISOString()}
+                location={location}
+                id={_id}
+                price={price}
+                description={description}
+                featured={featured}
+                society={society}
+              />
+            )
+          )}
+        </section>
+        {button && (
+          <Button
+            type='primary'
+            style={{ marginTop: 20, width: 200 }}
+            className={`socities-btn ${society}`}
+            onClick={() => history.push('/AllEvents/' + (society ? society : 'all'))}
+          >
+            View All Events
+          </Button>
+        )}
+      </div>
     </Spin>
   )
 }

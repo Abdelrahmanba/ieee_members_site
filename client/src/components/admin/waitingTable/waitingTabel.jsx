@@ -51,7 +51,7 @@ const WaitingTable = () => {
   }
   const handleOk = async () => {
     setConfirmLoading(true)
-    const res = await fetch('/users/committeeAuth/' + user._id + '/' + membershipID, token)
+    const res = await get('/users/committeeAuth/' + user._id + '/' + membershipID, token)
     if (res.ok) {
       setUsers((users) => users.filter((item) => item._id !== user._id))
     }

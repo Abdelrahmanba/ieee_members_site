@@ -7,6 +7,7 @@ import computer from '../../../assets/socities/computer.jpg'
 import pes from '../../../assets/socities/pes.png'
 import wie from '../../../assets/socities/wie.png'
 import ras from '../../../assets/socities/ras.jpg'
+import { get } from '../../../utils/apiCall'
 
 import './profileBox.scss'
 
@@ -19,7 +20,7 @@ const ProfileEventsBox = ({ token, url, title }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(url, token)
+      const res = await get(url, token)
       if (res.ok) {
         const resJson = await res.json()
         setData(resJson)

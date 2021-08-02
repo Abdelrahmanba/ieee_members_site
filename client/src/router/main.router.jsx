@@ -27,6 +27,7 @@ import Events from '../pages/member/events/events'
 import ProtectedRoute from './protectedRoute'
 import Event from '../pages/event/event'
 import Loading from '../components/loading/loading'
+import AllEvents from '../pages/event/allEvents'
 
 const Router = () => {
   return (
@@ -56,9 +57,11 @@ const Router = () => {
         <Route path='/signup' component={SignUp} />
         <Route path='/signout' component={SignOut} />
         <Route exact path='/Event/:id?' component={Event} />
+        <Route exact path='/ALLEvents/:type' component={AllEvents} />
+
         <Route path='*' component={NotFound} />
       </Switch>
-      <Route path={['/member', '/admin', '/event']} component={PrivateFooter} />
+      <Route path={['/member', '/admin', '/event', 'AllEvents']} component={PrivateFooter} />
     </BrowserRouter>
   )
 }

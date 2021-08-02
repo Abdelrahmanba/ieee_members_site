@@ -1,0 +1,32 @@
+@import '../../theme/scssVariables';
+.committee_card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
+  margin: 0 30px 20px;
+  &.clickable {
+    cursor: pointer;
+  }
+  .committee__card__image {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+  }
+  h1 {
+    color: $secondary;
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-size: 24px;
+  }
+  h2 {
+    font-weight: bold;
+    margin: 0;
+    font-size: 16px;
+    color: $primary-text;
+    letter-spacing: 1px;
+  }
+}

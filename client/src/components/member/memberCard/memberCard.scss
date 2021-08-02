@@ -1,9 +1,11 @@
 .user__card {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  width: 200px;
-  min-height: 220px;
+  justify-content: center;
+  width: 300px;
+  overflow: hidden;
+  height: 120px;
   background-color: #f7f9fb;
   padding: 15px;
   margin: 15px;
@@ -18,17 +20,18 @@
 }
 .users__card__bg {
   position: absolute;
+  left: -90px;
+  transform: rotateZ(-25deg);
   width: 200px;
-  height: 70px;
+  height: 200px;
   background-color: #0275a9;
   border-radius: 3px 3px 0 0;
-  top: 0;
+  top: -10px;
 }
 .user__card__image {
   position: absolute;
-  left: 50%;
-  top: 25%;
-  transform: translate(-50%, -50%);
+  left: 7px;
+  top: 15px;
   border-radius: 50%;
   width: 90px;
   height: 90px;
@@ -43,11 +46,11 @@
   align-items: center;
   align-content: center;
   min-height: 120px;
-  justify-content: space-evenly;
-  position: relative;
-  bottom: -80px;
+  justify-content: center;
   white-space: nowrap;
   text-align: center;
+  position: relative;
+  left: 50px;
   h2 {
     color: #0275a9;
     margin: 2px 0 0 0;

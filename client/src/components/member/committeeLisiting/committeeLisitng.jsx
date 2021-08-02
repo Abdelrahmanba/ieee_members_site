@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { get } from '../../../utils/apiCall'
-import MemberCard from '../memberCard/memberCard'
-
-const CommitteeLisiting = () => {
+import CommitteeCard from '../../committeeCard/committeeCard'
+const CommitteeLisiting = ({ clickable }) => {
   const [committee, setCommittee] = useState([])
 
   useEffect(() => {
@@ -19,13 +18,13 @@ const CommitteeLisiting = () => {
   return (
     <>
       {committee.map((user, index) => (
-        <MemberCard
+        <CommitteeCard
           key={index}
           name={user.firstName + ' ' + user.lastName}
           position={user.position}
-          points={user.points}
           avatar={user.imageData}
           id={user._id}
+          clickable={clickable}
         />
       ))}
     </>

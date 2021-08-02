@@ -1,0 +1,23 @@
+@import '../../theme/scssVariables';
+.allevents {
+  h1 {
+    &.pes {
+      color: $pes;
+    }
+    &.ras {
+      color: $ras;
+    }
+    &.wie {
+      color: $wie;
+    }
+    &.computer {
+      color: $computer;
+    }
+
+    span {
+      font-weight: bold;
+
+      color: $primary;
+    }
+  }
+}

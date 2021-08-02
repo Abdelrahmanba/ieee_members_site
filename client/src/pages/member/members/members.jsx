@@ -13,7 +13,7 @@ const Members = () => {
     <>
       <div className='users__body'>
         <h1 className='user__title'>Our Enthusiastic Team</h1>
-        <CommitteeLisiting />
+        <CommitteeLisiting clickable />
       </div>
       <AllMembersListing token={token} />
     </>

@@ -30,18 +30,31 @@ router.get('/event/:id', async (req, res, next) => {
   }
 })
 
+router.get('/countEvents/:type', async (req, res, next) => {
+  try {
+    const options = {
+      ...(req.params.type !== 'all' && { society: req.params.type }),
+    }
+    const count = await Event.countDocuments(options)
+
+    res.status(200).send({ count })
+  } catch (e) {
+    next(e)
+  }
+})
+
 router.get('/event/', async (req, res, next) => {
   const limit = req.query.limit ? parseInt(req.query.limit) : 0
   const skip = req.query.skip ? parseInt(req.query.skip) : 0
   const notExpired = req.query.notExpired ? true : false
   const match = {}
-  req.query.society ? (match.society = req.query.society) : null
+  req.query.society && req.query.society != 'all' ? (match.society = req.query.society) : null
   if (notExpired) {
     match.startDate = { $gte: new Date().toISOString() }
   }
 
   try {
-    const events = await Event.find(match).sort({ createdAt: -1 }).limit(limit).skip(skip)
+    const events = await Event.find(match).sort({ createdAt: -1 }).skip(skip).limit(limit)
     res.status(200).send(events)
   } catch (e) {
     next(e)
@@ -99,7 +112,6 @@ router.post('/event/', auth, committeeAuth, async (req, res, next) => {
     moveToUploads(req.body.images, req.body.featured)
     res.status(200).send(event)
   } catch (e) {
-    console.log(e)
     next(e)
   }
 })
@@ -161,7 +173,7 @@ router.post('/event/update/:id', auth, committeeAuth, async (req, res, next) => 
       eventInfo.featured = req.body.featured + '.jpeg'
       req.body.featured = req.body.featured + '.jpeg'
     } else {
-      req.body.featured = null
+      req.body.featured = undefined
     }
     moveToUploads(req.body.images, req.body.featured)
 

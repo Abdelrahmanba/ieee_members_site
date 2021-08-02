@@ -58,7 +58,7 @@ const HomePage = () => {
         name='events'
       >
         <Container>
-          <EventList limit={3} notExpired={true} setOld={setOld} />
+          <EventList limit={3} notExpired={true} setOld={setOld} button dataAos='fadeup' />
         </Container>
       </HomeSection>
       <HomeSection
@@ -70,7 +70,9 @@ const HomePage = () => {
 
       '
       >
-        <CommitteeLisiting />
+        <Container>
+          <CommitteeLisiting />
+        </Container>
       </HomeSection>
       <HomeSection inverted name='societies'>
         <Affix offsetTop={100} className='affix'>

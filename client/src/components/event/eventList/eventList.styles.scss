@@ -1,7 +1,52 @@
+@import '../../../theme/scssVariables';
 .ant-spin-nested-loading.spin {
   width: 100%;
   .ant-spin-container {
     display: flex;
     justify-content: center;
+  }
+  .event-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    section {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+  .socities-btn {
+    border-radius: 3px;
+    &.computer {
+      background-color: $computer;
+      border: none;
+      transition: all 0.3s ease-in-out;
+      &:hover {
+        background-color: darken($color: $computer, $amount: 4);
+      }
+    }
+    &.wie {
+      background-color: $wie;
+      border: none;
+      transition: all 0.3s ease-in-out;
+      &:hover {
+        background-color: darken($color: $wie, $amount: 4);
+      }
+    }
+    &.ras {
+      background-color: $ras;
+      border: none;
+      transition: all 0.3s ease-in-out;
+      &:hover {
+        background-color: darken($color: $ras, $amount: 4);
+      }
+    }
+    &.pes {
+      background-color: $pes;
+      border: none;
+      transition: all 0.3s ease-in-out;
+      &:hover {
+        background-color: darken($color: $pes, $amount: 4);
+      }
+    }
   }
 }

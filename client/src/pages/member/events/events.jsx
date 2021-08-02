@@ -17,11 +17,11 @@ const Events = () => {
   return (
     <div className='body'>
       <UserSection title={old ? 'Recent Events' : 'Upcoming Events'}>
-        <EventList limit={3} notExpired={true} setOld={setOld} />
+        <EventList limit={3} notExpired={true} setOld={setOld} button />
       </UserSection>
       {societies.map((s, i) => (
         <UserSection title={s.title} key={i}>
-          <EventList limit={3} notExpired={true} society={s.name} />
+          <EventList limit={3} notExpired={true} society={s.name} button />
         </UserSection>
       ))}
     </div>

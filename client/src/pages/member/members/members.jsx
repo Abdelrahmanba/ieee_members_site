@@ -11,10 +11,6 @@ const Members = () => {
 
   return (
     <>
-      <div className='users__body'>
-        <h1 className='user__title'>Our Enthusiastic Team</h1>
-        <CommitteeLisiting clickable />
-      </div>
       <AllMembersListing token={token} />
     </>
   )

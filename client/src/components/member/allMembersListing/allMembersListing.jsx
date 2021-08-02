@@ -22,7 +22,7 @@ const AllMembersListing = ({ token }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const usersFetch = await get('/users/all/members', token)
+      const usersFetch = await get('/users/all/', token)
       if (usersFetch.ok) {
         const usersFetchJson = await usersFetch.json()
         setUsers(usersFetchJson)
@@ -76,6 +76,9 @@ const AllMembersListing = ({ token }) => {
           />
         </AutoComplete>
         {users
+          .sort((a, b) => {
+            if (b.position === 'Member') return -1
+          })
           .filter((v, i) => i >= skip && i < limit + skip)
           .map((user, index) => (
             <MemberCard

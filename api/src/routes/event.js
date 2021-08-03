@@ -1,5 +1,4 @@
 const auth = require('../middlewares/auth')
-const adminAuth = require('../middlewares/adminAuth')
 const committeeAuth = require('../middlewares/committeeAuth')
 const multer = require('multer')
 const Event = require('../db/event')
@@ -7,6 +6,7 @@ const express = require('express')
 const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
+const { moveToUploads } = require('../utils/helperFunctions')
 
 const tempPath = path.join('uploads', 'temp')
 
@@ -121,22 +121,6 @@ router.post('/event/', auth, committeeAuth, async (req, res, next) => {
     next(e)
   }
 })
-
-const moveToUploads = (images, featured) => {
-  fs.readdir(tempPath, (err, files) => {
-    files.forEach(async (file) => {
-      const currentPath = path.join('uploads', 'temp', file)
-      const destinationPath = path.join('uploads', file)
-      if (images.includes(file) || file === featured) {
-        fs.rename(currentPath, destinationPath, function (err) {
-          if (err) {
-            throw err
-          }
-        })
-      }
-    })
-  })
-}
 
 router.post('/event/update/:id', auth, committeeAuth, async (req, res, next) => {
   try {

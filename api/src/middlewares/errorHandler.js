@@ -24,6 +24,11 @@ const errorHandler = (err, req, res, next) => {
       error: 'Event Not Found',
       message: 'Please double check your input',
     })
+  } else if (err.message === 'AnnouncementNotFound') {
+    res.status(401).send({
+      error: 'Announcement Not Found',
+      message: 'Please double check your input',
+    })
   } else if (err.message === 'BadRequest') {
     res.status(400).send({
       error: 'Bad Request',

@@ -71,7 +71,6 @@ router.post('/announcement/', auth, committeeAuth, async (req, res, next) => {
     moveToUploads([], req.body.featured)
     res.status(200).send(announcement)
   } catch (e) {
-    console.log(e)
     next(e)
   }
 })

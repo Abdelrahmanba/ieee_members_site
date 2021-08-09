@@ -94,7 +94,6 @@ router.post('/users/uploadAvatar', auth, async (req, res, next) => {
     await req.user.save()
     res.status(200).send()
   } catch (e) {
-    console.log(e)
     next(e)
   }
 })
@@ -182,7 +181,6 @@ router.get('/users/resend_verification/:userId', resendLimit, async (req, res, n
     await user.sendVerifcationEmail()
     res.status(200).send({ message: `Email was sent to ${user.email}` })
   } catch (e) {
-    console.log(e)
     next(e)
   }
 })
@@ -191,11 +189,12 @@ router.get('/users/resend_verification/:userId', resendLimit, async (req, res, n
 router.get('/user/me', auth, async (req, res, next) => {
   try {
     const user = req.user.toObject()
-    delete user.tokens
+    delete user.token
     delete user.eventsParticipatedIn
     delete user.eventsVolunteeredIn
     delete user.password
     delete user.secretCode
+    delete user.passwordReset
     res.status(200).send(user)
   } catch (e) {
     next(e)
@@ -208,13 +207,16 @@ router.get('/user/:id', async (req, res, next) => {
       throw new Error('UserNotFound')
     }
     const user = userData.toObject()
-    delete user.tokens
+    delete user.token
     delete user.pointsHistory
     delete user.eventsParticipatedIn
     delete user.eventsVolunteeredIn
     delete user.password
     delete user.secretCode
-    delete user.active
+    delete user.activeCommttiee
+    delete user.activeEmail
+    delete user.passwordReset
+
     res.status(200).send(user)
   } catch (e) {
     next(e)
@@ -273,7 +275,6 @@ router.get('/users/all/members', auth, async (req, res, next) => {
     }))
     res.status(200).send(usersData)
   } catch (e) {
-    console.log(e)
     next(e)
   }
 })
@@ -346,7 +347,7 @@ router.get('/users/count', auth, committeeAuth, async (req, res, next) => {
     next(e)
   }
 })
-
+//for waiting table
 router.get('/users/committeeAuth', auth, committeeAuth, async (req, res, next) => {
   try {
     const users = await User.find({ activeEmail: true, activeCommttiee: false })
@@ -356,21 +357,29 @@ router.get('/users/committeeAuth', auth, committeeAuth, async (req, res, next) =
   }
 })
 
-router.get('/users/committeeAuth/:id/:memID', auth, committeeAuth, async (req, res, next) => {
-  try {
-    const user = await User.findById(req.params.id)
-    if (!user) {
-      throw new Error('UserNotFound')
+//to add new member from the waiting table
+router.get(
+  '/users/committeeAuth/:id/:memID',
+  auth,
+  committeeAuth,
+  adminAuth,
+  async (req, res, next) => {
+    try {
+      const user = await User.findById(req.params.id)
+      if (!user) {
+        throw new Error('UserNotFound')
+      }
+      user.activeCommttiee = true
+      user.membershipID = req.params.memID
+      await user.save()
+      res.status(200).send()
+    } catch (e) {
+      next(e)
     }
-    user.activeCommttiee = true
-    user.membershipID = req.params.memID
-    await user.save()
-    res.status(200).send()
-  } catch (e) {
-    next(e)
   }
-})
+)
 
+//update member info by admin
 router.post(
   '/users/update-by-admin/:id/',
   auth,
@@ -422,7 +431,9 @@ router.post(
     }
   }
 )
-router.post('/users/addPoints/multi/', auth, committeeAuth, (req, res, next) => {
+
+//add points by admin
+router.post('/users/addPoints/multi/', auth, committeeAuth, adminAuth, (req, res, next) => {
   try {
     const { selected, amount, title } = req.body
     if (!/^-?\d+$/.test(amount)) {

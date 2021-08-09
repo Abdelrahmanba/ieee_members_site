@@ -8,6 +8,7 @@ const path = require('path')
 const fs = require('fs')
 const { moveToUploads } = require('../utils/helperFunctions')
 
+const limiter = require('express-rate-limit')
 const tempPath = path.join('uploads', 'temp')
 
 const router = express.Router()
@@ -18,7 +19,27 @@ const upload = multer({
   },
 })
 
-router.get('/event/:id', async (req, res, next) => {
+const viewLimit = limiter({
+  windowMs: 60 * 60 * 1000, // 1 hrs in milliseconds
+  max: 150,
+  message: {
+    error: 'Too Many Requests..',
+    message: 'You were temporarily suspended from using this feature try after 24 hrs',
+  },
+  headers: true,
+})
+
+const nonmembersLimit = limiter({
+  windowMs: 24 * 60 * 60 * 1000, // 24 hrs in milliseconds
+  max: 10,
+  message: {
+    error: 'Too Many Requests..',
+    message: 'You were temporarily suspended from using this feature try after 24 hrs',
+  },
+  headers: true,
+})
+
+router.get('/event/:id', viewLimit, async (req, res, next) => {
   try {
     const event = await Event.findById(req.params.id)
     if (!event) {
@@ -44,7 +65,7 @@ router.get('/countEvents/:type', async (req, res, next) => {
   }
 })
 
-router.get('/event/', async (req, res, next) => {
+router.get('/event/', viewLimit, async (req, res, next) => {
   const limit = req.query.limit ? parseInt(req.query.limit) : 0
   const skip = req.query.skip ? parseInt(req.query.skip) : 0
   const search = req.query.search ? req.query.search : ''
@@ -175,7 +196,7 @@ router.post('/event/update/:id', auth, committeeAuth, async (req, res, next) => 
     next(e)
   }
 })
-router.post('/event/add_nonMembers/:id', async (req, res, next) => {
+router.post('/event/add_nonMembers/:id', nonmembersLimit, async (req, res, next) => {
   try {
     const info = (({ body: { name, phone, year, email } }) => ({
       name,

@@ -1,5 +1,5 @@
 import { Button } from 'antd'
-import { Link as RouteLink, NavLink, useHistory } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import { Link } from 'react-scroll'
 import './headerItem.styles.scss'
 

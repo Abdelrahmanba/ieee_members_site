@@ -3,16 +3,7 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { get } from '../../../utils/apiCall'
 import './announcement.styles.scss'
-import {
-  NotificationOutlined,
-  CalendarOutlined,
-  LinkOutlined,
-  ClockCircleOutlined,
-  ScheduleOutlined,
-  CompassOutlined,
-  TeamOutlined,
-  DollarCircleOutlined,
-} from '@ant-design/icons'
+import { NotificationOutlined, CalendarOutlined, LinkOutlined } from '@ant-design/icons'
 
 const Announcemnt = () => {
   const { id } = useParams()
@@ -24,11 +15,10 @@ const Announcemnt = () => {
       if (res.ok) {
         const resJson = await res.json()
         setData(resJson)
-        console.log(resJson)
       }
     }
     fetchData()
-  }, [])
+  }, [id, token])
 
   return (
     <div className='body announcment'>
@@ -36,7 +26,7 @@ const Announcemnt = () => {
         <NotificationOutlined className='logo' />
         {data.title}
       </h1>
-      <img src={process.env.REACT_APP_API_URL + '/uploads/' + data.featured} />
+      <img alt='announcement' src={process.env.REACT_APP_API_URL + '/uploads/' + data.featured} />
       <div className='ann__box'>
         <div className='ann-box-body'>
           <h2 className='ann-title'>Details</h2>

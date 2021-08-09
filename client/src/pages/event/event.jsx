@@ -94,7 +94,7 @@ const Event = () => {
           eventId={event._id}
         />
         <header className={event.society}>
-          {event && event.society && <img src={socites[event.society]} />}
+          {event && event.society && <img alt='society' src={socites[event.society]} />}
           <h1>{event && event.title}</h1>
         </header>
         <div className='container-event'>

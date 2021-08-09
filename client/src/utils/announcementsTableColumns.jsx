@@ -1,5 +1,4 @@
-import { EditOutlined } from '@ant-design/icons'
-import { Button, Divider } from 'antd'
+import { Button } from 'antd'
 
 const getColumns = (history) => [
   {

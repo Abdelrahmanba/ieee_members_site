@@ -32,7 +32,7 @@ const AnnouncementsTable = () => {
       }
     }
     fetchData()
-  }, [rerender, visible])
+  }, [rerender, visible, token])
 
   const deleteAnnouncement = async () => {
     setLoading(true)

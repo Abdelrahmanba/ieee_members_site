@@ -6,14 +6,13 @@ import { get } from '../../../utils/apiCall'
 import { LoadingOutlined } from '@ant-design/icons'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
-const Announcements = ({}) => {
+const Announcements = () => {
   const [count, setCount] = useState(0)
   const [announcements, setAnnouncements] = useState([])
-  const [skip, setSkip] = useState(0)
-  const [limit, setlimit] = useState(5)
   const token = useSelector((state) => state.user.token)
-
   const [loading, setLoading] = useState(true)
+  const skip = 0
+  const limit = 5
 
   useEffect(() => {
     setLoading(true)
@@ -27,7 +26,7 @@ const Announcements = ({}) => {
       }
     }
     fetchData()
-  }, [skip])
+  }, [skip, token])
   return (
     <List
       itemLayout='vertical'
@@ -36,7 +35,8 @@ const Announcements = ({}) => {
       loading={{ indicator: antIcon, spinning: loading }}
       pagination={{
         onChange: (page) => {},
-        pageSize: 3,
+        pageSize: limit,
+        total: count,
         hideOnSinglePage: true,
       }}
       dataSource={announcements}

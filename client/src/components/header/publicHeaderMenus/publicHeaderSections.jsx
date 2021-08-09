@@ -1,13 +1,9 @@
 import HeaderItem from '../header-item/headerItem'
 import './publicHeaderMenus.scss'
 import React from 'react'
-import { Events, scroller } from 'react-scroll'
+import { Events } from 'react-scroll'
 
 class PublicHeaderSections extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   componentWillUnmount() {
     Events.scrollEvent.remove('begin')
     Events.scrollEvent.remove('end')

@@ -36,6 +36,15 @@ const SignUp = (props) => {
   const submit = async (e) => {
     e.preventDefault()
     setLoading(true)
+    if (capatcha === false) {
+      setError({
+        error: 'Captcha Required',
+        message: 'Please complete captcha challange.',
+      })
+      return
+    } else {
+      setError(undefined)
+    }
     const res = await post('/users/', undefined, { firstName, lastName, email, password })
     const jsonRes = await res.json()
     if (res.ok) {

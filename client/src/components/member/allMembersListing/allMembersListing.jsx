@@ -78,6 +78,7 @@ const AllMembersListing = ({ token }) => {
         {users
           .sort((a, b) => {
             if (b.position === 'Member') return -1
+            else return 1
           })
           .filter((v, i) => i >= skip && i < limit + skip)
           .map((user, index) => (

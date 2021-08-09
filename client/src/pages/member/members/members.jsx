@@ -1,5 +1,4 @@
 import './members.scss'
-import { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import AllMembersListing from '../../../components/member/allMembersListing/allMembersListing'

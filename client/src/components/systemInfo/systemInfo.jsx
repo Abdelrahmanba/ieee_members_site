@@ -16,7 +16,6 @@ const SystemInfo = (params) => {
       const res = await get('/systemInfo', token)
       if (res.ok) {
         const resJson = await res.json()
-        console.log(resJson)
         setSystemInfo(resJson)
         setLoading(false)
       } else {

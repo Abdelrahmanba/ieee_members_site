@@ -14,11 +14,7 @@ const UserHome = () => {
         <MemberSection title='Announcements'>
           <Announcements />
         </MemberSection>
-        <MemberSection title={old ? 'Recent Events' : 'Upcoming Events'}>
-          <Container fullWidth>
-            <EventList limit={3} notExpired={true} setOld={setOld} />
-          </Container>
-        </MemberSection>
+
         <MemberSection title={'Top Members'}>
           <Top3Points />
         </MemberSection>

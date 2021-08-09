@@ -1,10 +1,12 @@
 .top3 {
   border: #d8d8d8 1px solid;
-  padding: 30px;
-  width: 100%;
+  padding: 0px;
+  width: fit-content;
   display: flex;
   background-color: #ffffff;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   position: relative;
   margin-top: 30px;
 

@@ -9,8 +9,10 @@ import {
   UserSwitchOutlined,
   TrophyOutlined,
 } from '@ant-design/icons'
+import { useSelector } from 'react-redux'
 
 const AdminMenuSections = ({ visible }) => {
+  const role = useSelector((state) => state.user.user.role)
   return (
     <>
       <ul className={`header__menu header__user__menu ${visible ? 'header__menu--visible' : ''}`}>
@@ -35,27 +37,30 @@ const AdminMenuSections = ({ visible }) => {
             extraClass={'menu-list user-list'}
             type='private'
           />
-
-          <HeaderItem
-            location={'/Admin/Users'}
-            text={
-              <Tooltip placement='bottom' title={'Members'}>
-                <TeamOutlined style={{ fontSize: '24px' }} />
-              </Tooltip>
-            }
-            extraClass={'menu-list user-list'}
-            type='private'
-          />
-          <HeaderItem
-            location={'/Admin/Points'}
-            text={
-              <Tooltip placement='bottom' title={'Points'}>
-                <TrophyOutlined style={{ fontSize: '24px' }} />
-              </Tooltip>
-            }
-            extraClass={'menu-list user-list'}
-            type='private'
-          />
+          {role === 'admin' && (
+            <HeaderItem
+              location={'/Admin/Users'}
+              text={
+                <Tooltip placement='bottom' title={'Members'}>
+                  <TeamOutlined style={{ fontSize: '24px' }} />
+                </Tooltip>
+              }
+              extraClass={'menu-list user-list'}
+              type='private'
+            />
+          )}
+          {role === 'admin' && (
+            <HeaderItem
+              location={'/Admin/Points'}
+              text={
+                <Tooltip placement='bottom' title={'Points'}>
+                  <TrophyOutlined style={{ fontSize: '24px' }} />
+                </Tooltip>
+              }
+              extraClass={'menu-list user-list'}
+              type='private'
+            />
+          )}
         </Space>
       </ul>
       <ul className='header__menu header__user__menu header__menu--user'>

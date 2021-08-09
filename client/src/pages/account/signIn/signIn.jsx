@@ -9,7 +9,7 @@ import { Button, Alert } from 'antd'
 import Textfield from '../../../components/textfield/textfield'
 import Form from '../../../components/form/form'
 import ResetPassword from '../../../components/resetPassword/resetPassword'
-import Particle from '../../../components/particles/particles'
+import Particle from '../../../components/Particles/particles'
 import { post } from '../../../utils/apiCall'
 
 const SignIn = (props) => {

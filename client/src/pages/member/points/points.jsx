@@ -4,42 +4,38 @@ import Top3Points from '../../../components/member/top3Points/top3Points'
 
 const Points = () => {
   const data = [
-    'Racing car sprays burning fuel into crowd.',
-    'Japanese princess to wed commoner.',
-    'Australian walks 100km after outback crash.',
-    'Man charged over missing wedding girl.',
-    'Los Angeles battles huge wildfires.',
+    'Volunteering to record an IEEE-Black Hole Podcast - 5 points.',
+    'Translating an article for IEEE- Black Hole - 5 points.',
+    'Volunteering in Arduino practical workshops -15 points.',
+    'Volunteering in any technical activity -depends on the activity.',
+    'Attending any session - 3 points.',
+    'Attending a course or a workshop - 10 points.', 
+    'Getting "Top Fan" badge on facebook - 10 points.', 
+    'Winning any IEEE competition - 10 points.', 
+    'Participating in any IEEE competition - 5 points'
   ]
   return (
     <>
       <div className='body'>
-        <h1 className='header-text'>
-          <span className='highlight-container'>
-            <span className='highlight highlight-2 noselect'>Introducing Our Points System!</span>
-          </span>
-        </h1>
+      <h1 className='header-text'>
+            <span className='title'>Introducing Our Points System!</span>
+      </h1>
         <p className='typography'>
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-          sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum."
+        In order to ensure fairness between members and to provide a distinctive imposition for the most active and special members, we present to you the points system that will be followed in IEEE, where points will be calculated for each member based on his volunteering, effectiveness and participation in activities.
+        Opportunities to attend conferences, Training days, Financial prizes and more will be waiting for the top members!! 
         </p>
         <h2 className='header-text'>
-          <span className='highlight-container sub'>
+          
             <span className='highlight highlight-2 noselect'>How Can I Get Points?</span>
-          </span>
         </h2>
         <p className='typography'>
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
+          We introduce to you the criteria that will be followed to evaluate each member's points, increase your points now and become one of our top members!
         </p>
 
         <List
           size='large'
-          header={<div>Header</div>}
-          footer={<div>Footer</div>}
+          header={<div>لا داعي للهيدر أخوي</div>}
+          footer={<div>ولا للفوتر</div>}
           bordered
           dataSource={data}
           renderItem={(item) => <List.Item>{item}</List.Item>}

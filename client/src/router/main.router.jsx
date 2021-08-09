@@ -34,7 +34,7 @@ const Router = () => {
     <BrowserRouter>
       <HeaderRouting />
       <Switch>
-        <Route path='/' exact component={HomePage} />
+        <Route path='/' exact component={Points} />
 
         <ProtectedRoute exact path={['/Member/Home', '/Member']} component={MemberHome} />
         <ProtectedRoute exact path='/Member/events' component={Events} />

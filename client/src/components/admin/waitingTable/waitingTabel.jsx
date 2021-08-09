@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import Textfield from '../../textfield/textfield'
 import Form from '../../form/form'
-import { LoadingOutlined } from '@ant-design/icons'
 import { signOut } from '../../../redux/userSlice'
 import { get } from '../../../utils/apiCall'
+import { LoadingOutlined } from '@ant-design/icons'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const WaitingTable = () => {

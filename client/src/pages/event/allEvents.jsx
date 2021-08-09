@@ -65,15 +65,17 @@ const AllEvents = () => {
           {socites[type]}
           <span> Events</span>
         </h1>
-        <Search
-          placeholder='input search text'
-          enterButton='Search'
-          size='large'
-          style={{ width: '95%', margin: '40px 0' }}
-          onSearch={onSearch}
-          loading={loading}
-          allowClear
-        />
+        {type === 'all' && (
+          <Search
+            placeholder='Search Events'
+            enterButton='Search'
+            size='large'
+            style={{ width: '95%', margin: '40px 0' }}
+            onSearch={onSearch}
+            loading={loading}
+            allowClear
+          />
+        )}
         <EventList
           setOld={setOld}
           society={type}
@@ -90,6 +92,7 @@ const AllEvents = () => {
           onChange={changePage}
           pageSize={9}
           hideOnSinglePage
+          showSizeChanger={false}
         />
       </div>
     </React.Fragment>

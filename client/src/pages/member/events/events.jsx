@@ -1,3 +1,4 @@
+import { Divider } from 'antd'
 import { useState } from 'react'
 import Container from '../../../components/container/container'
 import EventList from '../../../components/event/eventList/eventList'

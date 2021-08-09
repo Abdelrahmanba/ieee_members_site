@@ -97,6 +97,7 @@ const AllMembersListing = ({ token }) => {
           total={users.length}
           onChange={changePage}
           pageSize={8}
+          showSizeChanger={false}
         />
       </div>
     </Spin>

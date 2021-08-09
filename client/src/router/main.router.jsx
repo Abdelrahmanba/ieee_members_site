@@ -26,21 +26,23 @@ import Points from '../pages/member/points/points'
 import Events from '../pages/member/events/events'
 import ProtectedRoute from './protectedRoute'
 import Event from '../pages/event/event'
-import Loading from '../components/loading/loading'
 import AllEvents from '../pages/event/allEvents'
+import Announcemnt from '../components/member/announcement/announcement'
 
 const Router = () => {
   return (
     <BrowserRouter>
       <HeaderRouting />
       <Switch>
-        <Route path='/' exact component={Loading} />
+        <Route path='/' exact component={HomePage} />
 
         <ProtectedRoute exact path={['/Member/Home', '/Member']} component={MemberHome} />
         <ProtectedRoute exact path='/Member/events' component={Events} />
         <ProtectedRoute exact path='/Member/members' component={Members} />
         <ProtectedRoute exact path='/Member/settings' component={Settings} />
         <ProtectedRoute exact path='/Member/profile/:id?' component={Profile} />
+        <ProtectedRoute exact path='/Member/announcement/:id?' component={Announcemnt} />
+
         <ProtectedRoute exact path='/Member/Points' component={Points} />
         <ProtectedRoute exact path='/CompleteProfile' component={CompleteProfile} />
 

@@ -6,21 +6,27 @@ import store from './redux/store'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistStore } from 'redux-persist'
 // AOS
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 let persistor = persistStore(store)
 
 function App() {
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
+    const el = document.querySelector('.spinner-pre')
+    if (el) {
+      el.remove()
+      setLoading(false)
+    }
     AOS.init()
   }, [])
 
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Router />
+        {!loading && <Router />}
       </PersistGate>
     </Provider>
   )

@@ -8,6 +8,7 @@ import { ReactComponent as Particels } from '../../../assets/icons/paricles.svg'
 import { useDispatch } from 'react-redux'
 import { signIn } from '../../../redux/userSlice'
 import { post } from '../../../utils/apiCall'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 const SignUp = (props) => {
   const [email, setEmail] = useState('')
@@ -16,6 +17,7 @@ const SignUp = (props) => {
   const [password, setPassword] = useState('')
   const [error, setError] = useState(undefined)
   const [loading, setLoading] = useState(false)
+  const [capatcha, setCapatcha] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -87,6 +89,11 @@ const SignUp = (props) => {
               text='Password'
               value={password}
               autocomplete='new-password'
+            />
+            <ReCAPTCHA
+              sitekey='6Le-VmsbAAAAAK1ZKClmYZ3XmACFEWe__itWUDQK'
+              className='ReCAPTCHA'
+              onChange={() => setCapatcha(true)}
             />
             <Button block type='primary' loading={loading} onClick={submit}>
               Sign Up!

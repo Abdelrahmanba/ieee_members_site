@@ -41,7 +41,7 @@ const EditEvent = () => {
 
   useEffect(() => {
     const fetchEventData = async () => {
-      const eventData = await fetch(process.env.REACT_APP_API_URL + '/event/' + id)
+      const eventData = await get('/event/' + id)
       if (eventData.ok) {
         const event = await eventData.json()
         setTitle(event.title)
@@ -84,7 +84,7 @@ const EditEvent = () => {
     fetchEventData()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const HandleUpdate = async () => {
+  const handleUpdate = async () => {
     if (title === 'null') {
       message.error('Please Provide Title.')
       return
@@ -121,9 +121,9 @@ const EditEvent = () => {
     if (res.ok) {
       history.push('/Admin/Events')
     } else {
+      setConfirmLoading(false)
       message.error('Something went wrong.')
     }
-    setConfirmLoading(false)
   }
   const onFeaturedRemove = async (file) => {
     const res = await get('/event/deleteEventFeatured/' + id + '/' + file.uid, token)
@@ -302,7 +302,7 @@ const EditEvent = () => {
             />
           </div>
 
-          <Button block type='primary' onClick={HandleUpdate} loading={confirmLoading}>
+          <Button block type='primary' onClick={handleUpdate} loading={confirmLoading}>
             Save Changes
           </Button>
         </div>

@@ -6,12 +6,21 @@ import { Button, Image, message } from 'antd'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import NonMembersModel from '../../components/event/nonmembersEventModal/NonMembersModal'
-
+import computerLogo from '../../assets/socities/computer_logo.png'
+import rasLogo from '../../assets/socities/robotcs_logo.png'
+import pesLogo from '../../assets/socities/pes_logo.png'
+import wieLogo from '../../assets/socities/woman_logo.png'
 import PublicHeaderAlt from '../../components/header/publicHeaderAlt'
 import { get } from '../../utils/apiCall'
 import EventInfo from '../../components/event/eventInfo/eventInfo'
 import React from 'react'
 
+const socites = {
+  computer: computerLogo,
+  pes: pesLogo,
+  ras: rasLogo,
+  wie: wieLogo,
+}
 const Event = () => {
   const user = useSelector((state) => state.user)
   const [confirmLoading, setConfirmLoading] = useState(false)
@@ -84,12 +93,11 @@ const Event = () => {
           visible={visible}
           eventId={event._id}
         />
+        <header className={event.society}>
+          {event && event.society && <img src={socites[event.society]} />}
+          <h1>{event && event.title}</h1>
+        </header>
         <div className='container-event'>
-          <h1 className='header-text'>
-            <span className='highlight-container'>
-              <span className='highlight highlight-1 noselect'>{event && event.title}</span>
-            </span>
-          </h1>
           {event && event.featured && (
             <img
               src={`${process.env.REACT_APP_API_URL}/uploads/${event.featured}`}
@@ -100,22 +108,14 @@ const Event = () => {
         </div>
         <EventInfo event={event} />
         {event && event.description && (
-          <div className='orgnizers'>
-            <h2 className='header-text'>
-              <span className='highlight-container sub'>
-                <span className='highlight highlight-2 noselect'>Description </span>
-              </span>
-            </h2>
+          <div className='desc'>
+            <h2>Description</h2>
             <p className='typo'>{event.description}</p>
           </div>
         )}
         {event && event.images && event.images.length > 0 && (
           <div className='preview'>
-            <h2 className='header-text'>
-              <span className='highlight-container sub'>
-                <span className='highlight highlight-2 noselect'>Event Gallery</span>
-              </span>
-            </h2>
+            <h2 className='header-text'>Event Gallery</h2>
             <Image.PreviewGroup style={{ width: '100%' }}>
               {event.images.map((src, index) => (
                 <Image
@@ -164,7 +164,12 @@ const Event = () => {
             {event.allowNonMembers === true ? (
               <p>
                 Non-Members are Welcomed!
-                <Button type='link' href='#' onClick={() => setVisible(true)}>
+                <Button
+                  type='link'
+                  href='#'
+                  style={{ padding: 1 }}
+                  onClick={() => setVisible(true)}
+                >
                   Click here To Join.
                 </Button>
               </p>

@@ -257,30 +257,9 @@ router.get('/users/all/', auth, committeeAuth, adminAuth, async (req, res, next)
     next(e)
   }
 })
-router.get('/users/all/committee', async (req, res, next) => {
-  try {
-    const users = await User.find({
-      position: { $ne: 'Member' },
-      activeEmail: true,
-      activeCommttiee: true,
-    })
-    const usersData = users.map((user) => ({
-      _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      position: user.position,
-      points: user.points,
-      imageData: user.imageData ? Buffer.from(user.imageData).toString('base64') : undefined,
-    }))
-    res.status(200).send(usersData)
-  } catch (e) {
-    next(e)
-  }
-})
 router.get('/users/all/members', auth, async (req, res, next) => {
   try {
     const users = await User.find({
-      position: 'Member',
       activeEmail: true,
       activeCommttiee: true,
     })

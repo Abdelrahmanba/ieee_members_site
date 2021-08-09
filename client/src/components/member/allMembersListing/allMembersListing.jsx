@@ -22,7 +22,7 @@ const AllMembersListing = ({ token }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const usersFetch = await get('/users/all/', token)
+      const usersFetch = await get('/users/all/members', token)
       if (usersFetch.ok) {
         const usersFetchJson = await usersFetch.json()
         setUsers(usersFetchJson)

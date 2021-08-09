@@ -14,7 +14,6 @@ const UserHome = () => {
         <MemberSection title='Announcements'>
           <Announcements />
         </MemberSection>
-
         <MemberSection title={'Top Members'}>
           <Top3Points />
         </MemberSection>

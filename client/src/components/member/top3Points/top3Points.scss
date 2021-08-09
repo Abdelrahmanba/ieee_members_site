@@ -1,7 +1,8 @@
+@import '../../../theme/scssVariables';
 .top3 {
   border: #d8d8d8 1px solid;
   padding: 0px;
-  width: fit-content;
+  width: 90%;
   display: flex;
   background-color: #ffffff;
   flex-wrap: wrap;
@@ -9,7 +10,28 @@
   justify-content: center;
   position: relative;
   margin-top: 30px;
-
+  .user__card {
+    width: 100%;
+    .users__card__bg {
+      left: -50px;
+      top: -30px;
+    }
+  }
+  .user__card:first-of-type {
+    .users__card__bg {
+      background-color: #d6af36;
+    }
+  }
+  .user__card:nth-of-type(2) {
+    .users__card__bg {
+      background-color: #a7a7ad;
+    }
+  }
+  .user__card:last-of-type {
+    .users__card__bg {
+      background-color: #a77044;
+    }
+  }
   .trophy {
     width: 80px;
     position: absolute;

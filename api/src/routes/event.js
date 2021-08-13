@@ -192,7 +192,6 @@ router.post('/event/update/:id', auth, committeeAuth, async (req, res, next) => 
 
     res.status(200).send()
   } catch (e) {
-    console.log(e)
     next(e)
   }
 })
@@ -277,7 +276,6 @@ router.get('/event/data/:id', auth, committeeAuth, async (req, res, next) => {
     ).populate(['participants.user', 'nonMembers'])
     res.send({ participants, nonMembers, availableTickets, title })
   } catch (e) {
-    console.log(e)
     next(e)
   }
 })
@@ -320,7 +318,6 @@ router.get('/event/deleteEventFeatured/:id/:name', auth, committeeAuth, async (r
     } catch (e) {}
     res.send()
   } catch (e) {
-    console.log(e)
     next(e)
   }
 })
@@ -338,7 +335,6 @@ router.get('/event/deleteEventImage/:id/:name', auth, committeeAuth, async (req,
     } catch (e) {}
     res.send()
   } catch (e) {
-    console.log(e)
     next(e)
   }
 })

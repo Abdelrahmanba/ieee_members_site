@@ -1,4 +1,4 @@
-import { Button, Modal, message, Typography, List, Divider } from 'antd'
+import { Button, Modal, message, Typography, List, Divider, Switch, Popconfirm } from 'antd'
 import Textfield from '../../../textfield/textfield'
 import Form from '../../../form/form'
 import React from 'react'
@@ -24,7 +24,8 @@ export const viewModal = (record, setRecord) => {
           size='small'
           renderItem={(item) => (
             <List.Item>
-              <Typography.Text mark>[{item.amount}]</Typography.Text>
+              <Typography.Text mark>[{item.amount + ' Points'}]</Typography.Text>
+              {item.committee && <Typography.Text code>Committee</Typography.Text>}
               {'  ' + item.title}
             </List.Item>
           )}
@@ -44,7 +45,7 @@ export const editModal = (record, setRecord, setReload, token) => {
           Authorization: 'Bearer ' + token,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ pointsHistory: { amount, title } }),
+        body: JSON.stringify({ pointsHistory: { amount, title, committee } }),
       }
     )
     if (res.ok) {
@@ -64,6 +65,7 @@ export const editModal = (record, setRecord, setReload, token) => {
   }
   let title,
     amount = ''
+  let committee = false
   const removeHistory = async (item) => {
     const res = await fetch(
       process.env.REACT_APP_API_URL + '/users/update-by-admin/' + record.key,
@@ -108,6 +110,10 @@ export const editModal = (record, setRecord, setReload, token) => {
           onChange={(e) => (title = e.target.value)}
         />
         <Textfield text='Amount' name='amount' onChange={(e) => (amount = e.target.value)} />
+        <div className='form-row'>
+          <label>Committee</label>
+          <Switch defaultChecked={false} onChange={(e) => (committee = e)}></Switch>
+        </div>
         <Button type='primary' style={{ width: '90%' }} onClick={() => addPoint()}>
           Credit
         </Button>
@@ -125,11 +131,12 @@ export const editModal = (record, setRecord, setReload, token) => {
           size='small'
           renderItem={(item) => (
             <List.Item style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography.Text mark>[{item.amount}]</Typography.Text>
+              <Typography.Text mark>[{item.amount + ' Points'}]</Typography.Text>
+              {item.committee && <Typography.Text code>Committee</Typography.Text>}{' '}
               {'  ' + item.title}
-              <Button type='link' onClick={() => removeHistory(item)}>
-                Remove
-              </Button>
+              <Popconfirm onConfirm={() => removeHistory(item)} title='Are You Sure?'>
+                <Button type='link'>Remove</Button>
+              </Popconfirm>
             </List.Item>
           )}
         />

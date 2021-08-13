@@ -39,7 +39,6 @@ router.post('/users', createLimit, async (req, res, next) => {
     await user.sendVerifcationEmail()
     res.status(201).send({ user, token })
   } catch (e) {
-    console.log(e)
     next(e)
   }
 })
@@ -79,7 +78,7 @@ router.get('/users/pointsHistory/:id?', auth, async (req, res, next) => {
       if (!user) {
         throw new Error('UserNotFound')
       }
-      res.status(200).send(user.pointsHistory)
+      res.status(200).send(user.pointsHistory.filter((i) => i.committe === false))
     } else {
       res.status(200).send(req.user.pointsHistory)
     }

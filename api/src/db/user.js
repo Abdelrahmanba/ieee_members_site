@@ -75,6 +75,10 @@ const userSchema = mongoose.Schema({
     {
       title: String,
       amount: Number,
+      committee: {
+        type: Boolean,
+        default: false,
+      },
     },
   ],
   secretCode: {

@@ -78,7 +78,7 @@ router.get('/users/pointsHistory/:id?', auth, async (req, res, next) => {
       if (!user) {
         throw new Error('UserNotFound')
       }
-      res.status(200).send(user.pointsHistory.filter((i) => i.committe === false))
+      res.status(200).send(user.pointsHistory.filter((i) => i.committee === false))
     } else {
       res.status(200).send(req.user.pointsHistory)
     }

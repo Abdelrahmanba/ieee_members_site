@@ -10,6 +10,7 @@ const SystemInfo = (params) => {
   const [systemInfo, setSystemInfo] = useState(undefined)
   const token = useSelector((state) => state.user.token)
   const [loading, setLoading] = useState(true)
+  let timeout = undefined
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +25,7 @@ const SystemInfo = (params) => {
       fetch()
     }
     fetchData()
+    return () => clearTimeout(timeout)
   }, [])
 
   const fetch = async () => {
@@ -32,7 +34,7 @@ const SystemInfo = (params) => {
       const resJson = await res.json()
       setSystemInfo(resJson)
     }
-    setTimeout(fetch, 1000)
+    timeout = setTimeout(fetch, 1000)
   }
 
   return (

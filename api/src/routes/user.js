@@ -39,6 +39,7 @@ router.post('/users', createLimit, async (req, res, next) => {
     await user.sendVerifcationEmail()
     res.status(201).send({ user, token })
   } catch (e) {
+    console.log(e)
     next(e)
   }
 })

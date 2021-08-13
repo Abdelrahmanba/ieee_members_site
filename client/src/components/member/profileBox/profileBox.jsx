@@ -41,8 +41,8 @@ const ProfileEventsBox = ({ token, url, title }) => {
               dataSource={data.reverse()}
               renderItem={(item) => (
                 <List.Item>
-                  <Typography.Text>
-                    [{item.amount + ' Points'}] {item.committee && '[Committee]'}
+                  <Typography.Text code>
+                    [{item.amount + ' Points'}]{item.committee && '[Committee]'}
                   </Typography.Text>
                   {'  ' + item.title}
                 </List.Item>

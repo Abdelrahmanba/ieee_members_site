@@ -131,8 +131,11 @@ export const editModal = (record, setRecord, setReload, token) => {
           size='small'
           renderItem={(item) => (
             <List.Item style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography.Text mark>[{item.amount + ' Points'}]</Typography.Text>
-              {item.committee && <Typography.Text code>Committee</Typography.Text>}{' '}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Typography.Text mark>[{item.amount + ' Points'}]</Typography.Text>
+                {item.committee && <Typography.Text code>Committee</Typography.Text>}
+              </div>
+
               {'  ' + item.title}
               <Popconfirm onConfirm={() => removeHistory(item)} title='Are You Sure?'>
                 <Button type='link'>Remove</Button>
@@ -151,7 +154,6 @@ export const editModal = (record, setRecord, setReload, token) => {
       setRecord(undefined)
       Modal.destroyAll()
     },
-
     content: createContent(record),
   })
 }

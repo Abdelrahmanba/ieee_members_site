@@ -1,4 +1,4 @@
-import { Button, message, Popconfirm } from 'antd'
+import { Button, message, Popconfirm, Typography } from 'antd'
 import { List } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import { useEffect, useState } from 'react'
@@ -89,7 +89,8 @@ const PointsList = ({ type, editable }) => {
         dataSource={data}
         renderItem={(item) => (
           <List.Item key={item._id} style={{ display: 'flex', justifyContent: 'space-between' }}>
-            {`[${item.amount} Points]     ${item.title}`}
+            <Typography.Text code>{item.amount + ' Points'}</Typography.Text>
+            {item.title}
             {editable && (
               <Popconfirm onConfirm={() => remove(item._id)} title='Are You Sure?'>
                 <Button type='link'>Remove</Button>

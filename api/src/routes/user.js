@@ -123,7 +123,6 @@ router.post('/users/login', async (req, res, next) => {
     } else {
       throw new Error('BadRequest')
     }
-
     const user = await User.findByEmailAndPassword(req.body)
     const token = await user.generateAuthToken()
     res.status(202).send({ user, token })

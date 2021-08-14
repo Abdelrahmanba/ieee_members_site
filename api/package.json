@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node -r dotenv/config ./src/index.js",
     "test": "jest",
     "dev": "nodemon -r dotenv/config ./src/index.js",
     "db": " /Users/babaa/mongodb/bin/mongod.exe --dbpath=/Users/babaa/mongodb-data"

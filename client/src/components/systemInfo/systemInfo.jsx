@@ -10,7 +10,6 @@ const SystemInfo = (params) => {
   const [systemInfo, setSystemInfo] = useState(undefined)
   const token = useSelector((state) => state.user.token)
   const [loading, setLoading] = useState(true)
-  let timeout = undefined
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,20 +21,9 @@ const SystemInfo = (params) => {
       } else {
         message.error('Something Went Wrong.')
       }
-      fetch()
     }
     fetchData()
-    return () => clearTimeout(timeout)
   }, [])
-
-  const fetch = async () => {
-    const res = await get('/systemInfo', token)
-    if (res.ok) {
-      const resJson = await res.json()
-      setSystemInfo(resJson)
-    }
-    timeout = setTimeout(fetch, 1000)
-  }
 
   return (
     <Spin

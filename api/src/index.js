@@ -10,4 +10,6 @@ cron.scheduleJob('* * 0 * * *', function () {
 
 const PORT = process.env.PORT
 
-app.listen(PORT, () => console.log(`server is up and running at port ${PORT}`))
+app.listen(PORT, () =>
+  console.log(`server is up and running at port ${PORT},${process.env.NODE_ENV}`)
+)

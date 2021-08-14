@@ -42,20 +42,7 @@
     width: 90%;
   }
   .affix {
-    .list {
-      flex-direction: row;
-      background-color: $primary;
-      width: 90vw;
-      justify-content: space-between;
-      padding: 0 10px;
-      border: 0;
-    }
-    a.selected-society {
-      border-bottom: 3px solid white;
-      color: white;
-      font-weight: bold;
-      text-shadow: none;
-    }
+    display: none;
   }
 }
 .divider-text span {

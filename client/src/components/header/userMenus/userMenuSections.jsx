@@ -108,20 +108,6 @@ const UserHeaderSections = ({ visible }) => {
             extraClass={'menu-list user-list'}
             type='private'
           />
-          <HeaderItem
-            location={'/signout'}
-            text={
-              touchScreen ? (
-                <ExportOutlined style={{ fontSize: '24px' }} />
-              ) : (
-                <Tooltip placement='bottom' title={'Log Out'}>
-                  <ExportOutlined style={{ fontSize: '24px' }} />
-                </Tooltip>
-              )
-            }
-            extraClass={'menu-list user-list'}
-            type='private'
-          />
           {role === 'admin' || role === 'committee' ? (
             <HeaderItem
               location={'/Admin/Home'}
@@ -140,6 +126,20 @@ const UserHeaderSections = ({ visible }) => {
           ) : (
             ''
           )}
+          <HeaderItem
+            location={'/signout'}
+            text={
+              touchScreen ? (
+                <ExportOutlined style={{ fontSize: '24px' }} />
+              ) : (
+                <Tooltip placement='bottom' title={'Log Out'}>
+                  <ExportOutlined style={{ fontSize: '24px' }} />
+                </Tooltip>
+              )
+            }
+            extraClass={'menu-list user-list'}
+            type='private'
+          />
         </Space>
       </ul>
     </>

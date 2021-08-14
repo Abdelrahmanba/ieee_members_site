@@ -57,6 +57,7 @@ const Event = () => {
         participants: resJson,
       }))
       setSeats((seats) => seats - 1)
+      message.success('You Have Successfuly Joined This Event.')
     } else {
       message.error('Sorry, Something went wrong.')
     }

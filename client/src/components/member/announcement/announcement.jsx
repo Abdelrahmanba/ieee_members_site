@@ -43,13 +43,15 @@ const Announcemnt = () => {
             </div>
             {data && new Date(data.date).toDateString()}
           </div>
-          <div className='ann-box-row'>
-            <div className='label'>
-              <CarryOutOutlined style={{ color: '#0275a9', paddingRight: 10 }} />
-              Deadline
+          {data && data.deadline && (
+            <div className='ann-box-row'>
+              <div className='label'>
+                <CarryOutOutlined style={{ color: '#0275a9', paddingRight: 10 }} />
+                Deadline
+              </div>
+              {data && new Date(data.deadline).toDateString()}
             </div>
-            {data && new Date(data.deadline).toDateString()}
-          </div>
+          )}
 
           {data && data.link && (
             <div className='ann-box-row'>

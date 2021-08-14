@@ -26,6 +26,10 @@ const AddAnnouncement = ({ visible, setVisible }) => {
       message.error('Please Provide Dates.')
       return
     }
+    if (featured === undefined) {
+      message.error('Please Provide Featured Image.')
+      return
+    }
     setConfirmLoading(true)
     const eventInfo = {
       title,
@@ -86,10 +90,10 @@ const AddAnnouncement = ({ visible, setVisible }) => {
             onChange={(e) => setDescription(e.target.value)}
           />
           <div className='form-row'>
-            <label className='optional'>Featured Image</label>
+            <label>Featured Image</label>
             <Upload
               action={process.env.REACT_APP_API_URL + '/event/uploadeImages'}
-              listType='picture'
+              listType='picture-card'
               className='upload-list-inline'
               maxCount='1'
               name='upload'
@@ -105,9 +109,7 @@ const AddAnnouncement = ({ visible, setVisible }) => {
               }}
               onRemove={onFeaturedRemove}
             >
-              <Button className='upload' icon={<UploadOutlined />}>
-                Upload
-              </Button>
+              <Button type='link'>Upload</Button>
             </Upload>
           </div>
           <div className='form-row'>

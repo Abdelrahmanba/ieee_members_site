@@ -101,7 +101,7 @@ const CompleteProfile = () => {
         </Steps>
         {currentStep === 1 && (
           <Result
-            title={`Please check your Email (${user.user.email}) and follow the instructions sent to you.`}
+            title={`Please check your Email (${user.user.email}) and follow the instructions sent to you,Also please make sure to check in spam and promotion folders if you didn't find it in your inbox.`}
             extra={
               <>
                 <Button type='primary' loading={loadingRefresh} onClick={refresh}>

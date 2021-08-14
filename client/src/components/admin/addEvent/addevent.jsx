@@ -80,7 +80,7 @@ const AddEvent = ({ visible, setVisible, id }) => {
   }
 
   const onRemove = async (file) => {
-    const res = await fetch('/event/deleteImage/' + file.uid, token)
+    const res = await get('/event/deleteImage/' + file.uid, token)
     if (res.ok) {
       setImageList((list) => list.filter((img) => img !== file.uid))
     }
@@ -117,6 +117,7 @@ const AddEvent = ({ visible, setVisible, id }) => {
             text='Price'
             name='price'
             value={price}
+            placeholder='Numbers Only (in Shekels)'
             onChange={(e) => setPrice(e.target.value)}
           />
           <Textfield
@@ -146,7 +147,7 @@ const AddEvent = ({ visible, setVisible, id }) => {
             <label>Featured Image</label>
             <Upload
               action={process.env.REACT_APP_API_URL + '/event/uploadeImages'}
-              listType='picture'
+              listType='picture-card'
               className='upload-list-inline'
               maxCount='1'
               name='upload'
@@ -162,9 +163,7 @@ const AddEvent = ({ visible, setVisible, id }) => {
               }}
               onRemove={onFeaturedRemove}
             >
-              <Button className='upload' icon={<UploadOutlined />}>
-                Upload
-              </Button>
+              <Button type='link'>Upload</Button>
             </Upload>
           </div>
           <div className='form-row'>
@@ -220,7 +219,7 @@ const AddEvent = ({ visible, setVisible, id }) => {
             <label className='optional'>Images Gallery</label>
             <Upload
               action={process.env.REACT_APP_API_URL + '/event/uploadeImages'}
-              listType='picture'
+              listType='picture-card'
               className='upload-list-inline'
               maxCount='5'
               name='upload'
@@ -245,9 +244,7 @@ const AddEvent = ({ visible, setVisible, id }) => {
               }}
               onRemove={onRemove}
             >
-              <Button className='upload' icon={<UploadOutlined />}>
-                Upload
-              </Button>
+              <Button type='link'>Upload</Button>
             </Upload>
           </div>
 

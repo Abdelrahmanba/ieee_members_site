@@ -193,7 +193,7 @@ const EditEvent = () => {
             {date && (
               <Upload
                 action={process.env.REACT_APP_API_URL + '/event/uploadeImages'}
-                listType='picture'
+                listType='picture-card'
                 className='upload-list-inline'
                 maxCount='1'
                 name='upload'
@@ -210,7 +210,7 @@ const EditEvent = () => {
                   }
                 }}
               >
-                <Button icon={<UploadOutlined />}>Upload</Button>
+                <Button type='link'>Upload</Button>
               </Upload>
             )}
           </div>
@@ -259,7 +259,7 @@ const EditEvent = () => {
             {date && (
               <Upload
                 action={process.env.REACT_APP_API_URL + '/event/uploadeImages'}
-                listType='picture'
+                listType='picture-card'
                 className='upload-list-inline'
                 maxCount='5'
                 name='upload'
@@ -285,9 +285,7 @@ const EditEvent = () => {
                 }}
                 onRemove={onRemove}
               >
-                <Button className='upload' icon={<UploadOutlined />}>
-                  Upload
-                </Button>
+                <Button type='link'>Upload</Button>
               </Upload>
             )}
           </div>

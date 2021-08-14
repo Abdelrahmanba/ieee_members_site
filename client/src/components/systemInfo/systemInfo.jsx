@@ -23,7 +23,7 @@ const SystemInfo = (params) => {
       }
     }
     fetchData()
-  }, [])
+  }, []) //eslint-disable-line
 
   return (
     <Spin

@@ -1,12 +1,11 @@
 import { Image, Avatar, Spin } from 'antd'
 import './profile.styles.scss'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { LoadingOutlined, UserOutlined } from '@ant-design/icons'
 import ProfileBox from '../../../components/member/profileBox/profileBox'
 import ProfileInfoBox from '../../../components/member/profileInfo/profileInfo'
 import { useParams } from 'react-router-dom'
-import { signOut } from '../../../redux/userSlice'
 import { get } from '../../../utils/apiCall'
 
 const spinner = <LoadingOutlined style={{ fontSize: 45 }} spin />
@@ -18,8 +17,6 @@ const Profile = () => {
   const token = useSelector((state) => state.user.token)
   const { id } = useParams()
 
-  const dispatch = useDispatch()
-
   useEffect(() => {
     const fetchData = async () => {
       const res = await get('/user/' + (id ? id : 'me'), token)
@@ -27,8 +24,6 @@ const Profile = () => {
         const resJson = await res.json()
         setUser(resJson)
         setLoading(false)
-      } else if (res.status === 401) {
-        dispatch(signOut)
       }
     }
     fetchData()

@@ -3,9 +3,7 @@ import { AutoComplete, Input, message, Pagination, Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import { useHistory } from 'react-router-dom'
 import MemberCard from '../memberCard/memberCard'
-import { signOut } from '../../../redux/userSlice'
 import { get } from '../../../utils/apiCall'
-import { useDispatch } from 'react-redux'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 const { Search } = Input
@@ -17,7 +15,6 @@ const AllMembersListing = ({ token }) => {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
 
-  const dispatch = useDispatch()
   const history = useHistory()
 
   useEffect(() => {
@@ -29,9 +26,6 @@ const AllMembersListing = ({ token }) => {
         setLoading(false)
       } else {
         message.error('Something went wrong, please refresh the page..')
-      }
-      if (usersFetch.status === 401) {
-        dispatch(signOut)
       }
     }
     fetchData()

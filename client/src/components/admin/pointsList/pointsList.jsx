@@ -27,7 +27,7 @@ const PointsList = ({ type, editable }) => {
       }
     }
     fetchDate()
-  }, [rerender])
+  }, [rerender]) //eslint-disable-line
 
   const add = async () => {
     const res = await post('/points/', token, { title, amount, type })

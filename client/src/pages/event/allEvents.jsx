@@ -20,7 +20,7 @@ const socites = {
 
 const AllEvents = () => {
   const user = useSelector((state) => state.user)
-  const [old, setOld] = useState(false)
+  const [old, setOld] = useState(false) //eslint-disable-line
   const [loading, setSearchLoading] = useState(false)
   const [skip, setSkip] = useState(0)
   const [totalCount, setTotalCount] = useState(0)
@@ -42,7 +42,7 @@ const AllEvents = () => {
       }
     }
     fetchCount()
-  }, [search])
+  }, [search]) //eslint-disable-line
 
   const changePage = (page, pageSize) => {
     setSkip((page - 1) * pageSize)

@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Textfield from '../../textfield/textfield'
 import { Mentions, Button, Tag, message } from 'antd'
 import './addPoints.styles.scss'
-import { signOut } from '../../../redux/userSlice'
 import { get, post } from '../../../utils/apiCall'
 const { Option } = Mentions
 
@@ -17,7 +16,6 @@ const AddPoints = ({ reload, setReload }) => {
   const [loading, setloading] = useState(false)
 
   const token = useSelector((state) => state.user.token)
-  const dispatch = useDispatch()
   useEffect(() => {
     const fetchData = async () => {
       const res = await get('/users/all/', token)
@@ -31,8 +29,6 @@ const AddPoints = ({ reload, setReload }) => {
             membershipID,
           }))
         )
-      } else if (res.status === 401) {
-        dispatch(signOut)
       } else {
         message.error('Something Went Wrong')
       }

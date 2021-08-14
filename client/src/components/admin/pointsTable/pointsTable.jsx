@@ -1,11 +1,10 @@
 import { Table } from 'antd'
 import './pointsTable.scss'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { LoadingOutlined } from '@ant-design/icons'
 import { editModal, viewModal } from './adminPointsModals/adminPointsModal'
 import React from 'react'
-import { signOut } from '../../../redux/userSlice'
 import { get } from '../../../utils/apiCall'
 import getColumns from '../../../utils/pointsTableColoums'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
@@ -17,7 +16,6 @@ const PointsTable = ({ reload, setReload }) => {
   const [recordEdit, setRecordEdit] = useState(undefined)
 
   const token = useSelector((state) => state.user.token)
-  const dispatch = useDispatch()
 
   useEffect(() => {
     if (!recordEdit) {
@@ -51,8 +49,6 @@ const PointsTable = ({ reload, setReload }) => {
             })
           )
         )
-      } else if (res.status === 401) {
-        dispatch(signOut)
       }
       setLoading(false)
     }

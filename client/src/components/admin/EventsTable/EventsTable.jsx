@@ -3,10 +3,9 @@ import './eventsTable.styles.scss'
 import { Table, Button, message, Popconfirm } from 'antd'
 import { useEffect, useState } from 'react'
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import AddEvent from '../addEvent/addevent'
-import { signOut } from '../../../redux/userSlice'
 import { get, post } from '../../../utils/apiCall'
 import getColumns from '../../../utils/eventsTableColumns'
 
@@ -18,7 +17,6 @@ const EventsTable = () => {
   const [visible, setVisible] = useState(false)
   const [rerender, setRerender] = useState(false)
   const token = useSelector((state) => state.user.token)
-  const dispatch = useDispatch()
   const columns = getColumns(history)
 
   useEffect(() => {
@@ -39,8 +37,6 @@ const EventsTable = () => {
             })
           )
         )
-      } else if (res.status === 401) {
-        dispatch(signOut)
       } else {
         message.error('Something Wrong.')
       }

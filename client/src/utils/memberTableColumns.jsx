@@ -5,8 +5,6 @@ const getColumns = (setRecord) => [
   {
     title: 'Name',
     dataIndex: 'name',
-    fixed: 'left',
-    width: 220,
     sorter: (a, b) => {
       return a.name > b.name
     },
@@ -15,14 +13,11 @@ const getColumns = (setRecord) => [
   {
     title: 'Email',
     dataIndex: 'email',
-    fixed: 'left',
-    width: 200,
     ...getColumnSearchProps('email'),
   },
   {
     title: 'Member ID',
     dataIndex: 'membershipID',
-    width: 160,
     ...getColumnSearchProps('membershipID'),
   },
 
@@ -34,7 +29,6 @@ const getColumns = (setRecord) => [
   {
     title: 'Status',
     dataIndex: 'status',
-    width: 130,
     filters: [
       {
         text: 'Active',
@@ -64,7 +58,7 @@ const getColumns = (setRecord) => [
     title: 'Action',
     key: 'action',
     fixed: 'right',
-    width: 50,
+    width: 80,
 
     render: function (text, record) {
       return (

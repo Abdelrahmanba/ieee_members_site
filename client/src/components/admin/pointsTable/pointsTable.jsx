@@ -62,6 +62,7 @@ const PointsTable = ({ reload, setReload }) => {
       columns={columns}
       dataSource={users}
       bordered
+      scroll={{ x: 950 }}
       loading={{ spinning: loading, indicator: antIcon }}
     />
   )

@@ -6,7 +6,6 @@ const getColumns = (setRecordEdit, setRecordView) => [
     title: 'Name',
     dataIndex: 'name',
     width: '25%',
-    fixed: 'left',
     sorter: (a, b) => {
       return a.name > b.name
     },
@@ -15,7 +14,6 @@ const getColumns = (setRecordEdit, setRecordView) => [
   {
     title: 'Email',
     dataIndex: 'email',
-    fixed: 'left',
     width: '25%',
     ...getColumnSearchProps('email'),
   },

@@ -32,10 +32,11 @@ const WaitingTable = () => {
     {
       title: 'Action',
       key: 'action',
+      width: 100,
+      fixed: 'right',
       render: function (text, record) {
-        return <Button onClick={handleAccept.bind(null, null, text)}>Accept Member</Button>
+        return <Button onClick={handleAccept.bind(null, null, text)}>Accept</Button>
       },
-      width: '20%',
     },
   ]
 
@@ -101,6 +102,7 @@ const WaitingTable = () => {
           dataSource={users}
           className='table'
           bordered
+          scroll={{ x: 500 }}
           loading={{ indicator: antIcon, spinning: loading }}
         />
       </div>

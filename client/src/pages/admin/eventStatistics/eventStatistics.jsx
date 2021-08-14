@@ -134,11 +134,23 @@ const EventStatistics = () => {
         )}
         <h1 className='sub-title'>Members</h1>
         {availableTickets && (
-          <Table className='table' columns={membersColmouns} dataSource={participants} bordered />
+          <Table
+            className='table'
+            scroll={{ x: 950 }}
+            columns={membersColmouns}
+            dataSource={participants}
+            bordered
+          />
         )}
         <h1 className='sub-title'>Non Members</h1>
         {availableTickets && (
-          <Table className='table' columns={nonMembersColmouns} dataSource={nonMembers} bordered />
+          <Table
+            className='table'
+            scroll={{ x: 950 }}
+            columns={nonMembersColmouns}
+            dataSource={nonMembers}
+            bordered
+          />
         )}
         <Suspense fallback={<div>loading..</div>}>
           <ExportExcel

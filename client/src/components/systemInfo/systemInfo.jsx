@@ -34,7 +34,11 @@ const SystemInfo = (params) => {
     >
       {systemInfo && (
         <div className='systemInfo'>
-          <Statistic className='item' title='Total Memory (MB)' value={systemInfo.totalmem} />
+          <Statistic
+            className='item'
+            title='Total Memory (MB)'
+            value={parseInt(systemInfo.totalmem)}
+          />
           <Statistic className='item' title='Cores' value={systemInfo.cores} />
           <Statistic className='item' title='Platform' value={systemInfo.platform} />
           <Statistic

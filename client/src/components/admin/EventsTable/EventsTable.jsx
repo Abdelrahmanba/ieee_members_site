@@ -102,6 +102,7 @@ const EventsTable = () => {
         className='table'
         rowSelection={rowSelection}
         columns={columns}
+        scroll={{ x: 950 }}
         dataSource={events}
         bordered
       />

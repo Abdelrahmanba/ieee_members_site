@@ -3,7 +3,13 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { get } from '../../../utils/apiCall'
 import './announcement.styles.scss'
-import { NotificationOutlined, CalendarOutlined, LinkOutlined } from '@ant-design/icons'
+import {
+  NotificationOutlined,
+  CalendarOutlined,
+  LinkOutlined,
+  CarryOutOutlined,
+  ProfileOutlined,
+} from '@ant-design/icons'
 
 const Announcemnt = () => {
   const { id } = useParams()
@@ -39,7 +45,7 @@ const Announcemnt = () => {
           </div>
           <div className='ann-box-row'>
             <div className='label'>
-              <CalendarOutlined style={{ color: '#0275a9', paddingRight: 10 }} />
+              <CarryOutOutlined style={{ color: '#0275a9', paddingRight: 10 }} />
               Deadline
             </div>
             {data && new Date(data.deadline).toDateString()}
@@ -56,7 +62,7 @@ const Announcemnt = () => {
           )}
           <div className='ann-box-row desc'>
             <div className='label'>
-              <CalendarOutlined style={{ color: '#0275a9', paddingRight: 10 }} />
+              <ProfileOutlined style={{ color: '#0275a9', paddingRight: 10 }} />
               Description
             </div>
             {data && data.description}

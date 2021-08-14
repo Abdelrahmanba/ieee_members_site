@@ -13,6 +13,8 @@ import { useSelector } from 'react-redux'
 
 const AdminMenuSections = ({ visible }) => {
   const role = useSelector((state) => state.user.user.role)
+  const touchScreen = 'ontouchstart' in document.documentElement
+
   return (
     <>
       <ul className={`header__menu header__user__menu ${visible ? 'header__menu--visible' : ''}`}>
@@ -20,9 +22,13 @@ const AdminMenuSections = ({ visible }) => {
           <HeaderItem
             location={'/Admin/Home'}
             text={
-              <Tooltip placement='bottom' title={'Home'}>
+              touchScreen ? (
                 <HomeOutlined style={{ fontSize: '24px' }} />
-              </Tooltip>
+              ) : (
+                <Tooltip placement='bottom' title={'Home'}>
+                  <HomeOutlined style={{ fontSize: '24px' }} />
+                </Tooltip>
+              )
             }
             extraClass={'menu-list user-list'}
             type='private'
@@ -30,9 +36,13 @@ const AdminMenuSections = ({ visible }) => {
           <HeaderItem
             location={'/Admin/Events'}
             text={
-              <Tooltip placement='bottom' title={'Events'}>
+              touchScreen ? (
                 <CalendarOutlined style={{ fontSize: '24px' }} />
-              </Tooltip>
+              ) : (
+                <Tooltip placement='bottom' title={'Events'}>
+                  <CalendarOutlined style={{ fontSize: '24px' }} />
+                </Tooltip>
+              )
             }
             extraClass={'menu-list user-list'}
             type='private'
@@ -41,9 +51,13 @@ const AdminMenuSections = ({ visible }) => {
             <HeaderItem
               location={'/Admin/Users'}
               text={
-                <Tooltip placement='bottom' title={'Members'}>
+                touchScreen ? (
                   <TeamOutlined style={{ fontSize: '24px' }} />
-                </Tooltip>
+                ) : (
+                  <Tooltip placement='bottom' title={'Members'}>
+                    <TeamOutlined style={{ fontSize: '24px' }} />
+                  </Tooltip>
+                )
               }
               extraClass={'menu-list user-list'}
               type='private'
@@ -53,9 +67,13 @@ const AdminMenuSections = ({ visible }) => {
             <HeaderItem
               location={'/Admin/Points'}
               text={
-                <Tooltip placement='bottom' title={'Points'}>
+                touchScreen ? (
                   <TrophyOutlined style={{ fontSize: '24px' }} />
-                </Tooltip>
+                ) : (
+                  <Tooltip placement='bottom' title={'Points'}>
+                    <TrophyOutlined style={{ fontSize: '24px' }} />
+                  </Tooltip>
+                )
               }
               extraClass={'menu-list user-list'}
               type='private'
@@ -68,9 +86,13 @@ const AdminMenuSections = ({ visible }) => {
           <HeaderItem
             location={'/Member/Home'}
             text={
-              <Tooltip placement='bottom' title={'Switch To User Panel'}>
+              touchScreen ? (
                 <UserSwitchOutlined style={{ fontSize: '24px' }} />
-              </Tooltip>
+              ) : (
+                <Tooltip placement='bottom' title={'Switch To User Panel'}>
+                  <UserSwitchOutlined style={{ fontSize: '24px' }} />
+                </Tooltip>
+              )
             }
             extraClass={'menu-list user-list'}
             type='private'
@@ -78,9 +100,13 @@ const AdminMenuSections = ({ visible }) => {
           <HeaderItem
             location={'/signout'}
             text={
-              <Tooltip placement='bottom' title={'Log Out'}>
+              touchScreen ? (
                 <ExportOutlined style={{ fontSize: '24px' }} />
-              </Tooltip>
+              ) : (
+                <Tooltip placement='bottom' title={'Log Out'}>
+                  <ExportOutlined style={{ fontSize: '24px' }} />
+                </Tooltip>
+              )
             }
             extraClass={'menu-list user-list'}
             type='private'

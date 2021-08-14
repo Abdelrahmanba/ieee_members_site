@@ -19,7 +19,7 @@ const ProfileInfoBox = ({ user }) => {
         title={<h2>Member Info</h2>}
       >
         <Descriptions.Item label='Membership ID'>
-          {user.membershipId ? user.membershipId : 'Not Provided'}
+          {user.membershipID ? user.membershipID : 'Not Provided'}
         </Descriptions.Item>
         <Descriptions.Item label='Email'>{user.email}</Descriptions.Item>
         <Descriptions.Item label='Birthday'>

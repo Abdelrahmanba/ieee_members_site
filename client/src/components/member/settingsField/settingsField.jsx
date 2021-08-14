@@ -14,7 +14,6 @@ const SettingsField = ({ title, data, name, type }) => {
   const [loading, setLoading] = useState(false)
   const [edit, setEdit] = useState(false)
   const dispatch = useDispatch()
-
   const token = useSelector((state) => state.user.token)
 
   const update = async (e) => {

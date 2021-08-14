@@ -34,6 +34,7 @@ class Settings extends React.Component {
 
   render() {
     const { user } = this.props
+    const button = this.state.imageLoaded ? 'block' : 'none'
     return (
       <Spin spinning={this.state.loading} indicator={spinner}>
         <div className='body'>
@@ -45,14 +46,18 @@ class Settings extends React.Component {
                 onImageLoaded={() => this.setState(() => ({ imageLoaded: true }))}
                 onImageRemoved={() => this.setState(() => ({ imageLoaded: false }))}
                 messages={{
-                  DEFAULT: <CloudUploadOutlined style={{ fontSize: '40px', color: '#0275a9' }} />,
+                  DEFAULT: (
+                    <div style={{ color: '#0275a9' }}>
+                      <CloudUploadOutlined style={{ fontSize: '40px', color: '#0275a9' }} />
+                      <span style={{ display: 'block' }}>Click here, or drag & drop</span>
+                    </div>
+                  ),
                 }}
               />
               <Button
                 type={'primary'}
                 onClick={this.handleUpload}
-                disabled={!this.state.imageLoaded}
-                style={{ marginTop: 20 }}
+                style={{ marginTop: 20, display: button }}
               >
                 Update Profile Picture
               </Button>

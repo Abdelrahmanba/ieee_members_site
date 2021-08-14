@@ -1,4 +1,4 @@
-import { Modal, Table, Switch, message, Tooltip, Select } from 'antd'
+import { Modal, Table, Switch, message, Tooltip, Select, Button, Popconfirm } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Form from '../../form/form'
@@ -24,6 +24,16 @@ const MembersTable = () => {
     }
     let { activeEmail, activeCommttiee, membershipID, position, email } = record
     let role = undefined
+    const removeUser = async () => {
+      const res = await get('/user/delete/' + record.key)
+      if (res.ok) {
+        message.success('Removed Successfully.')
+        setReload((reload) => !reload)
+        Modal.destroyAll()
+      } else {
+        message.error('Something Went Wrong.')
+      }
+    }
 
     Modal.confirm({
       title: <h1 className='sub-title'>{record.name}</h1>,
@@ -94,6 +104,11 @@ const MembersTable = () => {
             <label>Active Email</label>
             <Switch defaultChecked={activeEmail} onChange={(e) => (activeEmail = e)} />
           </div>
+          <Popconfirm onConfirm={() => removeUser()} title="Are You Sure, THIS CAN'T BE UNDONE!">
+            <Button block type='danger'>
+              Remove Member
+            </Button>
+          </Popconfirm>
         </Form>
       ),
     })

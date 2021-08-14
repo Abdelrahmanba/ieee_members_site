@@ -44,7 +44,7 @@ const PointsList = ({ type, editable }) => {
   const remove = async (id) => {
     const res = await get('/points/delete?id=' + id, token, { title, amount, type })
     if (res.ok) {
-      message.success('Added Successfully')
+      message.success('Removed Successfully')
       setRerender((rerender) => !rerender)
     } else {
       message.error('Something Went Wrong!')

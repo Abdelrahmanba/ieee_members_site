@@ -25,7 +25,7 @@ const MembersTable = () => {
     let { activeEmail, activeCommttiee, membershipID, position, email } = record
     let role = undefined
     const removeUser = async () => {
-      const res = await get('/user/delete/' + record.key)
+      const res = await get('/user/delete/' + record.key, token)
       if (res.ok) {
         message.success('Removed Successfully.')
         setReload((reload) => !reload)

@@ -43,8 +43,8 @@ const CompleteProfile = () => {
     setloadingRefresh(true)
     const res = await get('/user/me', user.token)
     if (res.ok) {
-      dispatch(setUser(resJson))
       const resJson = await res.json()
+      dispatch(setUser(resJson))
       if (resJson.activeEmail === true) {
         setCurrentStep(2)
       }

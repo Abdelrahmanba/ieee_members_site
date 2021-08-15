@@ -15,7 +15,6 @@ import { useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router'
 import Textfield from '../../../components/textfield/textfield'
 import moment from 'moment'
-import { UploadOutlined } from '@ant-design/icons'
 import { get, post } from '../../../utils/apiCall'
 const { RangePicker } = DatePicker
 

@@ -14,7 +14,6 @@ import {
 import { useState } from 'react'
 import Textfield from '../../textfield/textfield'
 import Form from '../../form/form'
-import { UploadOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { post, get } from '../../../utils/apiCall.js'
 const { TextArea } = Input

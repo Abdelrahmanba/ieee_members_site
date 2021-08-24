@@ -246,6 +246,7 @@ router.get('/users/all/points', auth, committeeAuth, async (req, res, next) => {
       membershipID: user.membershipID,
       points: user.points,
       pointsHistory: user.pointsHistory,
+      committeePoints: user.committeePoints,
     }))
     res.status(200).send(usersData)
   } catch (e) {
@@ -437,7 +438,7 @@ router.post(
 
       if (req.body.pointsHistory) {
         user.pointsHistory = user.pointsHistory.concat(req.body.pointsHistory)
-        const committee = user.body.pointsHistory.committee
+        const committee = req.body.pointsHistory.committee
         committee
           ? (user.committeePoints += parseInt(req.body.pointsHistory.amount))
           : (user.points += parseInt(req.body.pointsHistory.amount))

@@ -39,12 +39,22 @@ const PointsTable = ({ reload, setReload }) => {
       if (res.ok) {
         setUsers(
           resJosn.map(
-            ({ _id, firstName, lastName, email, membershipID, points, pointsHistory }) => ({
+            ({
+              _id,
+              firstName,
+              lastName,
+              email,
+              membershipID,
+              points,
+              pointsHistory,
+              committeePoints,
+            }) => ({
               key: _id,
               name: firstName + ' ' + lastName,
               email,
               membershipID,
               points,
+              cpoints: committeePoints,
               pointsHistory,
             })
           )

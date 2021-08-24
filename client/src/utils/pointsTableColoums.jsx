@@ -28,10 +28,15 @@ const getColumns = (setRecordEdit, setRecordView) => [
     title: 'Points',
     dataIndex: 'points',
   },
+  {
+    title: 'Committee',
+    dataIndex: 'cpoints',
+  },
 
   {
     title: 'Action',
     key: 'action',
+    width: 250,
 
     render: function (text, record) {
       return (

@@ -29,7 +29,6 @@ const societies = [
 ]
 const HomePage = () => {
   const [old, setOld] = useState(false)
-
   return (
     <>
       <PublicHeader />

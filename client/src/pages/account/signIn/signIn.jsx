@@ -57,7 +57,7 @@ const SignIn = (props) => {
           <div className='box-header'>
             <Particels className='Particels' />
           </div>
-          <Form method='POST'>
+          <Form onSubmit={submit}>
             <h1 className='signin-header'>Welcome Back</h1>
             <Textfield
               type='text'
@@ -75,7 +75,7 @@ const SignIn = (props) => {
               autocomplete='current-password'
               onChange={onChange}
             />
-            <Button block type='primary' loading={loading} onClick={submit}>
+            <Button block type='primary' htmlType='submit' loading={loading}>
               Sign In
             </Button>
             {error && (

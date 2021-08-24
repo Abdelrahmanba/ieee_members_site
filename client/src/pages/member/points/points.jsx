@@ -25,10 +25,8 @@ const Points = () => {
           increase your points now and become one of our top members!
         </p>
         <PointsList type='members' />
-        <section>
-          <h2 className='header-text'>Top 3 Members</h2>
-          <Top3Points />
-        </section>
+        <h2 className='header-text'>Top 3 Members</h2>
+        <Top3Points />
       </div>
     </>
   )

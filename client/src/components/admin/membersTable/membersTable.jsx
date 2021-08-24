@@ -2,11 +2,11 @@ import { Modal, Table, Switch, message, Tooltip, Select, Button, Popconfirm } fr
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Form from '../../form/form'
-import Textfield from '../../textfield/textfield'
 import './membertable.style.scss'
 import { get, post } from '../../../utils/apiCall'
 import { LoadingOutlined } from '@ant-design/icons'
 import getColumns from '../../../utils/memberTableColumns'
+import Textfield from '../../textfield/textfield'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 

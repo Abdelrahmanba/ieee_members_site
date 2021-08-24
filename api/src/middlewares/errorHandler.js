@@ -15,17 +15,17 @@ const errorHandler = (err, req, res, next) => {
       message: 'Bad email/password combination.',
     })
   } else if (err.message === 'UserNotFound') {
-    res.status(401).send({
+    res.status(400).send({
       error: 'User Not Found',
       message: 'Please double check your input',
     })
   } else if (err.message === 'EventNotFound') {
-    res.status(401).send({
+    res.status(400).send({
       error: 'Event Not Found',
       message: 'Please double check your input',
     })
   } else if (err.message === 'AnnouncementNotFound') {
-    res.status(401).send({
+    res.status(400).send({
       error: 'Announcement Not Found',
       message: 'Please double check your input',
     })

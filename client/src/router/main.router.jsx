@@ -41,7 +41,11 @@ const Router = () => {
         <ProtectedRoute exact path='/Member/members' component={Members} />
         <ProtectedRoute exact path='/Member/settings' component={Settings} />
         <ProtectedRoute exact path='/Member/profile/:id?' component={Profile} />
-        <ProtectedRoute exact path='/Member/announcement/:id?' component={Announcemnt} />
+        <ProtectedRoute
+          exact
+          path={['/Member/announcement/:id?', '/Admin/announcement/:id?']}
+          component={Announcemnt}
+        />
 
         <ProtectedRoute exact path='/Member/Points' component={Points} />
         <ProtectedRoute exact path='/CompleteProfile' component={CompleteProfile} />

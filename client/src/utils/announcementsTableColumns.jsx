@@ -21,7 +21,7 @@ const getColumns = (history) => [
     render: function (text, record) {
       return (
         <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
-          <Button type='link' onClick={() => history.push('/member/announcement/' + text.key)}>
+          <Button type='link' onClick={() => history.push('/admin/announcement/' + text.key)}>
             View
           </Button>
         </div>

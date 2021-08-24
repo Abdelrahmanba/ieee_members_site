@@ -116,7 +116,7 @@ const AddEvent = ({ visible, setVisible, id }) => {
             text='Price'
             name='price'
             value={price}
-            placeholder='Numbers Only (in Shekels)'
+            placeholder='Numbers Only (in Shekels), if free type 0'
             onChange={(e) => setPrice(e.target.value)}
           />
           <Textfield

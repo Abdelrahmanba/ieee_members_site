@@ -25,12 +25,10 @@ const userSchema = mongoose.Schema({
   firstName: {
     type: String,
     required: true,
-    validate: [validator.isAlpha, 'First name must contain letters only.'],
   },
   lastName: {
     type: String,
     required: true,
-    validate: [validator.isAlpha, 'Last name must contain letters only'],
   },
   bday: {
     type: Date,
@@ -68,6 +66,10 @@ const userSchema = mongoose.Schema({
 
   eventsParticipatedIn: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }],
   points: {
+    type: Number,
+    default: 0,
+  },
+  comitteePoints: {
     type: Number,
     default: 0,
   },
@@ -142,11 +144,18 @@ userSchema.statics.findByEmailAndPassword = async function ({ email, password })
 }
 
 //send validation email
-userSchema.methods.sendVerifcationEmail = async function () {
+userSchema.methods.sendVerifcationEmail = async function (secretCode) {
   const user = this
-  const random = Math.random() * 1000000
-  user.secretCode = crypto.createHash('md5').update(random.toString()).digest('hex')
-
+  if (!secretCode) {
+    user.secretCode = crypto
+      .randomBytes(48)
+      .toString('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/\=/g, '')
+  } else {
+    user.secretCode = secretCode
+  }
   await user.save()
 
   const conf_url = `ieee-annu.com/api/verify-account/${user._id}/${user.secretCode}`
@@ -176,8 +185,12 @@ userSchema.methods.sendVerifcationEmail = async function () {
 //send password Reset email
 userSchema.methods.sendRestPassword = async function () {
   const user = this
-  const random = Math.random() * 1000000
-  user.passwordReset = crypto.createHash('md5').update(random.toString()).digest('hex')
+  user.passwordReset = crypto
+    .randomBytes(48)
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/\=/g, '')
 
   await user.save()
 

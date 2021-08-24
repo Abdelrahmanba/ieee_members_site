@@ -17,16 +17,35 @@ const CommitteeLisiting = ({ clickable }) => {
 
   return (
     <>
-      {committee.map((user, index) => (
-        <CommitteeCard
-          key={index}
-          name={user.firstName + ' ' + user.lastName}
-          position={user.position}
-          avatar={user.imageData}
-          id={user._id}
-          clickable={clickable}
-        />
-      ))}
+      {committee
+        .sort(function (a, b) {
+          if (a.position === 'Chair') {
+            return -1
+          } else if (b.position === 'Chair') {
+            return 1
+          }
+          if (a.position === 'Vice Chair') {
+            return -1
+          }
+          if (
+            a.position.includes(' Chair') &&
+            (b.position !== 'Chair' || b.position !== 'Vice Chair')
+          ) {
+            return -1
+          } else {
+            return 1
+          }
+        })
+        .map((user, index) => (
+          <CommitteeCard
+            key={index}
+            name={user.firstName + ' ' + user.lastName}
+            position={user.position}
+            avatar={user.imageData}
+            id={user._id}
+            clickable={clickable}
+          />
+        ))}
     </>
   )
 }

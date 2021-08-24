@@ -177,7 +177,7 @@ router.get('/users/resend_verification/:userId', resendLimit, async (req, res, n
     if (!user) {
       throw new Error('UserNotFound')
     }
-    await user.sendVerifcationEmail()
+    await user.sendVerifcationEmail(user.secretCode)
     res.status(200).send({ message: `Email was sent to ${user.email}` })
   } catch (e) {
     next(e)
@@ -221,6 +221,20 @@ router.get('/user/:id', async (req, res, next) => {
     next(e)
   }
 })
+
+router.get('/user/delete/:id', auth, committeeAuth, adminAuth, async (req, res, next) => {
+  try {
+    //prevents critical updates on webmaster account
+    if ('6118f0b32cc4e5a25ff28df1' === req.params.id) {
+      throw new Error('UserNotFound')
+    }
+    await User.findByIdAndDelete(req.params.id)
+    res.status(200).send()
+  } catch (e) {
+    next(e)
+  }
+})
+
 router.get('/users/all/points', auth, committeeAuth, async (req, res, next) => {
   try {
     const users = await User.find({})
@@ -410,12 +424,7 @@ router.post(
       if (!user) {
         throw new Error('UserNotFound')
       }
-      if (req.body.activeCommttiee != undefined) {
-        user.activeCommttiee = req.body.activeCommttiee
-      }
-      if (req.body.activeEmail != undefined) {
-        user.activeEmail = req.body.activeEmail
-      }
+
       if (req.body.position) {
         user.position = req.body.position
       }
@@ -425,12 +434,13 @@ router.post(
       if (req.body.membershipID) {
         user.membershipID = req.body.membershipID
       }
-      if (req.body.role) {
-        user.role = req.body.role
-      }
+
       if (req.body.pointsHistory) {
         user.pointsHistory = user.pointsHistory.concat(req.body.pointsHistory)
-        user.points = user.points + parseInt(req.body.pointsHistory.amount)
+        const committee = user.body.pointsHistory.committee
+        committee
+          ? (user.committeePoints += parseInt(req.body.pointsHistory.amount))
+          : (user.points += parseInt(req.body.pointsHistory.amount))
         await user.save()
         res.status(200).send(user.pointsHistory)
       }
@@ -438,12 +448,29 @@ router.post(
         user.pointsHistory = user.pointsHistory.filter(
           (v) => v._id.toString() !== req.body.removeHistory._id
         )
-        user.points = user.points - parseInt(req.body.removeHistory.amount)
+        const committee = user.body.removeHistory.committee
+        committee
+          ? (user.committeePoints -= parseInt(req.body.removeHistory.amount))
+          : (user.points -= parseInt(req.body.removeHistory.amount))
         await user.save()
         res.status(200).send(user.pointsHistory)
       }
+      //prevents critical updates on webmaster account
+      if ('6118f0b32cc4e5a25ff28df1' === req.params.id) {
+        await user.save()
+        res.status(200).send()
+        return
+      }
+      if (req.body.activeCommttiee != undefined) {
+        user.activeCommttiee = req.body.activeCommttiee
+      }
+      if (req.body.activeEmail != undefined) {
+        user.activeEmail = req.body.activeEmail
+      }
+      if (req.body.role) {
+        user.role = req.body.role
+      }
       await user.save()
-
       res.status(200).send()
     } catch (e) {
       next(e)

@@ -14,6 +14,7 @@ import PublicHeaderAlt from '../../components/header/publicHeaderAlt'
 import { get } from '../../utils/apiCall'
 import EventInfo from '../../components/event/eventInfo/eventInfo'
 import React from 'react'
+import AdminHeader from '../../components/header/adminHeader'
 
 const socites = {
   computer: computerLogo,
@@ -80,13 +81,15 @@ const Event = () => {
   }
   return (
     <React.Fragment>
-      {user.token ? (
+      {user.user.role === 'user' && (
         <Header>
           <UserHeaderSections />
         </Header>
-      ) : (
-        <PublicHeaderAlt />
       )}
+      {user.user.role === undefined && <PublicHeaderAlt />}
+      {user.user.role === 'admin' && <AdminHeader />}
+      {user.user.role === 'committee' && <AdminHeader />}
+
       <div className='body event'>
         <NonMembersModel
           title={event.title}

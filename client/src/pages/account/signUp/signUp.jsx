@@ -64,7 +64,7 @@ const SignUp = (props) => {
           <div className='box-header'>
             <Particels className='Particels' />
           </div>
-          <Form method='POST'>
+          <Form onSubmit={submit}>
             <h1 className='signup-header'>Create Your Account</h1>
             <p>It takes less than a minute..</p>
             <Textfield
@@ -104,7 +104,7 @@ const SignUp = (props) => {
               className='ReCAPTCHA'
               onChange={() => setCapatcha(true)}
             />
-            <Button block type='primary' loading={loading} onClick={submit}>
+            <Button block type='primary' loading={loading} htmlType='submit'>
               Sign Up!
             </Button>
             {error && (

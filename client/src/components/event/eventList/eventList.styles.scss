@@ -1,6 +1,7 @@
 @import '../../../theme/scssVariables';
 .ant-spin-nested-loading.spin {
   width: 100%;
+  margin-bottom: 30px;
   .ant-spin-container {
     display: flex;
     justify-content: center;

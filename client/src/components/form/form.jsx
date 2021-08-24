@@ -1,7 +1,7 @@
-import "./form.styles.scss"
+import './form.styles.scss'
 
-const Form = ({ method, children, className }) => (
-  <form className={`form ${className}`} method={method}>
+const Form = ({ method, children, className, ...props }) => (
+  <form className={`form ${className}`} method={method} {...props}>
     {children}
   </form>
 )

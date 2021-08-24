@@ -1,8 +1,10 @@
 import './profileInfo.scss'
 
 import { Descriptions } from 'antd'
+import { useSelector } from 'react-redux'
 
 const ProfileInfoBox = ({ user }) => {
+  const role = useSelector((state) => state.user.user.role)
   return (
     <div className='profile__info profile__box'>
       <Descriptions
@@ -31,6 +33,11 @@ const ProfileInfoBox = ({ user }) => {
         <Descriptions.Item label='Points'>
           <p>{user.points}</p>
         </Descriptions.Item>
+        {role !== 'user' && (
+          <Descriptions.Item label='Committee Points'>
+            <p>{user.committeePoints}</p>
+          </Descriptions.Item>
+        )}
         <Descriptions.Item label='Gender'>
           <p>
             {user.gender === 'm' && 'Male'}

@@ -449,7 +449,7 @@ router.post(
         user.pointsHistory = user.pointsHistory.filter(
           (v) => v._id.toString() !== req.body.removeHistory._id
         )
-        const committee = user.body.removeHistory.committee
+        const committee = req.body.removeHistory.committee
         committee
           ? (user.committeePoints -= parseInt(req.body.removeHistory.amount))
           : (user.points -= parseInt(req.body.removeHistory.amount))
@@ -474,6 +474,7 @@ router.post(
       await user.save()
       res.status(200).send()
     } catch (e) {
+      console.log(e)
       next(e)
     }
   }

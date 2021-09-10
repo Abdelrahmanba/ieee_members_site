@@ -1,7 +1,7 @@
 import './points.styles.scss'
 import Top3Points from '../../../components/member/top3Points/top3Points'
 import PointsList from '../../../components/admin/pointsList/pointsList'
-
+import PointsVideo from '../../../assets/Points.mp4'
 const Points = () => {
   return (
     <>
@@ -17,6 +17,7 @@ const Points = () => {
           conferences, Training days, Financial prizes and more will be waiting for the top
           members!!
         </p>
+        <video src={PointsVideo} controls='controls' />
         <h2 className='header-text'>
           <span className='highlight highlight-2 noselect'>How Can I Get Points?</span>
         </h2>

@@ -80,7 +80,6 @@ export const editModal = (record, setRecord, setReload, token) => {
     )
     if (res.ok) {
       const resJson = await res.json()
-
       message.success('Removed Successfully')
       record.pointsHistory = resJson
       record.points -= item.amount

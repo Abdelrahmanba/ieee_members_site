@@ -58,9 +58,6 @@ const Footer = () => {
         </a>
       </div>
       <div className='footer-credit'>IEEE An-Najah Student Branch - All Rights Reserved 2021 </div>
-      <div className='footer-credit'>
-        Coded by <a href='https://www.linkedin.com/in/abdelrahmanbaba/'>Abdelrahman Baba </a>
-      </div>
     </footer>
   )
 }
